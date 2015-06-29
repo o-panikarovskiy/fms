@@ -11,15 +11,12 @@ bld/
 /[Bb]in/
 /[Oo]bj/
 
-/[Aa]pp_[Dd]ata/
-
-
+Aapp_Data/
 bower/
 node_modules/
 packages/
-FMS/distr/ 
+distr/ 
 .vs/
-_references.js
 nuget.exe
 package.zip
 
