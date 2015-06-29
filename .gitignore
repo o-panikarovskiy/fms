@@ -4,11 +4,6 @@
 /packages/*
 /.vs/*
 
-App_Data/*
-bower/*
-node_modules/*
-distr/*
-
 [Oo]bj
 [Bb]in
 *.user
@@ -19,3 +14,8 @@ distr/*
 *.log 
 *.DS_Store
 [Tt]humbs.db 
+node_modules
+bower_modules
+FMS/distr
+FMS/bower
+FMS/App_Data
