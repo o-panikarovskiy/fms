@@ -15,7 +15,6 @@ var runSequence = require('run-sequence');
 
 var config = {
     useMinify: true,
-    appDataPath: './App_Data/**/*',
     bowerPath: './bower/',
     appLessPath: './less/',
     packagePath: './distr/',
@@ -25,7 +24,7 @@ var config = {
 
 
 gulp.task('clean', function () {
-    return gulp.src([config.bowerPath, config.appDataPath, config.packagePath], { read: false })
+    return gulp.src([config.bowerPath, config.packagePath], { read: false })
       .pipe(clean());
 });
 
@@ -84,7 +83,7 @@ gulp.task('bower:bootstrap-less', function () {
 
 //#region app tasks
 gulp.task('app', function (cb) {
-    runSequence(['app:less', 'app:views', 'app:img', 'app:fonts', 'app:bin', 'app:config', 'app:appdata'], 'app:index', 'app:config:js:restore', ['app:zip', 'app:config:js:clean'], cb);
+    runSequence(['app:less', 'app:views', 'app:img', 'app:fonts', 'app:bin', 'app:config'], 'app:index', 'app:config:js:restore', ['app:zip', 'app:config:js:clean'], cb);
 });
 
 gulp.task("app:zip", function () {
@@ -148,11 +147,6 @@ gulp.task('app:fonts', function () {
 gulp.task('app:bin', function () {
     return gulp.src('./bin/**')
         .pipe(gulp.dest(config.packagePath + 'bin/'));
-});
-
-gulp.task('app:appdata', function () {
-    return gulp.src('./App_Data')
-        .pipe(gulp.dest(config.packagePath));
 });
 
 gulp.task('app:config', function (cb) {

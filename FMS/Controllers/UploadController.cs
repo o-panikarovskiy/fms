@@ -21,7 +21,14 @@ namespace FMS.Controllers
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
+
             string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            bool exists = System.IO.Directory.Exists(root);
+            if (!exists)
+            {
+                Directory.CreateDirectory(root);
+            }
+
             var provider = new GuidMultipartFormDataStreamProvider(root);
             try
             {
