@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{CF01B6E8-0DD3-4F3F-92B6-B969F0B9BB06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMS", "FMS\FMS.csproj", "{198A154C-88F9-479C-B6E3-8FDF4989D845}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF01B6E8-0DD3-4F3F-92B6-B969F0B9BB06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF01B6E8-0DD3-4F3F-92B6-B969F0B9BB06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF01B6E8-0DD3-4F3F-92B6-B969F0B9BB06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF01B6E8-0DD3-4F3F-92B6-B969F0B9BB06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{198A154C-88F9-479C-B6E3-8FDF4989D845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{198A154C-88F9-479C-B6E3-8FDF4989D845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{198A154C-88F9-479C-B6E3-8FDF4989D845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{198A154C-88F9-479C-B6E3-8FDF4989D845}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

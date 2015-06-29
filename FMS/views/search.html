@@ -1,0 +1,100 @@
+﻿<div class="panel panel-primary panel-strong">
+    <div class="panel-heading clearfix clickable" data-ng-click="vm.isSearchBodyCollapsed=!vm.isSearchBodyCollapsed">
+        <h3 class="panel-title pull-left">Поиск <span data-ng-if="vm.pagination.total">({{vm.pagination.total}})</span></h3>
+        <h3 class="panel-title pull-right">
+            <i class="fa"
+               data-ng-class="{'fa-chevron-circle-up': vm.isSearchBodyCollapsed, 'fa-chevron-circle-down': !vm.isSearchBodyCollapsed}"></i>
+        </h3>
+    </div>
+    <form name="sform" data-ng-submit="search()" data-collapse="vm.isSearchBodyCollapsed">
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">ФИО</label>
+                        <input class="form-control" id="name" name="name" maxlength="255" data-ng-model="searchModel.person.name" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="citizenship">Гражданство</label>
+                        <select class="form-control"
+                                id="citizenship"
+                                name="citizenship"
+                                data-ng-disabled="vm.loader.citizenship"
+                                data-ng-options="item.key as item.value for item in vm.dicts.citizenship"
+                                data-ng-model="searchModel.person.citizenship">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="birthday">Дата рождения</label>
+                        <input type="date" class="form-control" placeholder="гггг-мм-дд" id="birthday" name="birthday" data-ng-model="searchModel.person.birthday" data-ng-date-fix="" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="personDocType">Личный документ</label>
+                        <select class="form-control"
+                                id="privateDocType"
+                                name="privateDocType"
+                                data-ng-disabled="vm.loader.privateDoc"
+                                data-ng-options="item.key as item.value for item in vm.dicts.privateDoc"
+                                data-ng-model="searchModel.person.docType">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="privateDocNo">Номер личного документа</label>
+                        <input class="form-control" id="privateDocNo" name="privateDocNo" maxlength="255" data-ng-model="searchModel.person.docNo" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="type">Соискатель/Принимающая сторона</label>
+                        <select class="form-control"
+                                name="type"
+                                id="type"
+                                data-ng-disabled="vm.loader.personType"
+                                data-ng-options="item.key as item.value for item in vm.dicts.personType"
+                                data-ng-model="searchModel.person.type">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="category">Физическое/Юридическое лицо</label>
+                        <select class="form-control col-md-12"
+                                name="category"
+                                id="category"
+                                data-ng-disabled="vm.loader.personCategory"
+                                data-ng-options="item.key as item.value for item in vm.dicts.personCategory"
+                                data-ng-model="searchModel.person.category">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="address">Адрес</label>
+                        <textarea class="form-control col-md-12"
+                                  name="address"
+                                  id="address"
+                                  data-ng-model="searchModel.person.address"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer clearfix">
+            <button type="submit" class="btn btn-primary pull-right" data-ng-disabled="vm.isSendingRequest">Найти</button>
+        </div>
+    </form>
+</div>
+
+<div data-ui-view=""></div>
