@@ -149,20 +149,36 @@ namespace Domain.Concreate
                 {
                     GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Дата составления"), null, null, null, date1);
                 }
+                else
+                {
+                    GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Дата составления"));
+                }
 
                 if (DateTime.TryParseExact(row["Дата постановления"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date2))
                 {
                     GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Дата постановления"), null, null, null, date2);
+                }
+                else
+                {
+                    GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Дата постановления"));
                 }
 
                 if (float.TryParse(row["Сумма(начислено)"], out sum1))
                 {
                     GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Сумма(начислено)"), null, null, sum1);
                 }
+                else
+                {
+                    GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Сумма(начислено)"));
+                }
 
                 if (float.TryParse(row["Сумма(оплачено)"], out sum2))
                 {
                     GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Сумма(оплачено)"), null, null, sum2);
+                }
+                else
+                {
+                    GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Сумма(оплачено)"));
                 }
 
                 i++;
@@ -202,7 +218,7 @@ namespace Domain.Concreate
                 var m3 = GetOrCreateMisc(miscnames.Single(m => m.NameRu == "Гражданство"), row["Гражданство"]);
                 var m4 = GetOrCreateMisc(miscnames.Single(m => m.NameRu == "Тип документа"), row["Тип документа"]);
                 var m5 = GetOrCreateMisc(miscnames.Single(m => m.NameRu == "Решение"), row["Решение"]);
-                var m6 = GetOrCreateMisc(miscnames.Single(m => m.NameRu == "Основание решения"),row["Основание решения"]);
+                var m6 = GetOrCreateMisc(miscnames.Single(m => m.NameRu == "Основание решения"), row["Основание решения"]);
 
                 var person = GetOrCreatePerson(row["ФИО"], birthday, PersonCategory.Individual, PersonType.Applicant);
                 var document = GetOrCreateDocument(person, DocumentType.Citizenship, NormalizeString(row["Рег.номер"]), userid);
@@ -215,19 +231,28 @@ namespace Domain.Concreate
                     parameterFactNames.Single(f => f.NameRu == "Адрес"), NormalizeString(row["Адрес"]));
 
                 GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Тип дела"), null, m1.Id);
-                GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Основание для приема"), null, m2.Id);
-                GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Решение"), null, m5.Id);
-                GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Основание решения"), null, m6.Id);
 
                 if (DateTime.TryParseExact(row["Дата приема"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date1))
                 {
                     GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Дата приема"), null, null, null, date1);
+                }else
+                {
+                    GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Дата приема"));
                 }
+
+                GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Основание для приема"), null, m2.Id);
+                GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Решение"), null, m5.Id);
+                GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Основание решения"), null, m6.Id);
 
                 if (DateTime.TryParseExact(row["Дата решения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date2))
                 {
                     GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Дата решения"), null, null, null, date2);
+                }else
+                {
+                    GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Дата решения"));
                 }
+
+                GetOrCreateDocumentParameter(false, document, parameterFactNames.Single(d => d.NameRu == "Номер решения"), row["Номер решения"], null);
 
                 i++;
                 progress.Percent = (float)i / table.Count * 100;
@@ -392,9 +417,9 @@ namespace Domain.Concreate
                         {
                             dic[col] = fields[dicIdx[col]].Trim();
                         }
-                        else
+                        else if (!dicIdx.ContainsKey(col))
                         {
-                            dic[col] = string.Empty;
+                            throw new ArgumentException(string.Format("Колонка \"{0}\" отсутствует в импортируемом файле.\nВозможно вы пытаетесь импортировать не тот файл.", col));
                         }
                     }
                     list.Add(dic);
