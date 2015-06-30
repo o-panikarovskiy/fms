@@ -1,9 +1,9 @@
 ﻿(function (window, angular, undefined) {
     'use strict';
 
-    angular.module('fms', ['ngAnimate', 'ui.router', 'ui.bootstrap', 'synergetica-file-upload'])
-        .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', 'config',
-            function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, config) {
+    angular.module('fms', ['ngAnimate', 'ui.router', 'ui.bootstrap', 'mgcrea.ngStrap.datepicker', 'synergetica-file-upload'])
+        .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$datepickerProvider', 'config',
+            function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $datepickerProvider, config) {
                 //routes config
 
                 $stateProvider.state('root', { url: '', templateUrl: 'views/layout.root.html', abstract: true });
@@ -55,6 +55,12 @@
 
                 //enable html5 routes
                 $locationProvider.html5Mode(true).hashPrefix('!');
+
+                angular.extend($datepickerProvider.defaults, {
+                    dateFormat: 'dd.MM.yyyy',
+                    template: 'views/directives/date-picker.html',
+                    startWeek: 1
+                });
             }]);
 
 })(window, window.angular);

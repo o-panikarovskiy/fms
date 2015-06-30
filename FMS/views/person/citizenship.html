@@ -48,13 +48,13 @@
                                                       data-ng-model="prm.stringValue"></textarea>
                                         </div>
                                         <div data-ng-switch-when="3">
-                                            <input type="date"
+                                            <input type="text"
                                                    class="form-control"
-                                                   placeholder="гггг-мм-дд"
                                                    data-ng-attr-name="{{prm.prmName}}"
                                                    data-ng-attr-id="{{prm.prmName+prm.id}}"
-                                                   data-ng-date-fix=""
-                                                   data-ng-model="prm.dateValue" />
+                                                   data-ng-model="prm.dateValue"
+                                                   data-bs-datepicker="">
+                                           
                                         </div>
                                         <div data-ng-switch-when="4">
                                             <input type="text"
