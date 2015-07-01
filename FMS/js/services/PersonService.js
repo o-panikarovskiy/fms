@@ -22,6 +22,12 @@
             });
         };
 
+        PersonService.save = function (person) {
+            return $http.put(config.API_ROOT + 'person/' + person.id, person).then(function (res) {
+                return res.data;
+            });
+        };
+
         return PersonService;
     }]);
 

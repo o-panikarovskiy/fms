@@ -4,12 +4,17 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Models
-{
+{  /// <summary>
+   /// Физическое/юридическое лицо
+   /// </summary>
     public enum PersonCategory : byte
     {
         Individual = 1,
         Legal = 2
     }
+    /// <summary>
+    /// Соискатель/принимающая сторона
+    /// </summary>
     public enum PersonType : byte
     {
         Applicant = 1,
@@ -21,17 +26,17 @@ namespace Domain.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
         [MaxLength(255)]
         public string Name { get; set; }
 
+        [Required]
         public DateTime Birthday { get; set; }
-        /// <summary>
-        /// Физическое/юридическое лицо
-        /// </summary>
+      
+        [Required]
         public PersonCategory Category { get; set; }
-        /// <summary>
-        /// Соискатель/принимающая сторона
-        /// </summary>
+               
+        [Required]
         public PersonType Type { get; set; }
     }
 }

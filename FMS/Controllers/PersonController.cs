@@ -12,7 +12,7 @@ using System.Web.Http;
 
 namespace FMS.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class PersonController : ApiController
     {
         private readonly IRepository<Person> _repPeople;
@@ -93,6 +93,33 @@ namespace FMS.Controllers
                 _repDocs.GetAll().Count(d => d.Type == DocumentType.Citizenship && (d.HostPersonId == id || d.ApplicantPersonId == id)));
 
             return Ok(pvm);
+        }
+
+        [HttpPut]
+        public async Task<HttpResponseMessage> UpdatePerson(int id, [FromBody] PersonViewModel pvm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            var person = await _repPeople.FindAsync(p => p.Id == id);
+
+            if (person == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            person.Birthday = pvm.Birthday;
+            person.Category = pvm.Category;
+            person.Type = pvm.Type;
+            person.Name = pvm.Name;
+
+            await _repPeople.UpdateAsync(person);
+            await UpdatePersonFacts(person, pvm.Facts);
+            await UpdatePersonParameters(person, pvm.Parameters);
+
+            return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
         [HttpGet]
@@ -179,12 +206,118 @@ namespace FMS.Controllers
 
             return Ok(new { Facts = list });
         }
+
         private IQueryable<GroupPersonFact> GetAllPersonFactsSubQuery(int personID)
         {
             return from pf in _repPersonFacts.GetAll()
                    where pf.PersonId == personID
                    group pf by pf.FactId into g
                    select new GroupPersonFact { FactId = g.Key, FactDate = g.Max(e => e.FactDate) };
+        }
+
+        private async Task UpdatePersonFacts(Person person, IDictionary<string, FactViewModel> facts)
+        {
+            //перезаписываем старые факты (добавляем значение только если самое свежее значение в базе отличается)
+            if (facts.Values.Any(fact => fact.FactId != null))
+            {
+                var exFacts = (from pf in _repPersonFacts.GetAll()
+                               join pfg in GetAllPersonFactsSubQuery(person.Id) on pf.FactId equals pfg.FactId
+                               where pf.FactDate == pfg.FactDate && pf.PersonId == person.Id
+                               select pf).ToList();
+
+                var list = new List<PersonFact>(exFacts.Count);
+                foreach (var fact in facts.Values.Where(f => f.Id != null))
+                {
+                    var exFact = exFacts.Single(f => f.Id == fact.Id);
+                    if (exFact.DateValue != fact.DateValue || exFact.FloatValue != fact.FloatValue || exFact.IntValue != fact.MiscId || exFact.StringValue != fact.StringValue)
+                    {
+                        list.Add(new PersonFact
+                        {
+                            PersonId = person.Id,
+                            FactId = exFact.FactId,
+                            FactDate = DateTime.Now,
+                            DateValue = fact.DateValue,
+                            FloatValue = fact.FloatValue,
+                            IntValue = fact.MiscId,
+                            StringValue = fact.StringValue
+                        });
+                    }
+                };
+
+                if (list.Count > 0)
+                {
+                    _repPersonFacts.AddRange(list);
+                }              
+            }
+
+            //новые  факты записываем сразу
+            if (facts.Values.Any(fact => fact.FactId == null))
+            {
+                var factNames = await _repParameterFactNames.FindAllAsync(p => p.Category == PrmFactCategory.Person && p.IsFact == true);
+                var list = (from key in facts.Keys.Where(key => facts[key].FactId == null)
+                            select new PersonFact
+                            {
+                                FactDate = DateTime.Now,
+                                FactId = factNames.Single(pn => string.Compare(pn.Name, key, true) == 0).Id,
+                                PersonId = person.Id,
+                                DateValue = facts[key].DateValue,
+                                FloatValue = facts[key].FloatValue,
+                                IntValue = facts[key].MiscId,
+                                StringValue = facts[key].StringValue
+                            }).ToList();
+
+                if (list.Count > 0)
+                {
+                    _repPersonFacts.AddRange(list);
+                }
+            }
+        }
+        private async Task UpdatePersonParameters(Person person, IDictionary<string, ParameterViewModel> parameters)
+        {
+            //перезаписываем старые параметры
+            if (parameters.Values.Any(prm => prm.PrmId != null))
+            {                
+                var exParams = await _repPersonParams.FindAllAsync(p => p.PersonId == person.Id);
+                var list = new List<PersonParameter>(exParams.Count);
+                foreach (var prm in parameters.Values.Where(prm => prm.PrmId != null))
+                {
+                    var exParam = exParams.Single(p => p.Id == prm.Id);
+                    if (exParam.DateValue != prm.DateValue || exParam.FloatValue != prm.FloatValue || exParam.IntValue != prm.MiscId || exParam.StringValue != prm.StringValue)
+                    {
+                        exParam.IntValue = prm.MiscId;
+                        exParam.FloatValue = prm.FloatValue;
+                        exParam.DateValue = prm.DateValue;
+                        exParam.StringValue = prm.StringValue;
+                        list.Add(exParam);
+                    }
+                };
+
+                if (list.Count > 0)
+                {
+                    _repPersonParams.UpdateRange(list);
+                }
+            }
+
+            //новые  параметры записываем сразу
+            if (parameters.Values.Any(prm => prm.PrmId == null))
+            {
+                var parameterNames = await _repParameterFactNames.FindAllAsync(p => p.Category == PrmFactCategory.Person && p.IsFact == false);
+                var list = (from key in parameters.Keys.Where(key => parameters[key].PrmId == null)
+                                     select new PersonParameter
+                                     {
+                                         ParameterId = parameterNames.Single(pn => string.Compare(pn.Name, key, true) == 0).Id,
+                                         PersonId = person.Id,
+                                         DateValue = parameters[key].DateValue,
+                                         FloatValue = parameters[key].FloatValue,
+                                         IntValue = parameters[key].MiscId,
+                                         StringValue = parameters[key].StringValue
+                                     }).ToList();
+
+                if (list.Count > 0)
+                {
+                    _repPersonParams.AddRange(list);
+                }               
+            }
         }
     }
 

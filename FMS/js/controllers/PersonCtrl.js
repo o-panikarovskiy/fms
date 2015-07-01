@@ -1,10 +1,11 @@
 ﻿/// <reference path="../services/DictionaryService.js" />
 /// <reference path="../services/PersonService.js" />
+/// <reference path="../app.js" />
 (function (window, angular) {
     'use strict';
 
-    angular.module('fms').controller('PersonCtrl', ['$scope', '$state', '$q', 'DictionaryService', 'PersonService', function ($scope, $state, $q, DictionaryService, PersonService) {
-        $scope.vm = { loader: { errors: {} }, collapse: {} };
+    angular.module('fms').controller('PersonCtrl', ['$scope', '$state', '$q', '$timeout', 'DictionaryService', 'PersonService', function ($scope, $state, $q, $timeout, DictionaryService, PersonService) {
+        $scope.vm = { loader: { errors: {} }, collapse: {}, state: {} };
         $scope.person = {};
         $scope.documents = {};
 
@@ -18,6 +19,27 @@
             }
         };
 
+        $scope.save = function (form) {
+            if (form.$valid) {
+                savePerson($scope.person).then(function () {
+                    $timeout(function () {
+                        delete $scope.vm.state.savingPerson;
+                    }, 5000);
+                });
+            }
+        }
+
+        function savePerson(person) {
+            $scope.vm.loader.savingPerson = true;
+            $scope.vm.state.savingPerson = 0;
+            return PersonService.save($scope.person).then(function () {
+                $scope.vm.state.savingPerson = 1;
+            }).catch(function () {
+                $scope.vm.state.savingPerson = 2;
+            }).finally(function () {
+                $scope.vm.loader.savingPerson = false;
+            });
+        }
 
         function loadDocuments(id, type) {
             $scope.vm.loader[type] = true;

@@ -9,8 +9,8 @@ namespace FMS.Models
 {
     public class ParameterViewModel
     {
-        public int Id { get; set; }
-        public int PrmId { get; set; }
+        public int? Id { get; set; }
+        public int? PrmId { get; set; }
         public string PrmName { get; set; }
         public string PrmNameRu { get; set; }
         public string MiscValue { get; set; }

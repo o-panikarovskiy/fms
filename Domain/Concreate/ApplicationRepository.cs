@@ -60,10 +60,17 @@ namespace Domain.Concreate
             return await _dbContext.Set<T>().Where(match).ToListAsync();
         }
 
-        public int Add(T t)
+        public T Add(T t)
         {
-            _dbContext.Set<T>().Add(t);
-            return _dbContext.SaveChanges();
+            var res = _dbContext.Set<T>().Add(t);
+            _dbContext.SaveChanges();
+            return res;
+        }
+        public IEnumerable<T> AddRange(IEnumerable<T> entities)
+        {
+            var res = _dbContext.Set<T>().AddRange(entities);
+            _dbContext.SaveChanges();
+            return res;
         }
 
         public int Remove(T t)
@@ -76,6 +83,15 @@ namespace Domain.Concreate
         {
             _dbContext.Entry(t).State = EntityState.Modified;
             return _dbContext.SaveChanges();
+        }
+        public IEnumerable<T> UpdateRange(IEnumerable<T> entities)
+        {
+            foreach (var t in entities)
+            {
+                _dbContext.Entry(t).State = EntityState.Modified;
+            }                        
+            _dbContext.SaveChanges();
+            return entities;
         }
 
         public int Count()

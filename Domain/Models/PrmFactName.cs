@@ -21,6 +21,8 @@ namespace Domain.Models
         public PrmFactType Type { get; set; }
 
         public PrmFactCategory Category { get; set; }
+
+        public bool IsFact { get; set; }
     }
 
 }

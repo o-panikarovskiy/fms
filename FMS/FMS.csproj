@@ -558,7 +558,6 @@
     <Content Include="js\services\ImportService.js" />
     <Content Include="js\services\DialogManager.js" />
     <Content Include="js\services\UploaderService.js" />
-    <None Include="_references.js" />
     <Content Include="views\admin.html" />
     <Content Include="views\dialogs\change.password.html" />
     <Content Include="views\dialogs\alert.html" />
@@ -574,6 +573,7 @@
     <Content Include="views\person\info.html" />
     <Content Include="views\search.html" />
     <Content Include="views\layout.root.html" />
+    <Content Include="views\search\person.html" />
     <Content Include="views\search\results.html" />
     <Content Include="Web.config" />
     <Content Include="css\style.css" />

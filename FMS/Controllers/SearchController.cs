@@ -22,16 +22,18 @@ namespace FMS.Controllers
     {
         private readonly IRepository<Person> _repPeople;
         private readonly IRepository<SearchQuery> _repQueries;
-        private readonly IRepository<PrmFactName> _repPersonFactNames;
+        private readonly IRepository<PrmFactName> _repPrmFactNames;
         private readonly IRepository<PersonFact> _repPersonFacts;
+        private readonly IRepository<PersonParameter> _repPersonParams;
 
-        public SearchController(IRepository<Person> repPerople, IRepository<SearchQuery> repQueries, IRepository<PrmFactName> repPersonFactNames,
-             IRepository<PersonFact> repPersonFacts)
+        public SearchController(IRepository<Person> repPerople,
+            IRepository<SearchQuery> repQueries, IRepository<PrmFactName> repPrmFactNames, IRepository<PersonFact> repPersonFacts, IRepository<PersonParameter> repPersonParams)
         {
             _repPeople = repPerople;
             _repQueries = repQueries;
             _repPersonFacts = repPersonFacts;
-            _repPersonFactNames = repPersonFactNames;
+            _repPrmFactNames = repPrmFactNames;
+            _repPersonParams = repPersonParams;
         }
 
         [HttpPost]
@@ -57,7 +59,7 @@ namespace FMS.Controllers
             return Ok(new { id = q.Id });
         }
 
-        [HttpGet]       
+        [HttpGet]
         public IHttpActionResult GetSearchResults(int id, [FromUri]int limit = 20, [FromUri]int page = 0)
         {
             var squery = _repQueries.Find(x => x.Id == id);
@@ -95,9 +97,8 @@ namespace FMS.Controllers
                 {
                     q = from p in q
                         join pf in _repPersonFacts.GetAll() on p.Id equals pf.PersonId
-                        join pfn in _repPersonFactNames.GetAll() on pf.FactId equals pfn.Id
                         join pfg in GetPersonFactsSubQuery("Гражданство") on pf.PersonId equals pfg.PersonId
-                        where pfn.NameRu == "Гражданство" && pf.FactDate == pfg.FactDate && pf.IntValue == query.Person.Citizenship
+                        where pf.FactDate == pfg.FactDate && pf.IntValue == query.Person.Citizenship
                         select p;
                 }
 
@@ -105,9 +106,8 @@ namespace FMS.Controllers
                 {
                     q = from p in q
                         join pf in _repPersonFacts.GetAll() on p.Id equals pf.PersonId
-                        join pfn in _repPersonFactNames.GetAll() on pf.FactId equals pfn.Id
                         join pfg in GetPersonFactsSubQuery("Адрес") on pf.PersonId equals pfg.PersonId
-                        where pfn.NameRu == "Адрес" && pf.FactDate == pfg.FactDate && pf.StringValue.Contains(query.Person.Address)
+                        where pf.FactDate == pfg.FactDate && pf.StringValue.Contains(query.Person.Address)
                         select p;
                 }
 
@@ -115,9 +115,8 @@ namespace FMS.Controllers
                 {
                     q = from p in q
                         join pf in _repPersonFacts.GetAll() on p.Id equals pf.PersonId
-                        join pfn in _repPersonFactNames.GetAll() on pf.FactId equals pfn.Id
                         join pfg in GetPersonFactsSubQuery("Тип документа") on pf.PersonId equals pfg.PersonId
-                        where pfn.NameRu == "Тип документа" && pf.FactDate == pfg.FactDate && pf.IntValue == query.Person.DocType
+                        where pf.FactDate == pfg.FactDate && pf.IntValue == query.Person.DocType
                         select p;
                 }
 
@@ -125,9 +124,24 @@ namespace FMS.Controllers
                 {
                     q = from p in q
                         join pf in _repPersonFacts.GetAll() on p.Id equals pf.PersonId
-                        join pfn in _repPersonFactNames.GetAll() on pf.FactId equals pfn.Id
                         join pfg in GetPersonFactsSubQuery("Тип документа") on pf.PersonId equals pfg.PersonId
-                        where pfn.NameRu == "Тип документа" && pf.FactDate == pfg.FactDate && pf.StringValue.Contains(query.Person.DocNo)
+                        where pf.FactDate == pfg.FactDate && pf.StringValue.Contains(query.Person.DocNo)
+                        select p;
+                }
+
+                if (!string.IsNullOrWhiteSpace(query.Person.Phone))
+                {
+                    q = from p in q
+                        join pp in GetPersonParametersSubQuery("Телефон") on p.Id equals pp.PersonId
+                        where pp.StringValue.Contains(query.Person.Phone)
+                        select p;
+                }
+
+                if (!string.IsNullOrWhiteSpace(query.Person.Email))
+                {
+                    q = from p in q
+                        join pp in GetPersonParametersSubQuery("Электронная почта") on p.Id equals pp.PersonId
+                        where pp.StringValue.Contains(query.Person.Email)
                         select p;
                 }
             }
@@ -143,10 +157,18 @@ namespace FMS.Controllers
         private IQueryable<GroupPersonFact> GetPersonFactsSubQuery(string factName)
         {
             return from pf in _repPersonFacts.GetAll()
-                   join pfn in _repPersonFactNames.GetAll() on pf.FactId equals pfn.Id
-                   where pfn.NameRu == factName
+                   join pfn in _repPrmFactNames.GetAll() on pf.FactId equals pfn.Id
+                   where pfn.NameRu == factName && pfn.Category == PrmFactCategory.Person && pfn.IsFact == true
                    group pf by pf.PersonId into g
                    select new GroupPersonFact { PersonId = g.Key, FactDate = g.Max(e => e.FactDate) };
+        }
+
+        private IQueryable<PersonParameter> GetPersonParametersSubQuery(string parameterName)
+        {
+            return from pp in _repPersonParams.GetAll()
+                   join ppn in _repPrmFactNames.GetAll() on pp.ParameterId equals ppn.Id
+                   where ppn.NameRu == parameterName && ppn.Category == PrmFactCategory.Person && ppn.IsFact == false
+                   select pp;
         }
     }
 

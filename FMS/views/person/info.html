@@ -1,5 +1,5 @@
-﻿<div class="row">
-    <form name="form" class="spacer-40 clearfix" data-ng-submit="save(form)">
+﻿<form name="form" data-ng-submit="save(form)">
+    <div class="row">
         <div class="col-md-12">
             <div class="form-group">
                 <label for="name">ФИО</label>
@@ -71,6 +71,18 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
+                <label for="phone">Телефон</label>
+                <input type="tel" class="form-control" id="phone" name="phone" maxlength="25" data-ng-model="person.parameters.phone.stringValue" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="email">Электронная почта</label>
+                <input type="email" class="form-control" id="email" name="email" maxlength="100" data-ng-model="person.parameters.email.stringValue" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
                 <label for="type">Соискатель/Принимающая сторона</label>
                 <select class="form-control"
                         name="type"
@@ -110,8 +122,20 @@
                           data-ng-model="person.facts.address.stringValue"></textarea>
             </div>
         </div>
-        <!--<button type="submit" class="btn btn-primary btn-lg pull-right">
-            <i class="fa fa-save"></i> Сохранить
-        </button>-->
-    </form>
-</div>
+    </div>
+    <div class="clearfix spacer-40">
+        <button type="submit" class="btn btn-primary btn-lg pull-right" data-ng-disabled="vm.loader.savingPerson" data-ng-class="{'btn-success':vm.state.savingPerson==1, 'btn-danger':vm.state.savingPerson==2}">
+            <span data-ng-switch="vm.state.savingPerson">
+                <span data-ng-switch-when="1">
+                    <i class="fa fa-check"></i> Анкета успешно сохранена
+                </span>
+                <span data-ng-switch-when="2">
+                    <i class="fa fa-exclamation"></i> При сохранении произошла ошибка
+                </span>
+                <span data-ng-switch-default="">
+                    <i class="fa fa-save"></i> Сохранить
+                </span>
+            </span>
+        </button>
+    </div>
+</form>

@@ -183,7 +183,7 @@ namespace Domain.Concreate
 
                 i++;
                 progress.Percent = (float)i / table.Count * 100;
-                _db.SaveChanges();
+                _db.SaveChanges();                
             }
 
 

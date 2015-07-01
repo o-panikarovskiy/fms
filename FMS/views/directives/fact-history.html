@@ -2,7 +2,11 @@
     <i class="fa fa-history dropdown-toggle" data-dropdown-toggle="" ></i>
     <ul class="dropdown-menu" role="menu">
         <li data-ng-repeat="fact in vm.facts track by fact.id">
-           <a href="javascript:void(0)">{{fact.date|date:'dd.MM.yyyy'}} — {{fact.value}}</a>
+            <a href="javascript:void(0)">
+                {{fact.date|date:'short'}} —
+                <span data-ng-if="fact.value">{{fact.value}}</span>
+                <span data-ng-if="!fact.value">нет значения</span>
+            </a>
         </li>
         <li class="text-center" data-ng-if="vm.facts.length===0">
             <a href="javascript:void(0)">Нет других данных</a>

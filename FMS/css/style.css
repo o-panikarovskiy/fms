@@ -88,6 +88,9 @@ body {
 .person-doc:last-child {
   border-bottom: none;
 }
+.panel-search .s-block {
+  padding: 10px;
+}
 .bs-callout {
   padding: 20px;
   margin: 20px 0;

@@ -9,9 +9,9 @@ namespace FMS.Models
 {
     public class FactViewModel
     {
-        public int Id { get; set; }
-        public int FactId { get; set; }
-        public DateTime FactDate { get; set; }
+        public int? Id { get; set; }
+        public int? FactId { get; set; }
+        public DateTime? FactDate { get; set; }
         public string FactName { get; set; }
         public string FactNameRu { get; set; }
         public string MiscValue { get; set; }
