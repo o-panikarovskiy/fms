@@ -8,7 +8,7 @@
                 Миграционный учет
             </button>
             <button class="btn btn-sm btn-primary"
-                    disabled=""
+                     data-ng-disabled="vm.importProgress && !vm.importProgress.isCompleted"
                     data-ng-click="vm.docType='TemporaryResidencePermit'">
                 РВП
             </button>

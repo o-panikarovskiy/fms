@@ -92,10 +92,10 @@ namespace FMS.Controllers
                                   PrmType = ppn.Type
                               }).ToDictionary(k => k.Name, v => v);
 
-            pvm.DocsCount.Add(DocumentType.AdministrativePractice.ToString(),
-                _repDocs.GetAll().Count(d => d.Type == DocumentType.AdministrativePractice && (d.HostPersonId == id || d.ApplicantPersonId == id)));
-            pvm.DocsCount.Add(DocumentType.Citizenship.ToString(),
-                _repDocs.GetAll().Count(d => d.Type == DocumentType.Citizenship && (d.HostPersonId == id || d.ApplicantPersonId == id)));
+            pvm.DocsCount = (from d in _repDocs.GetAll()
+                             where d.HostPersonId == id || d.ApplicantPersonId == id
+                             group d by d.Type into g
+                             select new { Type = g.Key, Count = g.Count() }).ToDictionary(k => k.Type.ToString(), v => v.Count);
 
             return Ok(pvm);
         }

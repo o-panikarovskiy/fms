@@ -1,0 +1,152 @@
+﻿<div class="row">
+    <div class="panel panel-primary panel-strong">
+        <div class="panel-heading clearfix clickable" data-ng-click="toggleDocuments('temporaryResidencePermit')">
+            <h3 class="panel-title pull-left">
+                Документы - РВП
+                <span>({{::person.docsCount.temporaryResidencePermit}})</span>
+            </h3>
+            <h3 class="panel-title pull-right">
+                <i class="fa"
+                   data-ng-class="{'fa-chevron-circle-up': vm.collapse.temporaryResidencePermit, 'fa-chevron-circle-down': !vm.collapse.temporaryResidencePermit}"></i>
+            </h3>
+        </div>
+        <div data-collapse="!vm.collapse.temporaryResidencePermit">
+            <div class="panel-body">
+                <form name="docForm" data-ng-if="documents.temporaryResidencePermit.length>0">
+                    <div data-ng-repeat="doc in documents.temporaryResidencePermit track by doc.id" class="person-doc">
+                        <h4>
+                            Документ №: {{doc.number}}
+                            <small data-ng-if="doc.createdDate==doc.updatedDate">(создан: {{::doc.createdDate|date:'dd.MM.yyyy'}}, автор: {{::doc.createdBy}})</small>
+                            <small data-ng-if="doc.createdDate!=doc.updatedDate">(изменен: {{doc.updatedDate|date:'dd.MM.yyyy'}}, автор: {{doc.updatedBy}})</small>
+                        </h4>
+
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label for="number">
+                                        Номер документа
+                                    </label>
+                                    <input type="text" class="form-control" id="number" name="number" maxlength="255" data-ng-model="doc.number" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        Основание для приема
+                                    </label>
+                                    <select class="form-control"
+                                            name="admissionReason"
+                                            data-ng-disabled="vm.loader.admissionReason"
+                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.admissionReason.dicId]"
+                                            data-ng-model="doc.parameters.admissionReason.miscId">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        Дата приема заявления
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="dateOfReceipt"
+                                           data-ng-model="doc.parameters.dateOfReceipt.dateValue"
+                                           data-bs-datepicker="">
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        Дата решения
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="decisionDate"
+                                           data-ng-model="doc.parameters.decisionDate.dateValue"
+                                           data-bs-datepicker="">
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        Номер решения
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="decisionNo"
+                                           data-ng-model="doc.parameters.decisionNo.stringValue">
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        Основание решения
+                                    </label>
+                                    <select class="form-control"
+                                            name="decisionBase"
+                                            data-ng-disabled="vm.loader.decisionBase"
+                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.decisionBase.dicId]"
+                                            data-ng-model="doc.parameters.decisionBase.miscId">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        Пользователь решения
+                                    </label>
+                                    <select class="form-control"
+                                            name="decisionUser"
+                                            data-ng-disabled="vm.loader.decisionUser"
+                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.decisionUser.dicId]"
+                                            data-ng-model="doc.parameters.decisionUser.miscId">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        Номер РВП
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="rvpNo"
+                                           data-ng-model="doc.parameters.rvpNo.stringValue">
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        Дата печати
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="printDate"
+                                           data-ng-model="doc.parameters.printDate.dateValue"
+                                           data-bs-datepicker="">
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        Дата факт.выдачи
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="actualDate"
+                                           data-ng-model="doc.parameters.actualDate.dateValue"
+                                           data-bs-datepicker="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <img class="preloader" src="img/dark_preloader.gif" data-ng-if="vm.loader.temporaryResidencePermit" />
+            </div>
+        </div>
+    </div>
+</div>
