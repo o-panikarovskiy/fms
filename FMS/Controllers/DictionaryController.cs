@@ -53,11 +53,25 @@ namespace FMS.Controllers
                 return Ok(new DictioanryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
             }
 
-            var q = from m in _repository.GetAll()
+
+
+            int dicId;
+            IQueryable<MiscViewModel> q;
+            if (int.TryParse(id, out dicId))
+            {
+                q = from m in _repository.GetAll()
+                    where m.MiscId == dicId
+                    orderby m.MiscValue
+                    select new MiscViewModel { Key = m.Id, Value = m.MiscValue };
+            }
+            else
+            {
+                q = from m in _repository.GetAll()
                     join mn in _repositoryNames.GetAll() on m.MiscId equals mn.Id
                     where mn.NameRu == id || mn.Name == id
                     orderby m.MiscValue
                     select new MiscViewModel { Key = m.Id, Value = m.MiscValue };
+            }
 
             return Ok(new DictioanryMiscViewModel { Dictionary = q.ToList() });
         }

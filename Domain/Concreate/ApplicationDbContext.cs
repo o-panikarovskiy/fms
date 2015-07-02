@@ -62,6 +62,7 @@ namespace Domain.Concrete
             context.PrmFactNames.Add(new PrmFactName { NameRu = "Электронная почта", Name = "Email", Category = PrmFactCategory.Person, Type = PrmFactType.Str, IsFact = false });
 
             context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата составления", Name = "DateCreate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
+            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата приема заявления", Name = "DateOfReceipt", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
             context.PrmFactNames.Add(new PrmFactName { NameRu = "Статья", Name = "Article", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
             context.PrmFactNames.Add(new PrmFactName { NameRu = "Вид правонарушения", Name = "CrimeType", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
             context.PrmFactNames.Add(new PrmFactName { NameRu = "Орган рассмотрения", Name = "StateDepartment", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
@@ -76,8 +77,12 @@ namespace Domain.Concrete
             context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата приема", Name = "AdmissionDate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
             context.PrmFactNames.Add(new PrmFactName { NameRu = "Решение", Name = "Decision", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
             context.PrmFactNames.Add(new PrmFactName { NameRu = "Основание решения", Name = "DecisionBase", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new PrmFactName { NameRu = "Пользователь решения", Name = "DecisionUser", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
             context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата решения", Name = "DecisionDate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
             context.PrmFactNames.Add(new PrmFactName { NameRu = "Номер решения", Name = "DecisionNo", Category = PrmFactCategory.Document, Type = PrmFactType.Str, IsFact = false });
+            context.PrmFactNames.Add(new PrmFactName { NameRu = "Номер РВП", Name = "RvpNo", Category = PrmFactCategory.Document, Type = PrmFactType.Str, IsFact = false });
+            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата печати", Name = "PrintDate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
+            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата факт. выдачи", Name = "ActualDate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
 
             var miscPrivateDoc = new MiscName { NameRu = "Тип документа", Name = "PrivateDoc" };
 
@@ -90,9 +95,12 @@ namespace Domain.Concrete
             context.MiscNames.Add(new MiscName { NameRu = "Принятое решение", Name = "DecreeStr" });
             context.MiscNames.Add(new MiscName { NameRu = "Тип взыскания", Name = "PenaltyType" });
             context.MiscNames.Add(new MiscName { NameRu = "Тип дела", Name = "DocActionType" });
-            context.MiscNames.Add(new MiscName { NameRu = "Основание для приема", Name = "AdmissionReason" });
-            context.MiscNames.Add(new MiscName { NameRu = "Решение", Name = "Decision" });
-            context.MiscNames.Add(new MiscName { NameRu = "Основание решения", Name = "DecisionBase" });
+            context.MiscNames.Add(new MiscName { NameRu = "Основание для приема (Гр.)", Name = "AdmissionReasonCitz" });
+            context.MiscNames.Add(new MiscName { NameRu = "Основание для приема (РВП)", Name = "AdmissionReasonRvp" });
+            context.MiscNames.Add(new MiscName { NameRu = "Решение (Гр.)", Name = "DecisionCitz" });
+            context.MiscNames.Add(new MiscName { NameRu = "Основание решения (Гр.)", Name = "DecisionBaseCitz" });
+            context.MiscNames.Add(new MiscName { NameRu = "Основание решения (РВП)", Name = "DecisionBaseRvp" });
+            context.MiscNames.Add(new MiscName { NameRu = "Пользователь решения (РВП)", Name = "DecisionUserRVP" });
 
             context.SaveChanges();
 

@@ -12,7 +12,7 @@ using System.Web.Http;
 
 namespace FMS.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class PersonController : ApiController
     {
         private readonly IRepository<Person> _repPeople;
@@ -47,25 +47,29 @@ namespace FMS.Controllers
 
             pvm.Facts = (from pf in _repPersonFacts.GetAll()
                          join pfn in _repParameterFactNames.GetAll() on pf.FactId equals pfn.Id
-                         join pfg in GetAllPersonFactsSubQuery(id) on pf.FactId equals pfg.FactId
+                         join pfg in (from pf in _repPersonFacts.GetAll()
+                                      where pf.PersonId == person.Id
+                                      group pf by pf.FactId into g
+                                      select new GroupPersonFact { FactId = g.Key, FactDate = g.Max(e => e.FactDate) }) on pf.FactId equals pfg.FactId
                          join m in _repMisc.GetAll() on pf.IntValue equals m.Id into mlj
                          from x in mlj.DefaultIfEmpty()
                          where pf.FactDate == pfg.FactDate && pf.PersonId == id
                          select new FactViewModel
                          {
                              Id = pf.Id,
-                             FactId = pf.FactId,
+                             PrmId = pf.FactId,
                              FactDate = pf.FactDate,
-                             FactName = pfn.Name,
-                             FactNameRu = pfn.NameRu,
+                             Name = pfn.Name,
+                             NameRu = pfn.NameRu,
                              MiscId = pf.IntValue,
                              MiscValue = x.MiscValue,
+                             DicId = x.MiscId,
                              StringValue = pf.StringValue,
                              DateValue = pf.DateValue,
                              FloatValue = pf.FloatValue,
-                             FactCategory = pfn.Category,
-                             FactType = pfn.Type
-                         }).ToDictionary(k => k.FactName, v => v);
+                             PrmCategory = pfn.Category,
+                             PrmType = pfn.Type
+                         }).ToDictionary(k => k.Name, v => v);
 
             pvm.Parameters = (from pp in _repPersonParams.GetAll()
                               join ppn in _repParameterFactNames.GetAll() on pp.ParameterId equals ppn.Id
@@ -76,16 +80,17 @@ namespace FMS.Controllers
                               {
                                   Id = pp.Id,
                                   PrmId = pp.ParameterId,
-                                  PrmName = ppn.Name,
-                                  PrmNameRu = ppn.NameRu,
+                                  Name = ppn.Name,
+                                  NameRu = ppn.NameRu,
                                   MiscId = pp.IntValue,
                                   MiscValue = x.MiscValue,
+                                  DicId = x.MiscId,
                                   StringValue = pp.StringValue,
                                   FloatValue = pp.FloatValue,
                                   DateValue = pp.DateValue,
                                   PrmCategory = ppn.Category,
                                   PrmType = ppn.Type
-                              }).ToDictionary(k => k.PrmName, v => v);
+                              }).ToDictionary(k => k.Name, v => v);
 
             pvm.DocsCount.Add(DocumentType.AdministrativePractice.ToString(),
                 _repDocs.GetAll().Count(d => d.Type == DocumentType.AdministrativePractice && (d.HostPersonId == id || d.ApplicantPersonId == id)));
@@ -116,8 +121,9 @@ namespace FMS.Controllers
             person.Name = pvm.Name;
 
             await _repPeople.UpdateAsync(person);
-            await UpdatePersonFacts(person, pvm.Facts);
-            await UpdatePersonParameters(person, pvm.Parameters);
+
+            UpdatePersonParams(person, pvm.Parameters);
+            UpdatePersonFacts(person, pvm.Facts);
 
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
@@ -157,16 +163,17 @@ namespace FMS.Controllers
                                 {
                                     Id = dp.Id,
                                     PrmId = dp.ParameterId,
-                                    PrmName = dpn.Name,
-                                    PrmNameRu = dpn.NameRu,
+                                    Name = dpn.Name,
+                                    NameRu = dpn.NameRu,
                                     StringValue = dp.StringValue,
                                     FloatValue = dp.FloatValue,
                                     DateValue = dp.DateValue,
                                     MiscId = dp.IntValue,
                                     MiscValue = x.MiscValue,
+                                    DicId = x.MiscId,
                                     PrmCategory = dpn.Category,
                                     PrmType = dpn.Type
-                                }).ToDictionary(k => k.PrmName, v => v);
+                                }).ToDictionary(k => k.Name, v => v);
             };
 
             return Ok(new { Documents = documents });
@@ -191,133 +198,94 @@ namespace FMS.Controllers
                         select new FactViewModel
                         {
                             Id = pf.Id,
-                            FactId = pf.FactId,
+                            PrmId = pf.FactId,
                             FactDate = pf.FactDate,
-                            FactName = pfn.Name,
-                            FactNameRu = pfn.NameRu,
+                            Name = pfn.Name,
+                            NameRu = pfn.NameRu,
                             MiscId = pf.IntValue,
                             MiscValue = x.MiscValue,
                             StringValue = pf.StringValue,
                             DateValue = pf.DateValue,
                             FloatValue = pf.FloatValue,
-                            FactCategory = pfn.Category,
-                            FactType = pfn.Type
+                            PrmCategory = pfn.Category,
+                            PrmType = pfn.Type
                         }).Skip(1).ToList();
 
             return Ok(new { Facts = list });
         }
 
-        private IQueryable<GroupPersonFact> GetAllPersonFactsSubQuery(int personID)
+
+
+        private void UpdatePersonParams(Person person, IDictionary<string, ParameterViewModel> parameters)
         {
-            return from pf in _repPersonFacts.GetAll()
-                   where pf.PersonId == personID
-                   group pf by pf.FactId into g
-                   select new GroupPersonFact { FactId = g.Key, FactDate = g.Max(e => e.FactDate) };
+            var names = _repParameterFactNames.FindAll(p => p.Category == PrmFactCategory.Person && p.IsFact == false).ToList();
+            var allPrms = _repPersonParams.FindAll(p => p.PersonId == person.Id).ToList();
+
+            var list = new List<PersonParameter>();
+            foreach (var key in parameters.Keys)
+            {
+                var prm = parameters[key];
+
+                var pn = names.Single(p => string.Compare(p.Name, key, true) == 0);
+                var dbParam = allPrms.SingleOrDefault(p => p.ParameterId == pn.Id);
+
+                if (dbParam != null)
+                {
+                    dbParam.DateValue = prm.DateValue;
+                    dbParam.FloatValue = prm.FloatValue;
+                    dbParam.IntValue = prm.MiscId;
+                    dbParam.StringValue = prm.StringValue;
+                }
+                else
+                {
+                    dbParam = new PersonParameter
+                    {
+                        ParameterId = pn.Id,
+                        PersonId = person.Id,
+                        DateValue = prm.DateValue,
+                        FloatValue = prm.FloatValue,
+                        IntValue = prm.MiscId,
+                        StringValue = prm.StringValue
+                    };
+                }
+
+                list.Add(dbParam);
+            };
+
+            _repPersonParams.AddRange(list.Where(p => p.Id == 0).AsEnumerable());
+            _repPersonParams.UpdateRange(list.Where(p => p.Id != 0).AsEnumerable());
         }
 
-        private async Task UpdatePersonFacts(Person person, IDictionary<string, FactViewModel> facts)
+        private void UpdatePersonFacts(Person person, IDictionary<string, FactViewModel> facts)
         {
-            //перезаписываем старые факты (добавляем значение только если самое свежее значение в базе отличается)
-            if (facts.Values.Any(fact => fact.FactId != null))
-            {
-                var exFacts = (from pf in _repPersonFacts.GetAll()
-                               join pfg in GetAllPersonFactsSubQuery(person.Id) on pf.FactId equals pfg.FactId
-                               where pf.FactDate == pfg.FactDate && pf.PersonId == person.Id
-                               select pf).ToList();
+            var names = _repParameterFactNames.FindAll(p => p.Category == PrmFactCategory.Person && p.IsFact == true).ToList();
+            var allFacts = _repPersonFacts.FindAll(p => p.PersonId == person.Id).ToList();
 
-                var list = new List<PersonFact>(exFacts.Count);
-                foreach (var fact in facts.Values.Where(f => f.Id != null))
+            var list = new List<PersonFact>();
+            foreach (var key in facts.Keys)
+            {
+                var fact = facts[key];
+
+                var fn = names.Single(f => string.Compare(f.Name, key, true) == 0);
+                var dbFact = allFacts.Where(p => p.FactId == fn.Id).OrderByDescending(f => f.FactDate).FirstOrDefault();
+
+                if (dbFact == null || dbFact.FloatValue != fact.FloatValue || dbFact.IntValue != fact.MiscId || dbFact.StringValue != fact.StringValue || dbFact.DateValue != fact.DateValue)
                 {
-                    var exFact = exFacts.Single(f => f.Id == fact.Id);
-                    if (exFact.DateValue != fact.DateValue || exFact.FloatValue != fact.FloatValue || exFact.IntValue != fact.MiscId || exFact.StringValue != fact.StringValue)
+                    dbFact = new PersonFact
                     {
-                        list.Add(new PersonFact
-                        {
-                            PersonId = person.Id,
-                            FactId = exFact.FactId,
-                            FactDate = DateTime.Now,
-                            DateValue = fact.DateValue,
-                            FloatValue = fact.FloatValue,
-                            IntValue = fact.MiscId,
-                            StringValue = fact.StringValue
-                        });
-                    }
-                };
-
-                if (list.Count > 0)
-                {
-                    _repPersonFacts.AddRange(list);
-                }              
-            }
-
-            //новые  факты записываем сразу
-            if (facts.Values.Any(fact => fact.FactId == null))
-            {
-                var factNames = await _repParameterFactNames.FindAllAsync(p => p.Category == PrmFactCategory.Person && p.IsFact == true);
-                var list = (from key in facts.Keys.Where(key => facts[key].FactId == null)
-                            select new PersonFact
-                            {
-                                FactDate = DateTime.Now,
-                                FactId = factNames.Single(pn => string.Compare(pn.Name, key, true) == 0).Id,
-                                PersonId = person.Id,
-                                DateValue = facts[key].DateValue,
-                                FloatValue = facts[key].FloatValue,
-                                IntValue = facts[key].MiscId,
-                                StringValue = facts[key].StringValue
-                            }).ToList();
-
-                if (list.Count > 0)
-                {
-                    _repPersonFacts.AddRange(list);
+                        FactDate = DateTime.Now,
+                        FactId = fn.Id,
+                        PersonId = person.Id,
+                        DateValue = fact.DateValue,
+                        FloatValue = fact.FloatValue,
+                        IntValue = fact.MiscId,
+                        StringValue = fact.StringValue
+                    };
+                    list.Add(dbFact);
                 }
-            }
-        }
-        private async Task UpdatePersonParameters(Person person, IDictionary<string, ParameterViewModel> parameters)
-        {
-            //перезаписываем старые параметры
-            if (parameters.Values.Any(prm => prm.PrmId != null))
-            {                
-                var exParams = await _repPersonParams.FindAllAsync(p => p.PersonId == person.Id);
-                var list = new List<PersonParameter>(exParams.Count);
-                foreach (var prm in parameters.Values.Where(prm => prm.PrmId != null))
-                {
-                    var exParam = exParams.Single(p => p.Id == prm.Id);
-                    if (exParam.DateValue != prm.DateValue || exParam.FloatValue != prm.FloatValue || exParam.IntValue != prm.MiscId || exParam.StringValue != prm.StringValue)
-                    {
-                        exParam.IntValue = prm.MiscId;
-                        exParam.FloatValue = prm.FloatValue;
-                        exParam.DateValue = prm.DateValue;
-                        exParam.StringValue = prm.StringValue;
-                        list.Add(exParam);
-                    }
-                };
+            };
 
-                if (list.Count > 0)
-                {
-                    _repPersonParams.UpdateRange(list);
-                }
-            }
-
-            //новые  параметры записываем сразу
-            if (parameters.Values.Any(prm => prm.PrmId == null))
-            {
-                var parameterNames = await _repParameterFactNames.FindAllAsync(p => p.Category == PrmFactCategory.Person && p.IsFact == false);
-                var list = (from key in parameters.Keys.Where(key => parameters[key].PrmId == null)
-                                     select new PersonParameter
-                                     {
-                                         ParameterId = parameterNames.Single(pn => string.Compare(pn.Name, key, true) == 0).Id,
-                                         PersonId = person.Id,
-                                         DateValue = parameters[key].DateValue,
-                                         FloatValue = parameters[key].FloatValue,
-                                         IntValue = parameters[key].MiscId,
-                                         StringValue = parameters[key].StringValue
-                                     }).ToList();
-
-                if (list.Count > 0)
-                {
-                    _repPersonParams.AddRange(list);
-                }               
-            }
+            _repPersonFacts.AddRange(list);
         }
     }
 

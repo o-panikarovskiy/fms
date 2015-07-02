@@ -596,7 +596,6 @@
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Models\ChangePasswordBindingModel.cs" />
     <Compile Include="Models\DocumentViewModel.cs" />
-    <Compile Include="Models\FactViewModel.cs" />
     <Compile Include="Models\GroupPersonFact.cs" />
     <Compile Include="Models\ParameterViewModel.cs" />
     <Compile Include="Models\PersonViewModel.cs" />

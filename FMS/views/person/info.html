@@ -12,9 +12,9 @@
                     Гражданство
                 </label>
                 <span class="clickable"
-                      data-ng-if="person.facts.citizenship.factId"
+                      data-ng-if="person.facts.citizenship.prmId"
                       data-fact-history=""
-                      data-fact-id="person.facts.citizenship.factId"
+                      data-fact-id="person.facts.citizenship.prmId"
                       data-person-id="person.id"
                       data-value-name="miscValue"></span>
                 <select class="form-control"
@@ -42,9 +42,9 @@
             <div class="form-group">
                 <label for="personDocType">Личный документ</label>
                 <span class="clickable"
-                      data-ng-if="person.facts.privateDoc.factId"
+                      data-ng-if="person.facts.privateDoc.prmId"
                       data-fact-history=""
-                      data-fact-id="person.facts.privateDoc.factId"
+                      data-fact-id="person.facts.privateDoc.prmId"
                       data-person-id="person.id"
                       data-value-name="miscValue"></span>
                 <select class="form-control"
@@ -61,9 +61,9 @@
             <div class="form-group">
                 <label for="docNo">Номер личного документа</label>
                 <span class="clickable"
-                      data-ng-if="person.facts.privateDoc.factId"
+                      data-ng-if="person.facts.privateDoc.prmId"
                       data-fact-history=""
-                      data-fact-id="person.facts.privateDoc.factId"
+                      data-fact-id="person.facts.privateDoc.prmId"
                       data-person-id="person.id"
                       data-value-name="stringValue"></span>
                 <input class="form-control" id="name" name="name" maxlength="255" data-ng-model="person.facts.privateDoc.stringValue" />
@@ -111,9 +111,9 @@
             <div class="form-group">
                 <label for="address">Адрес</label>
                 <span class="clickable"
-                      data-ng-if="person.facts.address.factId"
+                      data-ng-if="person.facts.address.prmId"
                       data-fact-history=""
-                      data-fact-id="person.facts.address.factId"
+                      data-fact-id="person.facts.address.prmId"
                       data-person-id="person.id"
                       data-value-name="stringValue"></span>
                 <textarea class="form-control col-md-12"

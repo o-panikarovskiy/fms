@@ -32,7 +32,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label>
-                                        {{::doc.parameters.dateCreate.prmNameRu}}
+                                        Дата составления
                                     </label>
                                     <input type="text"
                                            class="form-control"
@@ -44,12 +44,12 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label>
-                                        {{::doc.parameters.article.prmNameRu}}
+                                        Статья
                                     </label>
                                     <select class="form-control"
                                             name="article"
                                             data-ng-disabled="vm.loader.article"
-                                            data-ng-options="item.key as item.value for item in vm.dicts.article"
+                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.article.dicId]"
                                             data-ng-model="doc.parameters.article.miscId">
                                         <option value=""></option>
                                     </select>
@@ -58,12 +58,12 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label>
-                                        {{::doc.parameters.crimeType.prmNameRu}}
+                                        Вид правонарушения
                                     </label>
                                     <select class="form-control"
                                             name="article"
                                             data-ng-disabled="vm.loader.crimeType"
-                                            data-ng-options="item.key as item.value for item in vm.dicts.crimeType"
+                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.crimeType.dicId]"
                                             data-ng-model="doc.parameters.crimeType.miscId">
                                         <option value=""></option>
                                     </select>
@@ -72,12 +72,12 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label>
-                                        {{::doc.parameters.stateDepartment.prmNameRu}}
+                                        Орган рассмотрения
                                     </label>
                                     <select class="form-control"
                                             name="article"
                                             data-ng-disabled="vm.loader.stateDepartment"
-                                            data-ng-options="item.key as item.value for item in vm.dicts.stateDepartment"
+                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.stateDepartment.dicId]"
                                             data-ng-model="doc.parameters.stateDepartment.miscId">
                                         <option value=""></option>
                                     </select>
@@ -86,12 +86,12 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label>
-                                        {{::doc.parameters.docStatus.prmNameRu}}
+                                        Статус дела
                                     </label>
                                     <select class="form-control"
                                             name="article"
                                             data-ng-disabled="vm.loader.docStatus"
-                                            data-ng-options="item.key as item.value for item in vm.dicts.docStatus"
+                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.docStatus.dicId]"
                                             data-ng-model="doc.parameters.docStatus.miscId">
                                         <option value=""></option>
                                     </select>
@@ -100,7 +100,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label>
-                                        {{::doc.parameters.decreeDate.prmNameRu}}
+                                        Дата постановления
                                     </label>
                                     <input type="text"
                                            class="form-control"
@@ -112,12 +112,12 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label>
-                                        {{::doc.parameters.decreeStr.prmNameRu}}
+                                        Принятое решение
                                     </label>
                                     <select class="form-control"
                                             name="article"
                                             data-ng-disabled="vm.loader.decreeStr"
-                                            data-ng-options="item.key as item.value for item in vm.dicts.decreeStr"
+                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.decreeStr.dicId]"
                                             data-ng-model="doc.parameters.decreeStr.miscId">
                                         <option value=""></option>
                                     </select>
@@ -126,12 +126,12 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label>
-                                        {{::doc.parameters.penaltyType.prmNameRu}}
+                                        Тип взыскания
                                     </label>
                                     <select class="form-control"
                                             name="article"
                                             data-ng-disabled="vm.loader.penaltyType"
-                                            data-ng-options="item.key as item.value for item in vm.dicts.penaltyType"
+                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.penaltyType.dicId]"
                                             data-ng-model="doc.parameters.penaltyType.miscId">
                                         <option value=""></option>
                                     </select>
@@ -140,7 +140,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label>
-                                        {{::doc.parameters.sumAccrued.prmNameRu}}
+                                        Сумма(начислено)
                                     </label>
                                     <input type="text"
                                            class="form-control"
@@ -151,7 +151,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label>
-                                        {{::doc.parameters.sumPaid.prmNameRu}}
+                                        Сумма(оплачено)
                                     </label>
                                     <input type="text"
                                            class="form-control"
