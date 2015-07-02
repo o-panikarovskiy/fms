@@ -23,47 +23,140 @@
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
-                                    <label for="number">Номер документа</label>
+                                    <label for="number">
+                                        Номер документа
+                                    </label>
                                     <input type="text" class="form-control" id="number" name="number" maxlength="255" data-ng-model="doc.number" />
                                 </div>
                             </div>
-                            <div class="col-md-8 col-md-offset-2" data-ng-repeat="prm in doc.parameters track by prm.id">
+                            <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
-                                    <label data-ng-attr-for="{{prm.prmName+prm.id}}">{{prm.prmNameRu}}</label>
-                                    <div data-ng-switch="prm.prmType">
-                                        <div data-ng-switch-when="1">
-                                            <select class="form-control"
-                                                    data-ng-attr-name="{{prm.prmName}}"
-                                                    data-ng-attr-id="{{prm.prmName+prm.id}}"
-                                                    data-ng-disabled="vm.loader[prm.prmName]"
-                                                    data-ng-options="item.key as item.value for item in vm.dicts[prm.prmName]"
-                                                    data-ng-model="prm.miscId">
-                                                <option value=""></option>
-                                            </select>
-                                        </div>
-                                        <div data-ng-switch-when="2">
-                                            <textarea class="form-control"
-                                                      data-ng-attr-name="{{prm.prmName}}"
-                                                      data-ng-attr-id="{{prm.prmName+prm.id}}"
-                                                      data-ng-model="prm.stringValue"></textarea>
-                                        </div>
-                                        <div data-ng-switch-when="3">
-                                            <input type="text"
-                                                   class="form-control"
-                                                   data-ng-attr-name="{{prm.prmName}}"
-                                                   data-ng-attr-id="{{prm.prmName+prm.id}}"
-                                                   data-ng-model="prm.dateValue"
-                                                   data-bs-datepicker="">
-                                        </div>
-                                        <div data-ng-switch-when="4">
-                                            <input type="text"
-                                                   class="form-control"
-                                                   data-ng-attr-name="{{prm.prmName}}"
-                                                   data-ng-attr-id="{{prm.prmName+prm.id}}"
-                                                   maxlength="255"
-                                                   data-ng-model="prm.floatValue" />
-                                        </div>
-                                    </div>
+                                    <label>
+                                        {{::doc.parameters.dateCreate.prmNameRu}}
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="dateCreate"
+                                           data-ng-model="doc.parameters.dateCreate.dateValue"
+                                           data-bs-datepicker="">
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        {{::doc.parameters.article.prmNameRu}}
+                                    </label>
+                                    <select class="form-control"
+                                            name="article"
+                                            data-ng-disabled="vm.loader.article"
+                                            data-ng-options="item.key as item.value for item in vm.dicts.article"
+                                            data-ng-model="doc.parameters.article.miscId">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        {{::doc.parameters.crimeType.prmNameRu}}
+                                    </label>
+                                    <select class="form-control"
+                                            name="article"
+                                            data-ng-disabled="vm.loader.crimeType"
+                                            data-ng-options="item.key as item.value for item in vm.dicts.crimeType"
+                                            data-ng-model="doc.parameters.crimeType.miscId">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        {{::doc.parameters.stateDepartment.prmNameRu}}
+                                    </label>
+                                    <select class="form-control"
+                                            name="article"
+                                            data-ng-disabled="vm.loader.stateDepartment"
+                                            data-ng-options="item.key as item.value for item in vm.dicts.stateDepartment"
+                                            data-ng-model="doc.parameters.stateDepartment.miscId">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        {{::doc.parameters.docStatus.prmNameRu}}
+                                    </label>
+                                    <select class="form-control"
+                                            name="article"
+                                            data-ng-disabled="vm.loader.docStatus"
+                                            data-ng-options="item.key as item.value for item in vm.dicts.docStatus"
+                                            data-ng-model="doc.parameters.docStatus.miscId">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        {{::doc.parameters.decreeDate.prmNameRu}}
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="decreeDate"
+                                           data-ng-model="doc.parameters.decreeDate.dateValue"
+                                           data-bs-datepicker="">
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        {{::doc.parameters.decreeStr.prmNameRu}}
+                                    </label>
+                                    <select class="form-control"
+                                            name="article"
+                                            data-ng-disabled="vm.loader.decreeStr"
+                                            data-ng-options="item.key as item.value for item in vm.dicts.decreeStr"
+                                            data-ng-model="doc.parameters.decreeStr.miscId">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        {{::doc.parameters.penaltyType.prmNameRu}}
+                                    </label>
+                                    <select class="form-control"
+                                            name="article"
+                                            data-ng-disabled="vm.loader.penaltyType"
+                                            data-ng-options="item.key as item.value for item in vm.dicts.penaltyType"
+                                            data-ng-model="doc.parameters.penaltyType.miscId">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        {{::doc.parameters.sumAccrued.prmNameRu}}
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="sumAccrued"
+                                           data-ng-model="doc.parameters.sumAccrued.floatValue">
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>
+                                        {{::doc.parameters.sumPaid.prmNameRu}}
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="sumPaid"
+                                           data-ng-model="doc.parameters.sumPaid.floatValue">
                                 </div>
                             </div>
                         </div>

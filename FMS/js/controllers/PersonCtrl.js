@@ -60,7 +60,7 @@
                 Object.keys(doc.parameters).forEach(function (key) {
                     var prm = doc.parameters[key];
                     if (prm.prmType === 1) {
-                        dicts[prm.prmName] = true;
+                        dicts[key] = true;
                     }
                 });
             });
