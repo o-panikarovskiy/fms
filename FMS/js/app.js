@@ -1,7 +1,7 @@
 ﻿(function (window, angular, undefined) {
     'use strict';
 
-    angular.module('fms', ['ngAnimate', 'ui.router', 'ui.bootstrap', 'mgcrea.ngStrap.datepicker', 'synergetica-file-upload'])
+    angular.module('fms', ['ngAnimate', 'ui.router', 'ui.bootstrap', 'mgcrea.ngStrap', 'synergetica-file-upload'])
         .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$datepickerProvider', 'config',
             function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $datepickerProvider, config) {
                 //routes config
