@@ -139,7 +139,7 @@ gulp.task('app:img', function () {
 });
 
 gulp.task('app:fonts', function () {
-    return gulp.src(config.bowerPath + 'fontawesome/fonts/**')
+    return gulp.src([config.bowerPath + 'fontawesome/fonts/**', config.bowerPath + 'bootstrap-less-only/fonts/**'])
         .pipe(gulp.dest(config.packagePath + 'fonts/'));
 });
 
