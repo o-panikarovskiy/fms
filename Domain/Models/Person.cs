@@ -28,14 +28,16 @@ namespace Domain.Models
 
         [Required]
         [MaxLength(255)]
+        [Index("IX_NameAndBirthday", 2, IsUnique = true)]
         public string Name { get; set; }
 
         [Required]
+        [Index("IX_NameAndBirthday", 1, IsUnique = true)]
         public DateTime Birthday { get; set; }
-      
+
         [Required]
         public PersonCategory Category { get; set; }
-               
+
         [Required]
         public PersonType Type { get; set; }
     }

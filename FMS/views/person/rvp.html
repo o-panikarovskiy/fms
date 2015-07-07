@@ -36,7 +36,7 @@
                                     </label>
                                     <select class="form-control"
                                             name="admissionReason"
-                                            data-ng-disabled="vm.loader.admissionReason"
+                                            data-ng-disabled="vm.loader[doc.parameters.admissionReason.dicId]"
                                             data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.admissionReason.dicId]"
                                             data-ng-model="doc.parameters.admissionReason.miscId">
                                         <option value=""></option>
@@ -85,7 +85,7 @@
                                     </label>
                                     <select class="form-control"
                                             name="decisionBase"
-                                            data-ng-disabled="vm.loader.decisionBase"
+                                            data-ng-disabled="vm.loader[doc.parameters.decisionBase.dicId]"
                                             data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.decisionBase.dicId]"
                                             data-ng-model="doc.parameters.decisionBase.miscId">
                                         <option value=""></option>
@@ -99,7 +99,7 @@
                                     </label>
                                     <select class="form-control"
                                             name="decisionUser"
-                                            data-ng-disabled="vm.loader.decisionUser"
+                                            data-ng-disabled="vm.loader[doc.parameters.decisionUser.dicId]"
                                             data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.decisionUser.dicId]"
                                             data-ng-model="doc.parameters.decisionUser.miscId">
                                         <option value=""></option>
@@ -132,7 +132,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label>
-                                        Дата факт.выдачи
+                                        Дата фактической выдачи
                                     </label>
                                     <input type="text"
                                            class="form-control"

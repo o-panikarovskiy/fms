@@ -569,6 +569,7 @@
     <Content Include="views\home\import.html" />
     <Content Include="views\person.html" />
     <Content Include="views\person\administrative-practice.html" />
+    <Content Include="views\person\vng.html" />
     <Content Include="views\person\rvp.html" />
     <Content Include="views\person\citizenship.html" />
     <Content Include="views\person\info.html" />

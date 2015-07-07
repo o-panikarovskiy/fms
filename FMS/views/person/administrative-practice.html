@@ -48,7 +48,7 @@
                                     </label>
                                     <select class="form-control"
                                             name="article"
-                                            data-ng-disabled="vm.loader.article"
+                                            data-ng-disabled="vm.loader[doc.parameters.article.dicId]"
                                             data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.article.dicId]"
                                             data-ng-model="doc.parameters.article.miscId">
                                         <option value=""></option>
@@ -62,7 +62,7 @@
                                     </label>
                                     <select class="form-control"
                                             name="article"
-                                            data-ng-disabled="vm.loader.crimeType"
+                                            data-ng-disabled="vm.loader[doc.parameters.crimeType.dicId]"
                                             data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.crimeType.dicId]"
                                             data-ng-model="doc.parameters.crimeType.miscId">
                                         <option value=""></option>
@@ -76,7 +76,7 @@
                                     </label>
                                     <select class="form-control"
                                             name="article"
-                                            data-ng-disabled="vm.loader.stateDepartment"
+                                            data-ng-disabled="vm.loader[doc.parameters.stateDepartment.dicId]"
                                             data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.stateDepartment.dicId]"
                                             data-ng-model="doc.parameters.stateDepartment.miscId">
                                         <option value=""></option>
@@ -90,7 +90,7 @@
                                     </label>
                                     <select class="form-control"
                                             name="article"
-                                            data-ng-disabled="vm.loader.docStatus"
+                                            data-ng-disabled="vm.loader[doc.parameters.docStatus.dicId]"
                                             data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.docStatus.dicId]"
                                             data-ng-model="doc.parameters.docStatus.miscId">
                                         <option value=""></option>
@@ -116,7 +116,7 @@
                                     </label>
                                     <select class="form-control"
                                             name="article"
-                                            data-ng-disabled="vm.loader.decreeStr"
+                                            data-ng-disabled="vm.loader[doc.parameters.decreeStr.dicId]"
                                             data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.decreeStr.dicId]"
                                             data-ng-model="doc.parameters.decreeStr.miscId">
                                         <option value=""></option>
@@ -130,7 +130,7 @@
                                     </label>
                                     <select class="form-control"
                                             name="article"
-                                            data-ng-disabled="vm.loader.penaltyType"
+                                            data-ng-disabled="vm.loader[doc.parameters.penaltyType.dicId]"
                                             data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.penaltyType.dicId]"
                                             data-ng-model="doc.parameters.penaltyType.miscId">
                                         <option value=""></option>
