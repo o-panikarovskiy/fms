@@ -17,6 +17,7 @@ namespace FMS.Models
         public DateTime UpdatedDate { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
+        public Person CorrPerson { get; set; }             
         public IDictionary<string, ParameterViewModel> Parameters { get; set; }
     }
 }

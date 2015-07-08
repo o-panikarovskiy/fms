@@ -27,13 +27,13 @@ namespace Domain.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(255)]
-        [Index("IX_NameAndBirthday", 2, IsUnique = true)]
+        [MaxLength(255)]    
         public string Name { get; set; }
+        
+        public DateTime? Birthday { get; set; }
 
-        [Required]
-        [Index("IX_NameAndBirthday", 1, IsUnique = true)]
-        public DateTime Birthday { get; set; }
+        [MaxLength(50)]
+        public string Code { get; set; }
 
         [Required]
         public PersonCategory Category { get; set; }

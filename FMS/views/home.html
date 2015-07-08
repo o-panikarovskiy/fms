@@ -3,7 +3,7 @@
         <h3 class="panel-title pull-left">Импорт</h3>
         <div class="btn-group pull-right" data-file-dialog="">
             <button class="btn btn-sm btn-primary"
-                    disabled=""
+                    data-ng-disabled="vm.importProgress && !vm.importProgress.isCompleted"
                     data-ng-click="vm.docType='MigrationRegistration'">
                 Миграционный учет
             </button>

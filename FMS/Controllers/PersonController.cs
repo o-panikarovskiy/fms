@@ -116,6 +116,7 @@ namespace FMS.Controllers
             }
 
             person.Birthday = pvm.Birthday;
+            person.Code = pvm.Code;
             person.Category = pvm.Category;
             person.Type = pvm.Type;
             person.Name = pvm.Name;
@@ -144,6 +145,7 @@ namespace FMS.Controllers
                              select new DocumentViewModel
                              {
                                  Id = d.Id,
+                                 CorrPerson = d.ApplicantPersonId == personId ? d.HostPerson : d.ApplicantPerson,
                                  Number = d.Number,
                                  Type = d.Type,
                                  CreatedDate = d.CreatedDate,

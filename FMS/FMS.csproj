@@ -569,6 +569,7 @@
     <Content Include="views\home\import.html" />
     <Content Include="views\person.html" />
     <Content Include="views\person\administrative-practice.html" />
+    <Content Include="views\person\mu.html" />
     <Content Include="views\person\vng.html" />
     <Content Include="views\person\rvp.html" />
     <Content Include="views\person\citizenship.html" />
@@ -627,9 +628,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{cf01b6e8-0dd3-4f3f-92b6-b969f0b9bb06}</Project>

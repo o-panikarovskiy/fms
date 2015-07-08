@@ -129,7 +129,7 @@ namespace Domain.Concrete
             context.SaveChanges();
 
             context.Misc.Add(new Misc { MiscId = miscPrivateDoc.Id, MiscValue = "Российский паспорт" });
-            context.Misc.Add(new Misc { MiscId = miscPrivateDoc.Id, MiscValue = "ИНН" });
+            context.Misc.Add(new Misc { MiscId = miscPrivateDoc.Id, MiscValue = "Иностранный паспорт" });
 
             context.SaveChanges();
         }

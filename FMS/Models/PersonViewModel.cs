@@ -16,8 +16,10 @@ namespace FMS.Models
         [MaxLength(255)]
         public string Name { get; set; }
 
-        [Required]
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
+
+        [MaxLength(255)]
+        public string Code { get; set; }
 
         [Required]
         public PersonCategory Category { get; set; }
@@ -41,6 +43,7 @@ namespace FMS.Models
         {
             Id = p.Id;
             Name = p.Name;
+            Code = p.Code;
             Birthday = p.Birthday;
             Category = p.Category;
             Type = p.Type;

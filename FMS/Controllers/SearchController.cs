@@ -75,7 +75,8 @@ namespace FMS.Controllers
             {
                 if (!string.IsNullOrWhiteSpace(query.Person.Name))
                 {
-                    q = q.Where(p => p.Name.Contains(query.Person.Name));
+                    var code = query.Person.Name;
+                    q = q.Where(p => p.Name.Contains(query.Person.Name) || p.Code.Contains(code));
                 }
 
                 if (query.Person.Birthday != null)

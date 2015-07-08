@@ -1,12 +1,26 @@
 ﻿<form name="form" data-ng-submit="save(form)">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6" data-ng-if="person.category==2">
+            <div class="form-group">
+                <label for="name">Название</label>
+                <input class="form-control" id="name" name="name" maxlength="255" data-ng-model="person.name" required="" />
+            </div>
+        </div>
+        <div class="col-md-6" data-ng-if="person.category==2">
+            <div class="form-group">
+                <label for="code">ИНН</label>
+                <input class="form-control" id="code" name="code" maxlength="255" data-ng-model="person.code" required="" />
+            </div>
+        </div>
+
+        <div class="col-md-12" data-ng-if="person.category==1">
             <div class="form-group">
                 <label for="name">ФИО</label>
                 <input class="form-control" id="name" name="name" maxlength="255" data-ng-model="person.name" required="" />
             </div>
         </div>
-        <div class="col-md-6">
+
+        <div class="col-md-6" data-ng-if="person.category==1">
             <div class="form-group">
                 <label for="citizenship">
                     Гражданство
@@ -27,7 +41,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" data-ng-if="person.category==1">
             <div class="form-group">
                 <label for="birthday">Дата рождения</label>
                 <input type="text"
@@ -38,7 +52,7 @@
                        data-bs-datepicker="">
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" data-ng-if="person.category==1">
             <div class="form-group">
                 <label for="personDocType">Личный документ</label>
                 <span class="clickable"
@@ -57,7 +71,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" data-ng-if="person.category==1">
             <div class="form-group">
                 <label for="docNo">Номер личного документа</label>
                 <span class="clickable"
