@@ -9,9 +9,13 @@
                 name: null,
                 category: null,
                 type: null
+            },
+            docs: {
+                ap: {
+                    isChecked: false
+                }
             }
         };
-
 
         $scope.search = function () {
             $scope.vm.isSendingRequest = true;
@@ -21,6 +25,12 @@
                 $scope.vm.isSendingRequest = false;
             });
         }
+
+        $scope.loadDict = function (name) {
+            if (!$scope.vm.dicts[name]) {
+                loadDict(name);
+            }
+        };
 
         function loadDict(name, enName) {
             return DictionaryService.get(name, $scope.vm, enName);

@@ -108,7 +108,9 @@ namespace Domain.Concreate
             var prmNames = _db.PrmFactNames.ToList();
 
             int i = 0;
-            foreach (var row in table.Where(row => !string.IsNullOrWhiteSpace(row["ФИО"]) && !string.IsNullOrWhiteSpace(row["Дата рождения"])))
+            var list = table.Where(row => !string.IsNullOrWhiteSpace(row["ФИО"]) && !string.IsNullOrWhiteSpace(row["Дата рождения"])).ToList();
+            progress.TotalRows = list.Count;
+            foreach (var row in list)
             {
                 DateTime date;
                 float sum;
@@ -178,7 +180,8 @@ namespace Domain.Concreate
                     }
 
                     i++;
-                    progress.Percent = (float)i / table.Count * 100;
+                    progress.Percent = (float)i / list.Count * 100;
+                    progress.CurrentRow = i;
                     _db.SaveChanges();
                 }
             }
@@ -196,7 +199,9 @@ namespace Domain.Concreate
             var prmNames = _db.PrmFactNames.ToList();
 
             int i = 0;
-            foreach (var row in table.Where(row => !string.IsNullOrWhiteSpace(row["ФИО"]) && !string.IsNullOrWhiteSpace(row["Дата рождения"])))
+            var list = table.Where(row => !string.IsNullOrWhiteSpace(row["ФИО"]) && !string.IsNullOrWhiteSpace(row["Дата рождения"])).ToList();
+            progress.TotalRows = list.Count;
+            foreach (var row in list)
             {
                 DateTime date;
                 if (DateTime.TryParseExact(row["Дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
@@ -232,7 +237,8 @@ namespace Domain.Concreate
                     }
 
                     i++;
-                    progress.Percent = (float)i / table.Count * 100;
+                    progress.Percent = (float)i / list.Count * 100;
+                    progress.CurrentRow = i;
                     _db.SaveChanges();
                 }
             }
@@ -252,7 +258,9 @@ namespace Domain.Concreate
             var foreignPassportMisc = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Тип документа"), "Иностранный паспорт");
 
             int i = 0;
-            foreach (var row in table.Where(row => !string.IsNullOrWhiteSpace(row["ФИО"]) && !string.IsNullOrWhiteSpace(row["Дата рождения"])))
+            var list = table.Where(row => !string.IsNullOrWhiteSpace(row["ФИО"]) && !string.IsNullOrWhiteSpace(row["Дата рождения"])).ToList();
+            progress.TotalRows = list.Count;
+            foreach (var row in list)
             {
                 DateTime date, birthday;
                 if (DateTime.TryParseExact(row["Дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthday) &&
@@ -298,7 +306,8 @@ namespace Domain.Concreate
                     }
 
                     i++;
-                    progress.Percent = (float)i / table.Count * 100;
+                    progress.Percent = (float)i / list.Count * 100;
+                    progress.CurrentRow = i;
                     _db.SaveChanges();
                 }
             }
@@ -396,7 +405,9 @@ namespace Domain.Concreate
 
 
             int i = 0;
-            foreach (var row in table.Where(row => !string.IsNullOrWhiteSpace(row["фио иг рус"]) && !string.IsNullOrWhiteSpace(row["дата рождения"])))
+            var list = table.Where(row => !string.IsNullOrWhiteSpace(row["фио иг рус"]) && !string.IsNullOrWhiteSpace(row["дата рождения"])).ToList();
+            progress.TotalRows = list.Count;
+            foreach (var row in list)
             {
                 DateTime date, birthday;
                 if (DateTime.TryParseExact(row["дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthday))
@@ -479,6 +490,7 @@ namespace Domain.Concreate
 
                     i++;
                     progress.Percent = (float)i / table.Count * 100;
+                    progress.CurrentRow = i;
                     _db.SaveChanges();
                 }
             }

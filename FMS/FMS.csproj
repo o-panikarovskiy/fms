@@ -545,6 +545,7 @@
     <Content Include="js\controllers\SearchCtrl.js" />
     <Content Include="js\controllers\HomeCtrl.js" />
     <Content Include="js\controllers\AdminCtrl.js" />
+    <Content Include="js\controllers\search\ApCtrl.js" />
     <Content Include="js\directives\factHistory.js" />
     <Content Include="js\directives\fileClear.js" />
     <Content Include="js\directives\fileDialog.js" />
@@ -568,14 +569,15 @@
     <Content Include="views\home.html" />
     <Content Include="views\home\import.html" />
     <Content Include="views\person.html" />
-    <Content Include="views\person\administrative-practice.html" />
+    <Content Include="views\person\ap.html" />
     <Content Include="views\person\mu.html" />
     <Content Include="views\person\vng.html" />
     <Content Include="views\person\rvp.html" />
-    <Content Include="views\person\citizenship.html" />
+    <Content Include="views\person\ctz.html" />
     <Content Include="views\person\info.html" />
     <Content Include="views\search.html" />
     <Content Include="views\layout.root.html" />
+    <Content Include="views\search\ap.html" />
     <Content Include="views\search\person.html" />
     <Content Include="views\search\results.html" />
     <Content Include="Web.config" />

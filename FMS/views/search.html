@@ -13,6 +13,8 @@
         <div class="panel-body">
             <h3>Личная информация</h3>
             <div data-ng-include="'views/search/person.html'" class="s-block"></div>
+            <h3>Документы:</h3>
+            <div data-ng-include="'views/search/ap.html'" class="s-block" data-ng-controller="ApCtrl"></div>
         </div>
         <div class="panel-footer clearfix">
             <button type="submit" class="btn btn-primary pull-right" data-ng-disabled="vm.isSendingRequest">Найти</button>

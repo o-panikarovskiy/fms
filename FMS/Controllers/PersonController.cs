@@ -12,7 +12,7 @@ using System.Web.Http;
 
 namespace FMS.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class PersonController : ApiController
     {
         private readonly IRepository<Person> _repPeople;

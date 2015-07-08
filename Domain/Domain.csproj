@@ -71,6 +71,7 @@
     <Compile Include="Concreate\ApplicationDbContext.cs" />
     <Compile Include="Concreate\ApplicationRepository.cs" />
     <Compile Include="Concreate\CSVImport.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\DocumentParameter.cs" />

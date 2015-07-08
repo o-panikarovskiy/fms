@@ -12,6 +12,8 @@ namespace Domain.Models
         [Key]
         public int Id { get; set; }
         public float Percent { get; set; }
+        public int CurrentRow { get; set; }
+        public int TotalRows { get; set; }
         public string FileName { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

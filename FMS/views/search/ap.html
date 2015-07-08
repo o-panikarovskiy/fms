@@ -1,0 +1,84 @@
+﻿<div class="panel panel-danger panel-strong panel-search">
+    <div class="panel-heading clearfix clickable" data-ng-click="searchModel.docs.ap.isChecked=!searchModel.docs.ap.isChecked">
+        <h2 class="panel-title pull-left">
+            Административная практика
+        </h2>
+        <h2 class="panel-title pull-right">
+            <i class="fa" data-ng-class="{'fa-chevron-circle-up': !searchModel.docs.ap.isChecked, 'fa-chevron-circle-down': searchModel.docs.ap.isChecked}"></i>
+        </h2>
+    </div>
+    <div class="panel-body" data-collapse="!searchModel.docs.ap.isChecked">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="apDocNo">Номер протокола</label>
+                    <input type="text" name="docNo" id="apDocNo" data-ng-model="searchModel.docs.ap.docNo" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="stDateCreate">Дата составления</label>
+                    <input type="text" name="stDateCreate" id="stDateCreate" data-ng-model="searchModel.docs.ap.stDateCreate" data-bs-datepicker="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">  
+                    <label></label>
+                    <input type="text" name="endDateCreate" id="endDateCreate" data-ng-model="searchModel.docs.ap.endDateCreate" data-bs-datepicker="" />
+                </div>
+            </div>
+            <!--<div class="col-md-3">
+                <div class="form-group">
+                    <label for="article">Статья</label>
+                    <select class="form-control"
+                            id="article"
+                            name="article"
+                            data-ng-disabled="vm.loader.article"
+                            data-ng-options="item.key as item.value for item in vm.dicts.article"
+                            data-ng-model="searchModel.docs.ap.article">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="crimeType">Вид правонарушения</label>
+                    <select class="form-control"
+                            id="crimeType"
+                            name="crimeType"
+                            data-ng-disabled="vm.loader.crimeType"
+                            data-ng-options="item.key as item.value for item in vm.dicts.crimeType"
+                            data-ng-model="searchModel.docs.ap.crimeType">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="stateDepartment">Орган рассмотрения</label>
+                    <select class="form-control"
+                            id="stateDepartment"
+                            name="stateDepartment"
+                            data-ng-disabled="vm.loader.stateDepartment"
+                            data-ng-options="item.key as item.value for item in vm.dicts.stateDepartment"
+                            data-ng-model="searchModel.docs.ap.stateDepartment">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="docStatus">Статус дела</label>
+                    <select class="form-control"
+                            id="docStatus"
+                            name="docStatus"
+                            data-ng-disabled="vm.loader.docStatus"
+                            data-ng-options="item.key as item.value for item in vm.dicts.docStatus"
+                            data-ng-model="searchModel.docs.ap.docStatus">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
