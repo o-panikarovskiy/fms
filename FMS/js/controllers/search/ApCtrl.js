@@ -12,6 +12,8 @@
             $scope.loadDict('crimeType');
             $scope.loadDict('stateDepartment');
             $scope.loadDict('docStatus');
+            $scope.loadDict('decreeStr');
+            $scope.loadDict('penaltyType');
         }
     }]);
 

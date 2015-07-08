@@ -25,8 +25,9 @@ namespace FMS.Controllers
         private readonly IRepository<PrmFactName> _repPrmFactNames;
         private readonly IRepository<PersonFact> _repPersonFacts;
         private readonly IRepository<PersonParameter> _repPersonParams;
+        private readonly IRepository<Document> _repDocuments;
 
-        public SearchController(IRepository<Person> repPerople,
+        public SearchController(IRepository<Person> repPerople, IRepository<Document> repDocuments,
             IRepository<SearchQuery> repQueries, IRepository<PrmFactName> repPrmFactNames, IRepository<PersonFact> repPersonFacts, IRepository<PersonParameter> repPersonParams)
         {
             _repPeople = repPerople;
@@ -34,6 +35,7 @@ namespace FMS.Controllers
             _repPersonFacts = repPersonFacts;
             _repPrmFactNames = repPrmFactNames;
             _repPersonParams = repPersonParams;
+            _repDocuments = repDocuments;
         }
 
         [HttpPost]
@@ -144,6 +146,25 @@ namespace FMS.Controllers
                         join pp in GetPersonParametersSubQuery("Электронная почта") on p.Id equals pp.PersonId
                         where pp.StringValue.Contains(query.Person.Email)
                         select p;
+                }
+            }
+
+            if (query.Docs != null)
+            {
+                if (query.Docs.Ap != null && query.Docs.Ap.IsChecked)
+                {
+                    q = (from p in q
+                         join d in _repDocuments.GetAll() on p.Id equals d.ApplicantPersonId ?? d.HostPersonId
+                         where d.Type == DocumentType.AdministrativePractice
+                         select p).Distinct();
+
+                    if (!string.IsNullOrWhiteSpace(query.Docs.Ap.DocNo))
+                    {
+                        q = from p in q
+                            join d in _repDocuments.GetAll() on p.Id equals d.ApplicantPersonId ?? d.HostPersonId
+                            where d.Number.Contains(query.Docs.Ap.DocNo)
+                            select p;
+                    }
                 }
             }
 
