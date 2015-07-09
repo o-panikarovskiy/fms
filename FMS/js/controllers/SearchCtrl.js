@@ -19,6 +19,9 @@
                 },
                 rvp: {
                     isChecked: false
+                },
+                vng: {
+                    isChecked: false
                 }
             }
         };

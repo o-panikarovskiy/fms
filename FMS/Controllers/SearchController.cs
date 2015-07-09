@@ -159,14 +159,14 @@ namespace FMS.Controllers
 
             if (query.Docs != null)
             {
-                List<DocumentType> types = new List<DocumentType>(5);
+                List<DocumentType> docTypes = new List<DocumentType>(5);
                 var docs = _repDocuments.GetAll();
 
                 #region Административная практика
 
                 if (query.Docs.Ap != null && query.Docs.Ap.IsChecked)
                 {
-                    types.Add(DocumentType.AdministrativePractice);
+                    docTypes.Add(DocumentType.AdministrativePractice);
 
                     if (!string.IsNullOrWhiteSpace(query.Docs.Ap.DocNo))
                     {
@@ -275,7 +275,7 @@ namespace FMS.Controllers
 
                 if (query.Docs.Mu != null && query.Docs.Mu.IsChecked)
                 {
-                    types.Add(DocumentType.MigrationRegistration);
+                    docTypes.Add(DocumentType.MigrationRegistration);
 
                     if (!string.IsNullOrWhiteSpace(query.Docs.Mu.DocNo))
                     {
@@ -384,7 +384,7 @@ namespace FMS.Controllers
 
                 if (query.Docs.Rvp != null && query.Docs.Rvp.IsChecked)
                 {
-                    types.Add(DocumentType.TemporaryResidencePermit);
+                    docTypes.Add(DocumentType.TemporaryResidencePermit);
 
                     if (!string.IsNullOrWhiteSpace(query.Docs.Rvp.DocNo))
                     {
@@ -527,10 +527,188 @@ namespace FMS.Controllers
 
                 #endregion
 
-                q = (from p in q
-                     join d in docs on p.Id equals d.ApplicantPersonId ?? d.HostPersonId
-                     where types.Contains(d.Type)
-                     select p).Distinct();
+                #region ВНЖ
+
+                if (query.Docs.Vng != null && query.Docs.Vng.IsChecked)
+                {
+                    docTypes.Add(DocumentType.Residence);
+
+                    if (!string.IsNullOrWhiteSpace(query.Docs.Vng.DocNo))
+                    {
+                        docs = from d in docs
+                               where d.Number.Contains(query.Docs.Vng.DocNo)
+                               select d;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(query.Docs.Vng.DocNo2))
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Номер дела") on d.Id equals dp.DocumentId
+                               where dp.StringValue.Contains(query.Docs.Vng.DocNo2)
+                               select d;
+                    }
+                    if (!string.IsNullOrWhiteSpace(query.Docs.Vng.VngNo))
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Номер ВНЖ") on d.Id equals dp.DocumentId
+                               where dp.StringValue.Contains(query.Docs.Vng.VngNo)
+                               select d;
+                    }
+
+                    if (query.Docs.Vng.DocActionType != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Тип дела") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Vng.DocActionType
+                               select d;
+                    }
+
+                    if (query.Docs.Vng.DocAdmission != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Основание дела") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Vng.DocAdmission
+                               select d;
+                    }
+
+                    if (query.Docs.Vng.DecisionType != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Тип решения") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Vng.DecisionType
+                               select d;
+                    }
+
+                    if (query.Docs.Vng.Series != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Серия ВНЖ") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Vng.Series
+                               select d;
+                    }
+
+                    //Дата приема заявления
+                    if (query.Docs.Vng.StDateOfReceipt != null && query.Docs.Vng.EndDateOfReceipt != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата приема заявления") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Vng.StDateOfReceipt && dp.DateValue <= query.Docs.Vng.EndDateOfReceipt
+                               select d;
+                    }
+                    else if (query.Docs.Vng.StDateOfReceipt != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата приема заявления") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Vng.StDateOfReceipt
+                               select d;
+                    }
+                    else if (query.Docs.Vng.EndDateOfReceipt != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата приема заявления") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Vng.EndDateOfReceipt
+                               select d;
+                    }
+
+                    //Дата решения
+                    if (query.Docs.Vng.StDecisionDate != null && query.Docs.Vng.EndDecisionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата решения") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Vng.StDecisionDate && dp.DateValue <= query.Docs.Vng.EndDecisionDate
+                               select d;
+                    }
+                    else if (query.Docs.Vng.StDecisionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата решения") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Vng.StDecisionDate
+                               select d;
+                    }
+                    else if (query.Docs.Vng.EndDecisionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата решения") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Vng.EndDecisionDate
+                               select d;
+                    }
+
+                    //Дата выдачи
+                    if (query.Docs.Vng.StIssueDate != null && query.Docs.Vng.EndIssueDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Vng.StIssueDate && dp.DateValue <= query.Docs.Vng.EndIssueDate
+                               select d;
+                    }
+                    else if (query.Docs.Vng.StIssueDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Vng.StIssueDate
+                               select d;
+                    }
+                    else if (query.Docs.Vng.EndIssueDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Vng.EndIssueDate
+                               select d;
+                    }
+
+                    //Дата фактической выдачи
+                    if (query.Docs.Vng.StActualDate != null && query.Docs.Vng.EndActualDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата фактической выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Vng.StActualDate && dp.DateValue <= query.Docs.Vng.EndActualDate
+                               select d;
+                    }
+                    else if (query.Docs.Vng.StActualDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата фактической выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Vng.StActualDate
+                               select d;
+                    }
+                    else if (query.Docs.Vng.EndActualDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата фактической выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Vng.EndActualDate
+                               select d;
+                    }
+
+                    //Действителен С
+                    if (query.Docs.Vng.ValidFrom != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Действителен С") on d.Id equals dp.DocumentId
+                               where dp.DateValue == query.Docs.Vng.ValidFrom
+                               select d;
+                    }
+
+                    //Действителен ПО
+                    if (query.Docs.Vng.ValidTo != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Действителен ПО") on d.Id equals dp.DocumentId
+                               where dp.DateValue == query.Docs.Vng.ValidTo
+                               select d;
+                    }
+                }
+
+                #endregion
+
+                foreach (var dt in docTypes)
+                {
+                    q = from p in q
+                        join d in docs on p.Id equals d.ApplicantPersonId ?? d.HostPersonId
+                        where d.Type == dt
+                        select p;
+                }
+
+                q = q.Distinct();
             }
 
             q = q.OrderBy(p => p.Name);

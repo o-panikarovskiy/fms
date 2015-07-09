@@ -73,11 +73,33 @@ namespace FMS.Models
 
     }
 
+    public class VngBindingModel : DocumentBindingModel
+    {
+        public string DocNo2 { get; set; }
+        public string VngNo { get; set; }
+        public int? DocActionType { get; set; }
+        public int? DocAdmission { get; set; }
+        public int? DecisionType { get; set; }
+        public int? Series { get; set; }
+        public DateTime? StDateOfReceipt { get; set; }
+        public DateTime? EndDateOfReceipt { get; set; }
+        public DateTime? StDecisionDate { get; set; }
+        public DateTime? EndDecisionDate { get; set; }
+        public DateTime? StIssueDate { get; set; }
+        public DateTime? EndIssueDate { get; set; }
+        public DateTime? StActualDate { get; set; }
+        public DateTime? EndActualDate { get; set; }
+        public DateTime? ValidFrom { get; set; }
+        public DateTime? ValidTo { get; set; }
+
+    }
+
     public class SearchDocumnet
     {
         public AdminPracticeDocBindingModel Ap { get; set; }
         public MigrationRegisrationBindingModel Mu { get; set; }
         public RVPBindingModel Rvp { get; set; }
+        public VngBindingModel Vng { get; set; }
     }
 
     public class SearchQueryBindingModel
