@@ -1,33 +1,19 @@
-﻿<div class="panel panel-danger panel-strong panel-search">
-    <div class="panel-heading clearfix clickable" data-ng-click="searchModel.docs.ap.isChecked=!searchModel.docs.ap.isChecked">
-        <h2 class="panel-title pull-left">
-            Административная практика
-        </h2>
-        <h2 class="panel-title pull-right">
-            <i class="fa" data-ng-class="{'fa-chevron-circle-up': !searchModel.docs.ap.isChecked, 'fa-chevron-circle-down': searchModel.docs.ap.isChecked}"></i>
-        </h2>
-    </div>
-    <div class="panel-body" data-collapse="!searchModel.docs.ap.isChecked">
+﻿<div class="bs-callout bs-callout-danger" >
+    <h4>
+        <label>
+            <input type="checkbox" name="isChecked" data-ng-model="searchModel.docs.ap.isChecked" /> Административная практика
+        </label>
+    </h4>
+
+    <div data-ng-if="searchModel.docs.ap.isChecked">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="apDocNo">Номер протокола</label>
                     <input type="text" class="form-control" name="docNo" id="apDocNo" data-ng-model="searchModel.docs.ap.docNo" />
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="stDateCreate">Дата составления с</label>
-                    <input type="text" class="form-control" name="stDateCreate" id="stDateCreate" data-ng-model="searchModel.docs.ap.stDateCreate" data-bs-datepicker="" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="endDateCreate">по</label>
-                    <input type="text" class="form-control" name="endDateCreate" id="endDateCreate" data-ng-model="searchModel.docs.ap.endDateCreate" data-bs-datepicker="" />
-                </div>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="article">Статья</label>
                     <select class="form-control"
@@ -40,7 +26,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="crimeType">Вид правонарушения</label>
                     <select class="form-control"
@@ -53,7 +39,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="stateDepartment">Орган рассмотрения</label>
                     <select class="form-control"
@@ -66,7 +52,8 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-4">
+
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="docStatus">Статус дела</label>
                     <select class="form-control"
@@ -79,19 +66,8 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="stDecreeDate">Дата постановления с</label>
-                    <input type="text" class="form-control" name="stDecreeDate" id="stDecreeDate" data-ng-model="searchModel.docs.ap.stDecreeDate" data-bs-datepicker="" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="endDecreeDate">по</label>
-                    <input type="text" class="form-control" name="endDecreeDate" id="endDecreeDate" data-ng-model="searchModel.docs.ap.endDecreeDate" data-bs-datepicker="" />
-                </div>
-            </div>
-            <div class="col-md-6">
+
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="decreeStr">Принятое решение</label>
                     <select class="form-control"
@@ -104,7 +80,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="penaltyType">Тип взыскания</label>
                     <select class="form-control"
@@ -118,5 +94,37 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="stDateCreate">Дата составления с</label>
+                    <input type="text" class="form-control" name="stDateCreate" id="stDateCreate" data-ng-model="searchModel.docs.ap.stDateCreate" data-bs-datepicker="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="endDateCreate">по</label>
+                    <input type="text" class="form-control" name="endDateCreate" id="endDateCreate" data-ng-model="searchModel.docs.ap.endDateCreate" data-bs-datepicker="" />
+                </div>
+            </div>           
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="stDecreeDate">Дата постановления с</label>
+                    <input type="text" class="form-control" name="stDecreeDate" id="stDecreeDate" data-ng-model="searchModel.docs.ap.stDecreeDate" data-bs-datepicker="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="endDecreeDate">по</label>
+                    <input type="text" class="form-control" name="endDecreeDate" id="endDecreeDate" data-ng-model="searchModel.docs.ap.endDecreeDate" data-bs-datepicker="" />
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
+

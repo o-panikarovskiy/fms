@@ -92,8 +92,9 @@ body {
 .person-doc:last-child {
   border-bottom: none;
 }
-.panel-search .s-block {
-  padding: 10px;
+.panel-search .s-block .bs-callout {
+  margin: 5px 0;
+  padding: 20px;
 }
 .bs-callout {
   padding: 20px;

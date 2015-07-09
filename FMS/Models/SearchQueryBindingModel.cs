@@ -28,7 +28,7 @@ namespace FMS.Models
     }
 
     public class AdminPracticeDocBindingModel : DocumentBindingModel
-    {        
+    {
         public DateTime? StDateCreate { get; set; }
         public DateTime? EndDateCreate { get; set; }
         public int? Article { get; set; }
@@ -41,14 +41,48 @@ namespace FMS.Models
         public int? PenaltyType { get; set; }
     }
 
+    public class MigrationRegisrationBindingModel : DocumentBindingModel
+    {
+        public int? CardMark { get; set; }
+        public int? PurposeOfEntry { get; set; }
+        public int? PrimaryExtend { get; set; }
+        public int? KPP { get; set; }
+        public DateTime? StIncomeDate { get; set; }
+        public DateTime? EndIncomeDate { get; set; }
+        public DateTime? StIssueDate { get; set; }
+        public DateTime? EndIssueDate { get; set; }
+        public DateTime? RegDateFrom { get; set; }
+        public DateTime? RegDateTo { get; set; }
+    }
+
+    public class RVPBindingModel : DocumentBindingModel
+    {
+       public string DecisionNo { get; set; }
+        public string RvpNo { get; set; }
+        public int? AdmissionReason { get; set; }
+        public int? DecisionBase { get; set; }
+        public int? DecisionUser { get; set; }
+        public DateTime? StDateOfReceipt { get; set; }
+        public DateTime? EndDateOfReceipt { get; set; }
+        public DateTime? StDecisionDate { get; set; }
+        public DateTime? EndDecisionDate { get; set; }
+        public DateTime? StPrintDate { get; set; }
+        public DateTime? EndPrintDate { get; set; }
+        public DateTime? StActualDate { get; set; }
+        public DateTime? EndActualDate { get; set; }
+
+    }
+
     public class SearchDocumnet
     {
         public AdminPracticeDocBindingModel Ap { get; set; }
+        public MigrationRegisrationBindingModel Mu { get; set; }
+        public RVPBindingModel Rvp { get; set; }
     }
 
     public class SearchQueryBindingModel
     {
-        public PersonQueryBindingModel Person { get; set; } 
+        public PersonQueryBindingModel Person { get; set; }
         public SearchDocumnet Docs { get; set; }
     }
 }

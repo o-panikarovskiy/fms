@@ -26,9 +26,11 @@ namespace FMS.Controllers
         private readonly IRepository<PersonFact> _repPersonFacts;
         private readonly IRepository<PersonParameter> _repPersonParams;
         private readonly IRepository<Document> _repDocuments;
+        private readonly IRepository<DocumentParameter> _repDocParams;
 
         public SearchController(IRepository<Person> repPerople, IRepository<Document> repDocuments,
-            IRepository<SearchQuery> repQueries, IRepository<PrmFactName> repPrmFactNames, IRepository<PersonFact> repPersonFacts, IRepository<PersonParameter> repPersonParams)
+            IRepository<SearchQuery> repQueries, IRepository<PrmFactName> repPrmFactNames, IRepository<PersonFact> repPersonFacts,
+            IRepository<PersonParameter> repPersonParams, IRepository<DocumentParameter> repDocParams)
         {
             _repPeople = repPerople;
             _repQueries = repQueries;
@@ -36,6 +38,7 @@ namespace FMS.Controllers
             _repPrmFactNames = repPrmFactNames;
             _repPersonParams = repPersonParams;
             _repDocuments = repDocuments;
+            _repDocParams = repDocParams;
         }
 
         [HttpPost]
@@ -73,6 +76,9 @@ namespace FMS.Controllers
             var query = JsonConvert.DeserializeObject<SearchQueryBindingModel>(squery.Query);
 
             var q = _repPeople.GetAll();
+
+            #region Person
+
             if (query.Person != null)
             {
                 if (!string.IsNullOrWhiteSpace(query.Person.Name))
@@ -149,23 +155,382 @@ namespace FMS.Controllers
                 }
             }
 
+            #endregion
+
             if (query.Docs != null)
             {
+                List<DocumentType> types = new List<DocumentType>(5);
+                var docs = _repDocuments.GetAll();
+
+                #region Административная практика
+
                 if (query.Docs.Ap != null && query.Docs.Ap.IsChecked)
                 {
-                    q = (from p in q
-                         join d in _repDocuments.GetAll() on p.Id equals d.ApplicantPersonId ?? d.HostPersonId
-                         where d.Type == DocumentType.AdministrativePractice
-                         select p).Distinct();
+                    types.Add(DocumentType.AdministrativePractice);
 
                     if (!string.IsNullOrWhiteSpace(query.Docs.Ap.DocNo))
                     {
-                        q = from p in q
-                            join d in _repDocuments.GetAll() on p.Id equals d.ApplicantPersonId ?? d.HostPersonId
-                            where d.Number.Contains(query.Docs.Ap.DocNo)
-                            select p;
+                        docs = from d in docs
+                               where d.Number.Contains(query.Docs.Ap.DocNo)
+                               select d;
+                    }
+
+                    if (query.Docs.Ap.StDateCreate != null && query.Docs.Ap.EndDateCreate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата составления") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Ap.StDateCreate && dp.DateValue <= query.Docs.Ap.EndDateCreate
+                               select d;
+                    }
+                    else if (query.Docs.Ap.StDateCreate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата составления") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Ap.StDateCreate
+                               select d;
+                    }
+                    else if (query.Docs.Ap.EndDateCreate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата составления") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Ap.EndDateCreate
+                               select d;
+                    }
+
+                    if (query.Docs.Ap.Article != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Статья") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Ap.Article
+                               select d;
+                    }
+
+                    if (query.Docs.Ap.CrimeType != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Вид правонарушения") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Ap.CrimeType
+                               select d;
+                    }
+
+                    if (query.Docs.Ap.StateDepartment != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Орган рассмотрения") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Ap.StateDepartment
+                               select d;
+                    }
+
+                    if (query.Docs.Ap.DocStatus != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Статус дела") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Ap.DocStatus
+                               select d;
+                    }
+
+                    if (query.Docs.Ap.StDecreeDate != null && query.Docs.Ap.EndDecreeDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата постановления") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Ap.StDecreeDate && dp.DateValue <= query.Docs.Ap.EndDecreeDate
+                               select d;
+                    }
+                    else if (query.Docs.Ap.StDecreeDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата постановления") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Ap.StDecreeDate
+                               select d;
+                    }
+                    else if (query.Docs.Ap.EndDecreeDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата постановления") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Ap.EndDecreeDate
+                               select d;
+                    }
+
+                    if (query.Docs.Ap.DecreeStr != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Принятое решение") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Ap.DecreeStr
+                               select d;
+                    }
+
+                    if (query.Docs.Ap.PenaltyType != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Тип взыскания") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Ap.PenaltyType
+                               select d;
+                    }
+
+                }
+
+                #endregion
+
+                #region Миграционный учёт
+
+                if (query.Docs.Mu != null && query.Docs.Mu.IsChecked)
+                {
+                    types.Add(DocumentType.MigrationRegistration);
+
+                    if (!string.IsNullOrWhiteSpace(query.Docs.Mu.DocNo))
+                    {
+                        docs = from d in docs
+                               where d.Number.Contains(query.Docs.Mu.DocNo)
+                               select d;
+                    }
+
+                    if (query.Docs.Mu.CardMark != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Отметка проставлена") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Mu.CardMark
+                               select d;
+                    }
+
+                    if (query.Docs.Mu.PurposeOfEntry != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Цель въезда") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Mu.PurposeOfEntry
+                               select d;
+                    }
+
+                    if (query.Docs.Mu.PrimaryExtend != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Первично/Продлено") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Mu.PrimaryExtend
+                               select d;
+                    }
+
+                    if (query.Docs.Mu.KPP != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("КПП въезда") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Mu.KPP
+                               select d;
+                    }
+
+                    if (query.Docs.Mu.StIncomeDate != null && query.Docs.Mu.EndIncomeDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата въезда") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Mu.StIncomeDate && dp.DateValue <= query.Docs.Mu.EndIncomeDate
+                               select d;
+                    }
+                    else if (query.Docs.Mu.StIncomeDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата въезда") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Mu.StIncomeDate
+                               select d;
+                    }
+                    else if (query.Docs.Mu.EndIncomeDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата въезда") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Mu.EndIncomeDate
+                               select d;
+                    }
+
+                    if (query.Docs.Mu.StIssueDate != null && query.Docs.Mu.EndIssueDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Mu.StIssueDate && dp.DateValue <= query.Docs.Mu.EndIssueDate
+                               select d;
+                    }
+                    else if (query.Docs.Mu.StIssueDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Mu.StIssueDate
+                               select d;
+                    }
+                    else if (query.Docs.Mu.EndIssueDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Mu.EndIssueDate
+                               select d;
+                    }
+
+                    if (query.Docs.Mu.RegDateFrom != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата регистрации С") on d.Id equals dp.DocumentId
+                               where dp.DateValue == query.Docs.Mu.RegDateFrom
+                               select d;
+                    }
+
+                    if (query.Docs.Mu.RegDateTo != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата регистрации ДО") on d.Id equals dp.DocumentId
+                               where dp.DateValue == query.Docs.Mu.RegDateTo
+                               select d;
+                    }
+
+                }
+
+                #endregion
+
+                #region РВП
+
+                if (query.Docs.Rvp != null && query.Docs.Rvp.IsChecked)
+                {
+                    types.Add(DocumentType.TemporaryResidencePermit);
+
+                    if (!string.IsNullOrWhiteSpace(query.Docs.Rvp.DocNo))
+                    {
+                        docs = from d in docs
+                               where d.Number.Contains(query.Docs.Rvp.DocNo)
+                               select d;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(query.Docs.Rvp.DecisionNo))
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Номер решения") on d.Id equals dp.DocumentId
+                               where dp.StringValue.Contains(query.Docs.Rvp.DecisionNo)
+                               select d;
+                    }
+                    if (!string.IsNullOrWhiteSpace(query.Docs.Rvp.RvpNo))
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Номер РВП") on d.Id equals dp.DocumentId
+                               where dp.StringValue.Contains(query.Docs.Rvp.RvpNo)
+                               select d;
+                    }
+
+                    if (query.Docs.Rvp.AdmissionReason != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Основание для приема") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Rvp.AdmissionReason
+                               select d;
+                    }
+
+                    if (query.Docs.Rvp.DecisionBase != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Основание решения") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Rvp.DecisionBase
+                               select d;
+                    }
+
+                    if (query.Docs.Rvp.DecisionUser != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Пользователь решения") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Rvp.DecisionUser
+                               select d;
+                    }
+
+                    //Дата приема заявления
+                    if (query.Docs.Rvp.StDateOfReceipt != null && query.Docs.Rvp.EndDateOfReceipt != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата приема заявления") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Rvp.StDateOfReceipt && dp.DateValue <= query.Docs.Rvp.EndDateOfReceipt
+                               select d;
+                    }
+                    else if (query.Docs.Rvp.StDateOfReceipt != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата приема заявления") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Rvp.StDateOfReceipt
+                               select d;
+                    }
+                    else if (query.Docs.Rvp.EndDateOfReceipt != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата приема заявления") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Rvp.EndDateOfReceipt
+                               select d;
+                    }
+
+                    //Дата решения
+                    if (query.Docs.Rvp.StDecisionDate != null && query.Docs.Rvp.EndDecisionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата решения") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Rvp.StDecisionDate && dp.DateValue <= query.Docs.Rvp.EndDecisionDate
+                               select d;
+                    }
+                    else if (query.Docs.Rvp.StDecisionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата решения") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Rvp.StDecisionDate
+                               select d;
+                    }
+                    else if (query.Docs.Rvp.EndDecisionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата решения") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Rvp.EndDecisionDate
+                               select d;
+                    }
+
+                    //Дата печати
+                    if (query.Docs.Rvp.StPrintDate != null && query.Docs.Rvp.EndPrintDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата печати") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Rvp.StPrintDate && dp.DateValue <= query.Docs.Rvp.EndPrintDate
+                               select d;
+                    }
+                    else if (query.Docs.Rvp.StPrintDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата печати") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Rvp.StPrintDate
+                               select d;
+                    }
+                    else if (query.Docs.Rvp.EndPrintDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата печати") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Rvp.EndPrintDate
+                               select d;
+                    }
+
+                    //Дата фактической выдачи
+                    if (query.Docs.Rvp.StActualDate != null && query.Docs.Rvp.EndActualDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата фактической выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Rvp.StActualDate && dp.DateValue <= query.Docs.Rvp.EndActualDate
+                               select d;
+                    }
+                    else if (query.Docs.Rvp.StActualDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата фактической выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Rvp.StActualDate
+                               select d;
+                    }
+                    else if (query.Docs.Rvp.EndActualDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата фактической выдачи") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Rvp.EndActualDate
+                               select d;
                     }
                 }
+
+                #endregion
+
+                q = (from p in q
+                     join d in docs on p.Id equals d.ApplicantPersonId ?? d.HostPersonId
+                     where types.Contains(d.Type)
+                     select p).Distinct();
             }
 
             q = q.OrderBy(p => p.Name);
@@ -173,7 +538,7 @@ namespace FMS.Controllers
             var total = q.Count();
             var res = q.Skip(page * limit).Take(limit).ToList();
 
-            return Ok(new { People = res, Total = total, Query = query });
+            return Ok(new { People = res, Total = total, Query = query, Sql = q.ToString() });
         }
 
         private IQueryable<GroupPersonFact> GetPersonFactsSubQuery(string factName)
@@ -191,6 +556,14 @@ namespace FMS.Controllers
                    join ppn in _repPrmFactNames.GetAll() on pp.ParameterId equals ppn.Id
                    where ppn.NameRu == parameterName && ppn.Category == PrmFactCategory.Person && ppn.IsFact == false
                    select pp;
+        }
+
+        private IQueryable<DocumentParameter> GetDocParametersSubQuery(string parameterName)
+        {
+            return from dp in _repDocParams.GetAll()
+                   join dpn in _repPrmFactNames.GetAll() on dp.ParameterId equals dpn.Id
+                   where dpn.NameRu == parameterName && dpn.Category == PrmFactCategory.Document && dpn.IsFact == false
+                   select dp;
         }
     }
 

@@ -13,13 +13,19 @@
             docs: {
                 ap: {
                     isChecked: false
+                },
+                mu: {
+                    isChecked: false
+                },
+                rvp: {
+                    isChecked: false
                 }
             }
         };
 
         $scope.search = function () {
             $scope.vm.isSendingRequest = true;
-            return SearchService.query($scope.searchModel).then(function (data) {
+            return SearchService.query(bindModel($scope.searchModel)).then(function (data) {
                 $state.go('root.search.results', { id: data.id });
             }).finally(function () {
                 $scope.vm.isSendingRequest = false;
@@ -31,6 +37,21 @@
                 loadDict(name);
             }
         };
+
+        function bindModel(model) {
+            var m = angular.copy(model);
+
+            if (m.docs) {
+                var isAnyChecked = Object.keys(m.docs).some(function (key) {
+                    return m.docs[key] && m.docs[key].isChecked
+                });
+                if (!isAnyChecked) {
+                    delete m.docs;
+                }
+            };
+
+            return m;
+        }
 
         function loadDict(name, enName) {
             return DictionaryService.get(name, $scope.vm, enName);

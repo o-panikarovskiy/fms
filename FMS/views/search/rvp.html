@@ -1,0 +1,127 @@
+﻿<div class="bs-callout bs-callout-primary" >
+    <h4>
+        <label>
+            <input type="checkbox" name="isChecked" data-ng-model="searchModel.docs.rvp.isChecked" /> Разрешение на временное проживание
+        </label>
+    </h4>
+
+    <div data-ng-if="searchModel.docs.rvp.isChecked">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="rvpDocNo">Номер протокола</label>
+                    <input type="text" class="form-control" name="docNo" id="rvpDocNo" data-ng-model="searchModel.docs.rvp.docNo" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="decisionNoRvp">Номер решения</label>
+                    <input type="text" class="form-control" name="decisionNo" id="decisionNo" data-ng-model="searchModel.docs.rvp.decisionNo" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="rvpNo">Номер РВП</label>
+                    <input type="text" class="form-control" name="rvpNo" id="rvpNo" data-ng-model="searchModel.docs.rvp.rvpNo" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="admissionReason">Основание для приема</label>
+                    <select class="form-control"
+                            id="admissionReason"
+                            name="admissionReason"
+                            data-ng-disabled="vm.loader.admissionReasonRvp"
+                            data-ng-options="item.key as item.value for item in vm.dicts.admissionReasonRvp"
+                            data-ng-model="searchModel.docs.rvp.admissionReason">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="decisionBase">Основание решения</label>
+                    <select class="form-control"
+                            id="decisionBase"
+                            name="decisionBase"
+                            data-ng-disabled="vm.loader.decisionBaseRvp"
+                            data-ng-options="item.key as item.value for item in vm.dicts.decisionBaseRvp"
+                            data-ng-model="searchModel.docs.rvp.decisionBase">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="decisionUser">Пользователь решения</label>
+                    <select class="form-control"
+                            id="decisionUser"
+                            name="decisionUser"
+                            data-ng-disabled="vm.loader.decisionUserRVP"
+                            data-ng-options="item.key as item.value for item in vm.dicts.decisionUserRVP"
+                            data-ng-model="searchModel.docs.rvp.decisionUser">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="stDateOfReceiptRvp">Дата приема заявления с</label>
+                    <input type="text" class="form-control" name="stDateOfReceipt" id="stDateOfReceiptRvp" data-ng-model="searchModel.docs.rvp.stDateOfReceipt" data-bs-datepicker="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="endDateOfReceiptRvp">по</label>
+                    <input type="text" class="form-control" name="endDateOfReceipt" id="endDateOfReceiptRvp" data-ng-model="searchModel.docs.rvp.endDateOfReceipt" data-bs-datepicker="" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="stDecisionDateRvp">Дата решения с</label>
+                    <input type="text" class="form-control" name="stDecisionDate" id="stDecisionDateRvp" data-ng-model="searchModel.docs.rvp.stDecisionDate" data-bs-datepicker="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="endDecisionDateRvp">по</label>
+                    <input type="text" class="form-control" name="endDecisionDate" id="endDecisionDateRvp" data-ng-model="searchModel.docs.rvp.endDecisionDate" data-bs-datepicker="" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="stPrintDateRvp">Дата печати с</label>
+                    <input type="text" class="form-control" name="stPrintDate" id="stPrintDateRvp" data-ng-model="searchModel.docs.rvp.stPrintDate" data-bs-datepicker="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="endPrintDateRvp">по</label>
+                    <input type="text" class="form-control" name="endPrintDate" id="endPrintDateRvp" data-ng-model="searchModel.docs.rvp.endPrintDate" data-bs-datepicker="" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="stActualDateRvp">Дата фактической выдачи с</label>
+                    <input type="text" class="form-control" name="stActualDate" id="stActualDateRvp" data-ng-model="searchModel.docs.rvp.stActualDate" data-bs-datepicker="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="endActualDateRvp">по</label>
+                    <input type="text" class="form-control" name="endActualDate" id="endActualDateRvp" data-ng-model="searchModel.docs.rvp.endActualDate" data-bs-datepicker="" />
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</div>
+

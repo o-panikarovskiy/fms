@@ -545,6 +545,8 @@
     <Content Include="js\controllers\SearchCtrl.js" />
     <Content Include="js\controllers\HomeCtrl.js" />
     <Content Include="js\controllers\AdminCtrl.js" />
+    <Content Include="js\controllers\search\RvpCtrl.js" />
+    <Content Include="js\controllers\search\MuCtrl.js" />
     <Content Include="js\controllers\search\ApCtrl.js" />
     <Content Include="js\directives\factHistory.js" />
     <Content Include="js\directives\fileClear.js" />
@@ -577,6 +579,8 @@
     <Content Include="views\person\info.html" />
     <Content Include="views\search.html" />
     <Content Include="views\layout.root.html" />
+    <Content Include="views\search\rvp.html" />
+    <Content Include="views\search\mu.html" />
     <Content Include="views\search\ap.html" />
     <Content Include="views\search\person.html" />
     <Content Include="views\search\results.html" />

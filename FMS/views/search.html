@@ -11,10 +11,15 @@
     </div>
     <form name="sform" data-ng-submit="search()" data-collapse="vm.isSearchBodyCollapsed">
         <div class="panel-body">
-            <h3>Личная информация</h3>
+
+            <h3>Личная информация:</h3>
             <div data-ng-include="'views/search/person.html'" class="s-block"></div>
+
             <h3>Документы:</h3>
-            <div data-ng-include="'views/search/ap.html'" class="s-block" data-ng-controller="ApCtrl"></div>
+            <div data-ng-include="'views/search/mu.html'" class="s-block" data-ng-controller="search.MuCtrl"></div>
+            <div data-ng-include="'views/search/rvp.html'" class="s-block" data-ng-controller="search.RvpCtrl"></div>
+            <div data-ng-include="'views/search/ap.html'" class="s-block" data-ng-controller="search.ApCtrl"></div>
+
         </div>
         <div class="panel-footer clearfix">
             <button type="submit" class="btn btn-primary pull-right" data-ng-disabled="vm.isSendingRequest">Найти</button>

@@ -2,7 +2,7 @@
 (function (window, angular) {
     'use strict';
 
-    angular.module('fms').controller('ApCtrl', ['$scope', function ($scope) {
+    angular.module('fms').controller('search.ApCtrl', ['$scope', function ($scope) {
         $scope.$watch('searchModel.docs.ap.isChecked', function (val) {
             if (val) loadDicts();
         });
