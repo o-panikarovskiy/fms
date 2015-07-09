@@ -57,7 +57,7 @@ namespace FMS.Models
 
     public class RVPBindingModel : DocumentBindingModel
     {
-       public string DecisionNo { get; set; }
+        public string DecisionNo { get; set; }
         public string RvpNo { get; set; }
         public int? AdmissionReason { get; set; }
         public int? DecisionBase { get; set; }
@@ -94,12 +94,27 @@ namespace FMS.Models
 
     }
 
+    public class CtzBindingModel : DocumentBindingModel
+    {
+        public string DecisionNo { get; set; }
+        public int? DocActionType { get; set; }
+        public int? AdmissionReason { get; set; }
+        public int? Decision { get; set; }
+        public int? DecisionBase { get; set; }
+        public DateTime? StAdmissionDate { get; set; }
+        public DateTime? EndAdmissionDate { get; set; }
+        public DateTime? StDecisionDate { get; set; }
+        public DateTime? EndDecisionDate { get; set; }
+
+    }
+
     public class SearchDocumnet
     {
         public AdminPracticeDocBindingModel Ap { get; set; }
         public MigrationRegisrationBindingModel Mu { get; set; }
         public RVPBindingModel Rvp { get; set; }
         public VngBindingModel Vng { get; set; }
+        public CtzBindingModel Ctz { get; set; }
     }
 
     public class SearchQueryBindingModel

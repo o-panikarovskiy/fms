@@ -1,0 +1,106 @@
+﻿<div class="bs-callout bs-callout-primary" >
+    <h4>
+        <label>
+            <input type="checkbox" name="isChecked" data-ng-model="searchModel.docs.ctz.isChecked" /> Гражданство
+        </label>
+    </h4>
+
+    <div data-ng-if="searchModel.docs.ctz.isChecked">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ctzDocNo">Рег. номер</label>
+                    <input type="text" class="form-control" name="docNo" id="ctzDocNo" data-ng-model="searchModel.docs.ctz.docNo" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="decisionNoCtz">Номер решения</label>
+                    <input type="text" class="form-control" name="decisionNo" id="decisionNoCtz" data-ng-model="searchModel.docs.ctz.decisionNo" />
+                </div>
+            </div>         
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="docActionType">Тип дела</label>
+                    <select class="form-control"
+                            id="docActionType"
+                            name="docActionType"
+                            data-ng-disabled="vm.loader.docActionTypeVng"
+                            data-ng-options="item.key as item.value for item in vm.dicts.docActionTypeCtz"
+                            data-ng-model="searchModel.docs.ctz.docActionType">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="admissionReasonCtz">Основание для приема</label>
+                    <select class="form-control"
+                            id="admissionReasonCtz"
+                            name="admissionReason"
+                            data-ng-disabled="vm.loader.admissionReasonCitz"
+                            data-ng-options="item.key as item.value for item in vm.dicts.admissionReasonCitz"
+                            data-ng-model="searchModel.docs.ctz.admissionReason">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="decisionCitz">Решение</label>
+                    <select class="form-control"
+                            id="decisionCitz"
+                            name="decision"
+                            data-ng-disabled="vm.loader.decisionCitz"
+                            data-ng-options="item.key as item.value for item in vm.dicts.decisionCitz"
+                            data-ng-model="searchModel.docs.ctz.decision">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="decisionBaseCitz">Основание решения</label>
+                    <select class="form-control"
+                            id="decisionBaseCitz"
+                            name="decisionBase"
+                            data-ng-disabled="vm.loader.decisionBaseCitz"
+                            data-ng-options="item.key as item.value for item in vm.dicts.decisionBaseCitz"
+                            data-ng-model="searchModel.docs.ctz.decisionBase">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="stAdmissionDateCtz">Дата приема с</label>
+                    <input type="text" class="form-control" name="stAdmissionDate" id="stAdmissionDateCtz" data-ng-model="searchModel.docs.ctz.stAdmissionDate" data-bs-datepicker="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="endAdmissionDateCtz">по</label>
+                    <input type="text" class="form-control" name="endAdmissionDate" id="endAdmissionDateCtz" data-ng-model="searchModel.docs.ctz.endAdmissionDate" data-bs-datepicker="" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="stDecisionDateCtz">Дата решения с</label>
+                    <input type="text" class="form-control" name="stDecisionDate" id="stDecisionDateCtz" data-ng-model="searchModel.docs.ctz.stDecisionDate" data-bs-datepicker="" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="endDecisionDateCtz">по</label>
+                    <input type="text" class="form-control" name="endDecisionDate" id="endDecisionDateCtz" data-ng-model="searchModel.docs.ctz.endDecisionDate" data-bs-datepicker="" />
+                </div>
+            </div>
+        </div>      
+    </div>
+  
+</div>
+

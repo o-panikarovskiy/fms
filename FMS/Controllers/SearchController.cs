@@ -700,6 +700,109 @@ namespace FMS.Controllers
 
                 #endregion
 
+                #region Гражданство
+
+                if (query.Docs.Ctz != null && query.Docs.Ctz.IsChecked)
+                {
+                    docTypes.Add(DocumentType.Citizenship);
+
+                    if (!string.IsNullOrWhiteSpace(query.Docs.Ctz.DocNo))
+                    {
+                        docs = from d in docs
+                               where d.Number.Contains(query.Docs.Ctz.DocNo)
+                               select d;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(query.Docs.Ctz.DecisionNo))
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Номер решения") on d.Id equals dp.DocumentId
+                               where dp.StringValue.Contains(query.Docs.Ctz.DecisionNo)
+                               select d;
+                    }                  
+
+                    if (query.Docs.Ctz.DocActionType != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Тип дела") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Ctz.DocActionType
+                               select d;
+                    }
+
+                    if (query.Docs.Ctz.AdmissionReason != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Основание для приема") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Ctz.AdmissionReason
+                               select d;
+                    }
+
+                    if (query.Docs.Ctz.Decision != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Решение") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Ctz.Decision
+                               select d;
+                    }
+
+                    if (query.Docs.Ctz.DecisionBase != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Основание решения") on d.Id equals dp.DocumentId
+                               where dp.IntValue == query.Docs.Ctz.DecisionBase
+                               select d;
+                    }
+
+                    //Дата приема
+                    if (query.Docs.Ctz.StAdmissionDate != null && query.Docs.Ctz.EndAdmissionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата приема") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Ctz.StAdmissionDate && dp.DateValue <= query.Docs.Ctz.EndAdmissionDate
+                               select d;
+                    }
+                    else if (query.Docs.Ctz.StAdmissionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата приема") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Ctz.StAdmissionDate
+                               select d;
+                    }
+                    else if (query.Docs.Ctz.EndAdmissionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата приема") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Ctz.EndAdmissionDate
+                               select d;
+                    }
+
+
+                    //Дата решения
+                    if (query.Docs.Ctz.StDecisionDate != null && query.Docs.Ctz.EndDecisionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата решения") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Ctz.StDecisionDate && dp.DateValue <= query.Docs.Ctz.EndDecisionDate
+                               select d;
+                    }
+                    else if (query.Docs.Ctz.StDecisionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата решения") on d.Id equals dp.DocumentId
+                               where dp.DateValue >= query.Docs.Ctz.StDecisionDate
+                               select d;
+                    }
+                    else if (query.Docs.Ctz.EndDecisionDate != null)
+                    {
+                        docs = from d in docs
+                               join dp in GetDocParametersSubQuery("Дата решения") on d.Id equals dp.DocumentId
+                               where dp.DateValue <= query.Docs.Ctz.EndDecisionDate
+                               select d;
+                    }                    
+                }
+
+                #endregion
+
                 foreach (var dt in docTypes)
                 {
                     q = from p in q
@@ -716,7 +819,7 @@ namespace FMS.Controllers
             var total = q.Count();
             var res = q.Skip(page * limit).Take(limit).ToList();
 
-            return Ok(new { People = res, Total = total, Query = query, Sql = q.ToString() });
+            return Ok(new { People = res, Total = total, Query = query });
         }
 
         private IQueryable<GroupPersonFact> GetPersonFactsSubQuery(string factName)

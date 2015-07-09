@@ -22,6 +22,9 @@
                 },
                 vng: {
                     isChecked: false
+                },
+                ctz: {
+                    isChecked: false
                 }
             }
         };
