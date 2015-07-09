@@ -111,14 +111,16 @@ gulp.task('app:index', function () {
         prms = {
             css: ['concat', rev()],
             libjs: [rev()],
-            appjs: [rev()],
+            strap: [rev()],
+            appjs: [rev()],           
             html: [minifyHtml({ empty: true, conditionals: true, spare: true, quotes: true })]
         }
     } else {
         prms = {
             css: [minifyCSS(), 'concat', rev()],
             libjs: [uglify(), rev()],
-            appjs: [uglify(), rev()],
+            strap: [uglify({ mangle: false }), rev()],
+            appjs: [uglify(), rev()],          
             html: [minifyHtml({ empty: true, conditionals: true, spare: true, quotes: true })]
         }
     }
