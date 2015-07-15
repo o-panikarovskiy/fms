@@ -17,12 +17,12 @@ namespace FMS.Controllers
     {
         private readonly IRepository<Person> _repPeople;
         private readonly IRepository<PersonFact> _repPersonFacts;
-        private readonly IRepository<PrmFactName> _repParameterFactNames;
+        private readonly IRepository<ParameterName> _repParameterFactNames;
         private readonly IRepository<PersonParameter> _repPersonParams;
         private readonly IRepository<Misc> _repMisc;
         private readonly IRepository<Document> _repDocs;
         private readonly IRepository<DocumentParameter> _repDocParams;
-        public PersonController(IRepository<Person> repPerople, IRepository<PersonFact> repPersonFacts, IRepository<PersonParameter> repPersonParams, IRepository<PrmFactName> repParameterFactNames,
+        public PersonController(IRepository<Person> repPerople, IRepository<PersonFact> repPersonFacts, IRepository<PersonParameter> repPersonParams, IRepository<ParameterName> repParameterFactNames,
             IRepository<Misc> repMisc, IRepository<Document> repDocs, IRepository<DocumentParameter> repDocParams)
         {
             _repPeople = repPerople;
@@ -60,7 +60,6 @@ namespace FMS.Controllers
                              PrmId = pf.FactId,
                              FactDate = pf.FactDate,
                              Name = pfn.Name,
-                             NameRu = pfn.NameRu,
                              MiscId = pf.IntValue,
                              MiscValue = x.MiscValue,
                              DicId = x.MiscId,
@@ -81,7 +80,6 @@ namespace FMS.Controllers
                                   Id = pp.Id,
                                   PrmId = pp.ParameterId,
                                   Name = ppn.Name,
-                                  NameRu = ppn.NameRu,
                                   MiscId = pp.IntValue,
                                   MiscValue = x.MiscValue,
                                   DicId = x.MiscId,
@@ -166,7 +164,6 @@ namespace FMS.Controllers
                                     Id = dp.Id,
                                     PrmId = dp.ParameterId,
                                     Name = dpn.Name,
-                                    NameRu = dpn.NameRu,
                                     StringValue = dp.StringValue,
                                     FloatValue = dp.FloatValue,
                                     DateValue = dp.DateValue,
@@ -203,7 +200,6 @@ namespace FMS.Controllers
                             PrmId = pf.FactId,
                             FactDate = pf.FactDate,
                             Name = pfn.Name,
-                            NameRu = pfn.NameRu,
                             MiscId = pf.IntValue,
                             MiscValue = x.MiscValue,
                             StringValue = pf.StringValue,
@@ -220,7 +216,7 @@ namespace FMS.Controllers
 
         private void UpdatePersonParams(Person person, IDictionary<string, ParameterViewModel> parameters)
         {
-            var names = _repParameterFactNames.FindAll(p => p.Category == PrmFactCategory.Person && p.IsFact == false).ToList();
+            var names = _repParameterFactNames.FindAll(p => p.Category == ParameterCategory.Person && p.IsFact == false).ToList();
             var allPrms = _repPersonParams.FindAll(p => p.PersonId == person.Id).ToList();
 
             var list = new List<PersonParameter>();
@@ -260,7 +256,7 @@ namespace FMS.Controllers
 
         private void UpdatePersonFacts(Person person, IDictionary<string, FactViewModel> facts)
         {
-            var names = _repParameterFactNames.FindAll(p => p.Category == PrmFactCategory.Person && p.IsFact == true).ToList();
+            var names = _repParameterFactNames.FindAll(p => p.Category == ParameterCategory.Person && p.IsFact == true).ToList();
             var allFacts = _repPersonFacts.FindAll(p => p.PersonId == person.Id).ToList();
 
             var list = new List<PersonFact>();

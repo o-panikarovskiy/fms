@@ -68,7 +68,7 @@ namespace FMS.Controllers
             {
                 q = from m in _repository.GetAll()
                     join mn in _repositoryNames.GetAll() on m.MiscId equals mn.Id
-                    where mn.NameRu == id || mn.Name == id
+                    where mn.Name == id 
                     orderby m.MiscValue
                     select new MiscViewModel { Key = m.Id, Value = m.MiscValue };
             }

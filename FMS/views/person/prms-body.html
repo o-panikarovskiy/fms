@@ -1,6 +1,6 @@
 ﻿<div class="col-md-8 col-md-offset-2" data-ng-repeat="prm in doc.parameters track by prm.id">
     <div class="form-group">
-        <label data-ng-attr-for="{{prm.id}}">{{prm.nameRu}}</label>
+        <label data-ng-attr-for="{{prm.id}}">{{prm.name}}</label>
         <div data-ng-switch="prm.prmType">
             <div data-ng-switch-when="1">
                 <select class="form-control"

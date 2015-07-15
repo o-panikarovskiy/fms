@@ -15,7 +15,7 @@ namespace Domain.Concrete
         public DbSet<DocumentParameter> DocumentParameters { get; set; }
         public DbSet<DocumentFact> DocumentFacts { get; set; }
 
-        public DbSet<PrmFactName> PrmFactNames { get; set; }
+        public DbSet<ParameterName> PrmFactNames { get; set; }
 
         public DbSet<MiscName> MiscNames { get; set; }
         public DbSet<Misc> Misc { get; set; }
@@ -55,76 +55,76 @@ namespace Domain.Concrete
                 UserManager.AddToRole(testUser.Id, "User");
             }
 
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Адрес", Name = "Address", Category = PrmFactCategory.Person, Type = PrmFactType.Str, IsFact=true });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Гражданство", Name = "Citizenship", Category = PrmFactCategory.Person, Type = PrmFactType.Misc, IsFact = true });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Телефон", Name = "Phone", Category = PrmFactCategory.Person, Type = PrmFactType.Str, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Тип документа", Name = "PrivateDoc", Category = PrmFactCategory.Person, Type = PrmFactType.Misc, IsFact = true });            
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Электронная почта", Name = "Email", Category = PrmFactCategory.Person, Type = PrmFactType.Str, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Адрес", Category = ParameterCategory.Person, Type = ParameterType.Str, IsFact = true });
+            context.PrmFactNames.Add(new ParameterName { Name = "Гражданство", Category = ParameterCategory.Person, Type = ParameterType.Misc, IsFact = true });
+            context.PrmFactNames.Add(new ParameterName { Name = "Телефон", Category = ParameterCategory.Person, Type = ParameterType.Str, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Тип документа", Category = ParameterCategory.Person, Type = ParameterType.Misc, IsFact = true });
+            context.PrmFactNames.Add(new ParameterName { Name = "Электронная почта", Category = ParameterCategory.Person, Type = ParameterType.Str, IsFact = false });
 
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Вид правонарушения", Name = "CrimeType", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата въезда", Name = "IncomeDate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата выдачи", Name = "IssueDate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата печати", Name = "PrintDate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата постановления", Name = "DecreeDate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата приема заявления", Name = "DateOfReceipt", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата приема", Name = "AdmissionDate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата регистрации ДО", Name = "RegDateTo", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата регистрации С", Name = "RegDateFrom", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата решения", Name = "DecisionDate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата составления", Name = "DateCreate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Дата фактической выдачи", Name = "ActualDate", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Действителен ПО", Name = "ValidTo", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Действителен С", Name = "ValidFrom", Category = PrmFactCategory.Document, Type = PrmFactType.Date, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "КПП въезда", Name = "KPP", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Номер ВНЖ", Name = "VngNo", Category = PrmFactCategory.Document, Type = PrmFactType.Str, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Номер дела", Name = "DocNo2", Category = PrmFactCategory.Document, Type = PrmFactType.Str, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Номер РВП", Name = "RvpNo", Category = PrmFactCategory.Document, Type = PrmFactType.Str, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Номер решения", Name = "DecisionNo", Category = PrmFactCategory.Document, Type = PrmFactType.Str, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Орган рассмотрения", Name = "StateDepartment", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Основание дела", Name = "DocAdmission", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Основание для приема", Name = "AdmissionReason", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Основание решения", Name = "DecisionBase", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Отметка проставлена", Name = "CardMark", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Первично/Продлено", Name = "PrimaryExtend", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Пользователь решения", Name = "DecisionUser", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Принятое решение", Name = "DecreeStr", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Решение", Name = "Decision", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Серия ВНЖ", Name = "SeriesVng", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Статус дела", Name = "DocStatus", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Статья", Name = "Article", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Сумма(начислено)", Name = "SumAccrued", Category = PrmFactCategory.Document, Type = PrmFactType.Float, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Сумма(оплачено)", Name = "SumPaid", Category = PrmFactCategory.Document, Type = PrmFactType.Float, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Тип взыскания", Name = "PenaltyType", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Тип дела", Name = "DocActionType", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Тип решения", Name = "DecisionType", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
-            context.PrmFactNames.Add(new PrmFactName { NameRu = "Цель въезда", Name = "PurposeOfEntry", Category = PrmFactCategory.Document, Type = PrmFactType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Вид правонарушения", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Дата въезда", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Дата выдачи", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Дата печати", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Дата постановления", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Дата приема заявления", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Дата приема", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Дата регистрации ДО", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Дата регистрации С", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Дата решения", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Дата составления", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Дата фактической выдачи", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Действителен ПО", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Действителен С", Category = ParameterCategory.Document, Type = ParameterType.Date, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "КПП въезда", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Номер ВНЖ", Category = ParameterCategory.Document, Type = ParameterType.Str, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Номер дела", Category = ParameterCategory.Document, Type = ParameterType.Str, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Номер РВП", Category = ParameterCategory.Document, Type = ParameterType.Str, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Номер решения", Category = ParameterCategory.Document, Type = ParameterType.Str, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Орган рассмотрения", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Основание дела", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Основание для приема", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Основание решения", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Отметка проставлена", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Первично/Продлено", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Пользователь решения", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Принятое решение", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Решение", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Серия ВНЖ", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Статус дела", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Статья", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Сумма(начислено)", Category = ParameterCategory.Document, Type = ParameterType.Float, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Сумма(оплачено)", Category = ParameterCategory.Document, Type = ParameterType.Float, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Тип взыскания", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Тип дела", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Тип решения", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
+            context.PrmFactNames.Add(new ParameterName { Name = "Цель въезда", Category = ParameterCategory.Document, Type = ParameterType.Misc, IsFact = false });
 
 
-            var miscPrivateDoc = new MiscName { NameRu = "Тип документа", Name = "PrivateDoc" };
+            var miscPrivateDoc = new MiscName { Name = "Тип документа" };
 
             context.MiscNames.Add(miscPrivateDoc);
-            context.MiscNames.Add(new MiscName { NameRu = "Вид правонарушения", Name = "CrimeType" });
-            context.MiscNames.Add(new MiscName { NameRu = "Гражданство", Name = "Citizenship" });
-            context.MiscNames.Add(new MiscName { NameRu = "КПП въезда", Name = "KPPMu" });
-            context.MiscNames.Add(new MiscName { NameRu = "Орган рассмотрения", Name = "StateDepartment" });
-            context.MiscNames.Add(new MiscName { NameRu = "Основание дела (ВНЖ)", Name = "DocAdmissionVng" });
-            context.MiscNames.Add(new MiscName { NameRu = "Основание для приема (Гр.)", Name = "AdmissionReasonCitz" });
-            context.MiscNames.Add(new MiscName { NameRu = "Основание для приема (РВП)", Name = "AdmissionReasonRvp" });
-            context.MiscNames.Add(new MiscName { NameRu = "Основание решения (Гр.)", Name = "DecisionBaseCitz" });
-            context.MiscNames.Add(new MiscName { NameRu = "Основание решения (РВП)", Name = "DecisionBaseRvp" });
-            context.MiscNames.Add(new MiscName { NameRu = "Отметка проставлена (МУ)", Name = "CardMarkMu" });
-            context.MiscNames.Add(new MiscName { NameRu = "Первично/Продлено", Name = "PrimaryExtendMu" });
-            context.MiscNames.Add(new MiscName { NameRu = "Пользователь решения (РВП)", Name = "DecisionUserRVP" });
-            context.MiscNames.Add(new MiscName { NameRu = "Принятое решение", Name = "DecreeStr" });
-            context.MiscNames.Add(new MiscName { NameRu = "Решение (Гр.)", Name = "DecisionCitz" });
-            context.MiscNames.Add(new MiscName { NameRu = "Серия (ВНЖ)", Name = "SeriesVng" });
-            context.MiscNames.Add(new MiscName { NameRu = "Статус дела", Name = "DocStatus" });
-            context.MiscNames.Add(new MiscName { NameRu = "Статья", Name = "Article" });
-            context.MiscNames.Add(new MiscName { NameRu = "Тип взыскания", Name = "PenaltyType" });
-            context.MiscNames.Add(new MiscName { NameRu = "Тип дела (ВНЖ)", Name = "DocActionTypeVng" });
-            context.MiscNames.Add(new MiscName { NameRu = "Тип дела (Гр.)", Name = "DocActionTypeCtz" });
-            context.MiscNames.Add(new MiscName { NameRu = "Тип решения (ВНЖ)", Name = "DecisionTypeVng" });
-            context.MiscNames.Add(new MiscName { NameRu = "Цель въезда (МУ)", Name = "PurposeOfEntryMu" });
+            context.MiscNames.Add(new MiscName { Name = "Вид правонарушения" });
+            context.MiscNames.Add(new MiscName { Name = "Гражданство" });
+            context.MiscNames.Add(new MiscName { Name = "КПП въезда" });
+            context.MiscNames.Add(new MiscName { Name = "Орган рассмотрения" });
+            context.MiscNames.Add(new MiscName { Name = "Основание дела (ВНЖ)" });
+            context.MiscNames.Add(new MiscName { Name = "Основание для приема (Гр.)" });
+            context.MiscNames.Add(new MiscName { Name = "Основание для приема (РВП)" });
+            context.MiscNames.Add(new MiscName { Name = "Основание решения (Гр.)" });
+            context.MiscNames.Add(new MiscName { Name = "Основание решения (РВП)" });
+            context.MiscNames.Add(new MiscName { Name = "Отметка проставлена (МУ)" });
+            context.MiscNames.Add(new MiscName { Name = "Первично/Продлено" });
+            context.MiscNames.Add(new MiscName { Name = "Пользователь решения (РВП)" });
+            context.MiscNames.Add(new MiscName { Name = "Принятое решение" });
+            context.MiscNames.Add(new MiscName { Name = "Решение (Гр.)" });
+            context.MiscNames.Add(new MiscName { Name = "Серия (ВНЖ)" });
+            context.MiscNames.Add(new MiscName { Name = "Статус дела" });
+            context.MiscNames.Add(new MiscName { Name = "Статья" });
+            context.MiscNames.Add(new MiscName { Name = "Тип взыскания" });
+            context.MiscNames.Add(new MiscName { Name = "Тип дела (ВНЖ)" });
+            context.MiscNames.Add(new MiscName { Name = "Тип дела (Гр.)" });
+            context.MiscNames.Add(new MiscName { Name = "Тип решения (ВНЖ)" });
+            context.MiscNames.Add(new MiscName { Name = "Цель въезда (МУ)" });
 
             context.SaveChanges();
 

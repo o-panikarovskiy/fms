@@ -12,12 +12,7 @@ namespace Domain.Models
     {
         [Key]
         public int Id { get; set; }
-
         [Index("MiscNameIndex", IsUnique = true)]
-        [MaxLength(255)]
-        public string NameRu { get; set; }
-
-        [Index("MiscNameEnIndex", IsUnique = true)]
         [MaxLength(255)]
         public string Name { get; set; }
     }
@@ -27,10 +22,10 @@ namespace Domain.Models
         [Key]
         public int Id { get; set; }
         public int MiscId { get; set; }
-
         [MaxLength(1024)]
         public string MiscValue { get; set; }
         public MiscName MiscParent { get; set; }
+        public float OrderIndex { get; set; }
 
     }
 }

@@ -22,14 +22,14 @@ namespace FMS.Controllers
     {
         private readonly IRepository<Person> _repPeople;
         private readonly IRepository<SearchQuery> _repQueries;
-        private readonly IRepository<PrmFactName> _repPrmFactNames;
+        private readonly IRepository<ParameterName> _repPrmFactNames;
         private readonly IRepository<PersonFact> _repPersonFacts;
         private readonly IRepository<PersonParameter> _repPersonParams;
         private readonly IRepository<Document> _repDocuments;
         private readonly IRepository<DocumentParameter> _repDocParams;
 
         public SearchController(IRepository<Person> repPerople, IRepository<Document> repDocuments,
-            IRepository<SearchQuery> repQueries, IRepository<PrmFactName> repPrmFactNames, IRepository<PersonFact> repPersonFacts,
+            IRepository<SearchQuery> repQueries, IRepository<ParameterName> repPrmFactNames, IRepository<PersonFact> repPersonFacts,
             IRepository<PersonParameter> repPersonParams, IRepository<DocumentParameter> repDocParams)
         {
             _repPeople = repPerople;
@@ -826,7 +826,7 @@ namespace FMS.Controllers
         {
             return from pf in _repPersonFacts.GetAll()
                    join pfn in _repPrmFactNames.GetAll() on pf.FactId equals pfn.Id
-                   where pfn.NameRu == factName && pfn.Category == PrmFactCategory.Person && pfn.IsFact == true
+                   where pfn.Name == factName && pfn.Category == ParameterCategory.Person && pfn.IsFact == true
                    group pf by pf.PersonId into g
                    select new GroupPersonFact { PersonId = g.Key, FactDate = g.Max(e => e.FactDate) };
         }
@@ -835,7 +835,7 @@ namespace FMS.Controllers
         {
             return from pp in _repPersonParams.GetAll()
                    join ppn in _repPrmFactNames.GetAll() on pp.ParameterId equals ppn.Id
-                   where ppn.NameRu == parameterName && ppn.Category == PrmFactCategory.Person && ppn.IsFact == false
+                   where ppn.Name == parameterName && ppn.Category == ParameterCategory.Person && ppn.IsFact == false
                    select pp;
         }
 
@@ -843,7 +843,7 @@ namespace FMS.Controllers
         {
             return from dp in _repDocParams.GetAll()
                    join dpn in _repPrmFactNames.GetAll() on dp.ParameterId equals dpn.Id
-                   where dpn.NameRu == parameterName && dpn.Category == PrmFactCategory.Document && dpn.IsFact == false
+                   where dpn.Name == parameterName && dpn.Category == ParameterCategory.Document && dpn.IsFact == false
                    select dp;
         }
     }

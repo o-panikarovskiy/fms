@@ -2,7 +2,7 @@
 (function (window, angular) {
     'use strict';
 
-    angular.module('fms').controller('search.VngCtrl', ['$scope', function ($scope) {
+    angular.module('fms').controller('search.VngCtrl', ['$scope', function ($scope) {      
         $scope.$watch('searchModel.docs.vng.isChecked', function (val) {
             if (val) {
                 loadDicts();

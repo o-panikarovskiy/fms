@@ -117,66 +117,65 @@ namespace Domain.Concreate
 
                 if (DateTime.TryParseExact(row["Дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                 {
-                    var m1 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Гражданство"), row["Гражданство"]);
-                    var m2 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Статья"), row["Статья"]);
-                    var m3 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Вид правонарушения"), row["Вид правонарушения"]);
-                    var m4 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Орган рассмотрения"), row["Орган рассмотрения"]);
-                    var m5 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Статус дела"), row["Статус дела"]);
-                    var m6 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Принятое решение"), row["Принятое решение"]);
-                    var m7 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Тип взыскания"), row["Тип взыскания"]);
+                    var m1 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Гражданство"), row["Гражданство"]);
+                    var m2 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Статья"), row["Статья"]);
+                    var m3 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Вид правонарушения"), row["Вид правонарушения"]);
+                    var m4 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Орган рассмотрения"), row["Орган рассмотрения"]);
+                    var m5 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Статус дела"), row["Статус дела"]);
+                    var m6 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Принятое решение"), row["Принятое решение"]);
+                    var m7 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Тип взыскания"), row["Тип взыскания"]);
 
                     var person = GetOrCreatePerson(row["ФИО"], date,
                       row["Категория лица"] == "Физическое" ? PersonCategory.Individual : PersonCategory.Legal,
                       row["Гражданство"] == "Россия" ? PersonType.Host : PersonType.Applicant);
 
-                    var document = UpdateOrCreateDocumentByNumber(person, DocumentType.AdministrativePractice, NormalizeString(row["Номер протокола"]), userid);
+                    var document = UpdateOrCreateDocumentByNumber(person, DocumentType.AdministrativePractice, row["Номер протокола"], userid);
 
                     UpdateOrCreatePersonFact(person,
-                        prmNames.Single(f => f.NameRu == "Гражданство"), null, m1.Id);
-                    UpdateOrCreatePersonFact(person,
-                        prmNames.Single(f => f.NameRu == "Адрес"), NormalizeString(row["Адрес регистрации"]));
+                        prmNames.Single(f => f.Name == "Гражданство"), null, m1.Id);
+                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.Name == "Адрес"), row["Адрес регистрации"]);
 
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Статья"), null, m2.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Вид правонарушения"), null, m3.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Орган рассмотрения"), null, m4.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Статус дела"), null, m5.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Принятое решение"), null, m6.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Тип взыскания"), null, m7.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Статья"), null, m2.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Вид правонарушения"), null, m3.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Орган рассмотрения"), null, m4.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Статус дела"), null, m5.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Принятое решение"), null, m6.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Тип взыскания"), null, m7.Id);
 
                     if (DateTime.TryParseExact(row["Дата составления"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата составления"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата составления"), null, null, null, date);
                     }
                     else
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата составления"));
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата составления"));
                     }
 
                     if (DateTime.TryParseExact(row["Дата постановления"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата постановления"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата постановления"), null, null, null, date);
                     }
                     else
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата постановления"));
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата постановления"));
                     }
 
                     if (float.TryParse(row["Сумма(начислено)"], out sum))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Сумма(начислено)"), null, null, sum);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Сумма(начислено)"), null, null, sum);
                     }
                     else
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Сумма(начислено)"));
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Сумма(начислено)"));
                     }
 
                     if (float.TryParse(row["Сумма(оплачено)"], out sum))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Сумма(оплачено)"), null, null, sum);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Сумма(оплачено)"), null, null, sum);
                     }
                     else
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Сумма(оплачено)"));
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Сумма(оплачено)"));
                     }
 
                     i++;
@@ -206,34 +205,34 @@ namespace Domain.Concreate
                 DateTime date;
                 if (DateTime.TryParseExact(row["Дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                 {
-                    var m1 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Тип дела (Гр.)"), row["Тип дела"]);
-                    var m2 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Основание для приема (Гр.)"), row["Основание для приема"]);
-                    var m3 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Гражданство"), row["Гражданство"]);
-                    var m4 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Тип документа"), row["Тип документа"]);
-                    var m5 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Решение (Гр.)"), row["Решение"]);
-                    var m6 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Основание решения (Гр.)"), row["Основание решения"]);
+                    var m1 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Тип дела (Гр.)"), row["Тип дела"]);
+                    var m2 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Основание для приема (Гр.)"), row["Основание для приема"]);
+                    var m3 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Гражданство"), row["Гражданство"]);
+                    var m4 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Тип документа"), row["Тип документа"]);
+                    var m5 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Решение (Гр.)"), row["Решение"]);
+                    var m6 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Основание решения (Гр.)"), row["Основание решения"]);
 
                     var person = GetOrCreatePerson(row["ФИО"], date, PersonCategory.Individual, PersonType.Applicant);
-                    var document = UpdateOrCreateDocumentByNumber(person, DocumentType.Citizenship, NormalizeString(row["Рег.номер"]), userid);
+                    var document = UpdateOrCreateDocumentByNumber(person, DocumentType.Citizenship, row["Рег.номер"], userid);
 
-                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.NameRu == "Гражданство"), null, m3.Id);
-                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.NameRu == "Тип документа"), NormalizeString(row["Номер документа"]), m4.Id);
-                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.NameRu == "Адрес"), NormalizeString(row["Адрес"]));
+                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.Name == "Гражданство"), null, m3.Id);
+                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.Name == "Тип документа"), row["Номер документа"], m4.Id);
+                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.Name == "Адрес"), row["Адрес"]);
 
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Тип дела"), null, m1.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Основание для приема"), null, m2.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Решение"), null, m5.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Основание решения"), null, m6.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Номер решения"), NormalizeString(row["Номер решения"]), null);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Тип дела"), null, m1.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Основание для приема"), null, m2.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Решение"), null, m5.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Основание решения"), null, m6.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Номер решения"), row["Номер решения"], null);
 
                     if (DateTime.TryParseExact(row["Дата приема"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата приема"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата приема"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["Дата решения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата решения"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата решения"), null, null, null, date);
                     }
 
                     i++;
@@ -255,7 +254,7 @@ namespace Domain.Concreate
             var mscNames = _db.MiscNames.ToList();
             var prmNames = _db.PrmFactNames.ToList();
 
-            var foreignPassportMisc = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Тип документа"), "Иностранный паспорт");
+            var foreignPassportMisc = GetOrCreateMisc(mscNames.Single(m => m.Name == "Тип документа"), "Иностранный паспорт");
 
             int i = 0;
             var list = table.Where(row => !string.IsNullOrWhiteSpace(row["ФИО"]) && !string.IsNullOrWhiteSpace(row["Дата рождения"])).ToList();
@@ -267,42 +266,42 @@ namespace Domain.Concreate
                     DateTime.TryParseExact(row["Дата приема заявления"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                 {
 
-                    var m1 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Гражданство"), row["Гражданство"]);
-                    var m2 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Основание для приема (РВП)"), row["Основание для приема"]);
-                    var m3 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Основание решения (РВП)"), row["Основание решения"]);
-                    var m4 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Пользователь решения (РВП)"), row["Пользователь решения"]);
+                    var m1 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Гражданство"), row["Гражданство"]);
+                    var m2 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Основание для приема (РВП)"), row["Основание для приема"]);
+                    var m3 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Основание решения (РВП)"), row["Основание решения"]);
+                    var m4 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Пользователь решения (РВП)"), row["Пользователь решения"]);
 
                     var person = GetOrCreatePerson(row["ФИО"], birthday, PersonCategory.Individual, PersonType.Applicant);
-                    var document = UpdateOrCreateDocumentByApplicantDateNumber(person, DocumentType.TemporaryResidencePermit, date, NormalizeString(row["Номер дела"]), userid);
+                    var document = UpdateOrCreateDocumentByApplicantDateNumber(person, DocumentType.TemporaryResidencePermit, date, row["Номер дела"], userid);
 
-                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.NameRu == "Тип документа"), NormalizeString(row["Номер документа"]), foreignPassportMisc.Id);
-                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.NameRu == "Гражданство"), null, m1.Id);
-                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.NameRu == "Адрес"), NormalizeString(row["Предполагаемый адрес"]));
+                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.Name == "Тип документа"), row["Номер документа"], foreignPassportMisc.Id);
+                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.Name == "Гражданство"), null, m1.Id);
+                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.Name == "Адрес"), row["Предполагаемый адрес"]);
 
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Основание для приема"), null, m2.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Основание решения"), null, m3.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Пользователь решения"), null, m4.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Номер решения"), NormalizeString(row["Номер решения"]));
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Номер РВП"), NormalizeString(row["Номер РВП"]));
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Основание для приема"), null, m2.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Основание решения"), null, m3.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Пользователь решения"), null, m4.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Номер решения"), row["Номер решения"]);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Номер РВП"), row["Номер РВП"]);
 
                     if (DateTime.TryParseExact(row["Дата приема заявления"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата приема заявления"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата приема заявления"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["Дата решения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата решения"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата решения"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["Дата печати"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата печати"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата печати"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["Дата факт.выдачи"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата фактической выдачи"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата фактической выдачи"), null, null, null, date);
                     }
 
                     i++;
@@ -323,68 +322,70 @@ namespace Domain.Concreate
 
             var mscNames = _db.MiscNames.ToList();
             var prmNames = _db.PrmFactNames.ToList();
-            var foreignPassportMisc = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Тип документа"), "Иностранный паспорт");
+            var foreignPassportMisc = GetOrCreateMisc(mscNames.Single(m => m.Name == "Тип документа"), "Иностранный паспорт");
 
             int i = 0;
-            foreach (var row in table.Where(row => !string.IsNullOrWhiteSpace(row["ФИО"]) && !string.IsNullOrWhiteSpace(row["Дата рождения"])))
+            var list = table.Where(row => !string.IsNullOrWhiteSpace(row["ФИО"]) && !string.IsNullOrWhiteSpace(row["Дата рождения"])).ToList();
+            progress.TotalRows = list.Count;
+            foreach (var row in list)
             {
                 DateTime date, birthday;
                 if (DateTime.TryParseExact(row["Дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthday))
                 {
 
-                    var m1 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Гражданство"), row["Гражданство"]);
-                    var m2 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Тип дела (ВНЖ)"), row["Тип дела"]);
-                    var m3 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Основание дела (ВНЖ)"), row["Основание дела"]);
-                    var m4 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Тип решения (ВНЖ)"), row["Тип решения"]);
-                    var m5 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Серия (ВНЖ)"), row["Серия ВНЖ"]);
+                    var m1 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Гражданство"), row["Гражданство"]);
+                    var m2 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Тип дела (ВНЖ)"), row["Тип дела"]);
+                    var m3 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Основание дела (ВНЖ)"), row["Основание дела"]);
+                    var m4 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Тип решения (ВНЖ)"), row["Тип решения"]);
+                    var m5 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Серия (ВНЖ)"), row["Серия ВНЖ"]);
 
                     var person = GetOrCreatePerson(row["ФИО"], birthday, PersonCategory.Individual, PersonType.Applicant);
-                    var document = UpdateOrCreateDocumentByNumber(person, DocumentType.Residence, NormalizeString(row["Идентификатор дела"]), userid);
+                    var document = UpdateOrCreateDocumentByNumber(person, DocumentType.Residence, row["Идентификатор дела"], userid);
 
-                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.NameRu == "Тип документа"),
-                        string.Concat(NormalizeString(row["Серия"]), NormalizeString(row["Номер"])), foreignPassportMisc.Id);
-                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.NameRu == "Гражданство"), null, m1.Id);
-                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.NameRu == "Адрес"), NormalizeString(row["Адрес"]));
+                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.Name == "Тип документа"), string.Concat(row["Серия"], row["Номер"]), foreignPassportMisc.Id);
+                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.Name == "Гражданство"), null, m1.Id);
+                    UpdateOrCreatePersonFact(person, prmNames.Single(f => f.Name == "Адрес"), row["Адрес"]);
 
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Номер дела"), NormalizeString(row["Номер дела"]));
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Тип дела"), null, m2.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Основание дела"), null, m3.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Тип решения"), null, m4.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Серия ВНЖ"), null, m5.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Номер ВНЖ"), NormalizeString(row["Номер ВНЖ"]));
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Номер дела"), row["Номер дела"]);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Тип дела"), null, m2.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Основание дела"), null, m3.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Тип решения"), null, m4.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Серия ВНЖ"), null, m5.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Номер ВНЖ"), row["Номер ВНЖ"]);
 
                     if (DateTime.TryParseExact(row["Дата приема заявления"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата приема заявления"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата приема заявления"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["Дата решения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата решения"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата решения"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["Дата выдачи"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата выдачи"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата выдачи"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["Действителен С"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Действителен С"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Действителен С"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["Действителен ПО"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Действителен ПО"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Действителен ПО"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["Дата фактической выдачи"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата фактической выдачи"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата фактической выдачи"), null, null, null, date);
                     }
 
                     i++;
-                    progress.Percent = (float)i / table.Count * 100;
+                    progress.Percent = (float)i / list.Count * 100;
+                    progress.CurrentRow = i;
                     _db.SaveChanges();
                 }
             }
@@ -400,8 +401,8 @@ namespace Domain.Concreate
 
             var mscNames = _db.MiscNames.ToList();
             var prmNames = _db.PrmFactNames.ToList();
-            var foreignPassportMisc = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Тип документа"), "Иностранный паспорт");
-            var ruCtz = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Гражданство"), "Россия");
+            var foreignPassportMisc = GetOrCreateMisc(mscNames.Single(m => m.Name == "Тип документа"), "Иностранный паспорт");
+            var ruCtz = GetOrCreateMisc(mscNames.Single(m => m.Name == "Гражданство"), "Россия");
 
 
             int i = 0;
@@ -412,18 +413,17 @@ namespace Domain.Concreate
                 DateTime date, birthday;
                 if (DateTime.TryParseExact(row["дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthday))
                 {
-                    var m1 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Гражданство"), row["гражданство"]);
-                    var m2 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Отметка проставлена (МУ)"), row["отметка проставлена"]);
-                    var m3 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Цель въезда (МУ)"), row["цель въезда"]);
-                    var m4 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Первично/Продлено"), row["первично/продлено"]);
-                    var m5 = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "КПП въезда"), row["КПП въезда"]);
+                    var m1 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Гражданство"), row["гражданство"]);
+                    var m2 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Отметка проставлена (МУ)"), row["отметка проставлена"]);
+                    var m3 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Цель въезда (МУ)"), row["цель въезда"]);
+                    var m4 = GetOrCreateMisc(mscNames.Single(m => m.Name == "Первично/Продлено"), row["первично/продлено"]);
+                    var m5 = GetOrCreateMisc(mscNames.Single(m => m.Name == "КПП въезда"), row["КПП въезда"]);
 
                     var applicant = GetOrCreatePerson(row["фио иг рус"], birthday, PersonCategory.Individual, PersonType.Applicant);
 
-                    UpdateOrCreatePersonFact(applicant, prmNames.Single(f => f.NameRu == "Гражданство"), null, m1.Id);
-                    UpdateOrCreatePersonFact(applicant, prmNames.Single(f => f.NameRu == "Тип документа"),
-                      string.Concat(NormalizeString(row["серия"]), NormalizeString(row["номер"])), foreignPassportMisc.Id);
-                    UpdateOrCreatePersonFact(applicant, prmNames.Single(f => f.NameRu == "Адрес"), NormalizeString(row["адрес регистрации иг"]));
+                    UpdateOrCreatePersonFact(applicant, prmNames.Single(f => f.Name == "Гражданство"), null, m1.Id);
+                    UpdateOrCreatePersonFact(applicant, prmNames.Single(f => f.Name == "Тип документа"), string.Concat(row["серия"], row["номер"]), foreignPassportMisc.Id);
+                    UpdateOrCreatePersonFact(applicant, prmNames.Single(f => f.Name == "Адрес"), row["адрес регистрации иг"]);
 
 
                     Document document = null;
@@ -432,7 +432,7 @@ namespace Domain.Concreate
                     if (split.Length > 1)
                     {
                         string name = split[0].Trim();
-                        var ctz = NormalizeString(row["гражданство прин.стороны"]);
+                        var ctz = row["гражданство прин.стороны"];
 
                         Person host = null;
                         if (ctz == "Организация")
@@ -445,47 +445,47 @@ namespace Domain.Concreate
                             host = GetOrCreatePerson(name, birthday, PersonCategory.Individual, PersonType.Host);
                             if (ctz == "Россия")
                             {
-                                UpdateOrCreatePersonFact(host, prmNames.Single(f => f.NameRu == "Гражданство"), null, ruCtz.Id);
+                                UpdateOrCreatePersonFact(host, prmNames.Single(f => f.Name == "Гражданство"), null, ruCtz.Id);
                             }
                             else if (!string.IsNullOrWhiteSpace(ctz))
                             {
-                                var mctz = GetOrCreateMisc(mscNames.Single(m => m.NameRu == "Гражданство"), ctz);
-                                UpdateOrCreatePersonFact(host, prmNames.Single(f => f.NameRu == "Гражданство"), null, mctz.Id);
+                                var mctz = GetOrCreateMisc(mscNames.Single(m => m.Name == "Гражданство"), ctz);
+                                UpdateOrCreatePersonFact(host, prmNames.Single(f => f.Name == "Гражданство"), null, mctz.Id);
                             }
                         }
 
-                        document = UpdateOrCreateDocumentByNumber(applicant, host, DocumentType.MigrationRegistration, NormalizeString(row["номер уведомления"]), userid);
+                        document = UpdateOrCreateDocumentByNumber(applicant, host, DocumentType.MigrationRegistration, row["номер уведомления"], userid);
                     }
                     else
                     {
-                        document = UpdateOrCreateDocumentByNumber(applicant, DocumentType.MigrationRegistration, NormalizeString(row["номер уведомления"]), userid);
+                        document = UpdateOrCreateDocumentByNumber(applicant, DocumentType.MigrationRegistration, row["номер уведомления"], userid);
                     }
 
 
 
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Отметка проставлена"), null, m2.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Цель въезда"), null, m3.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Первично/Продлено"), null, m4.Id);
-                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "КПП въезда"), null, m5.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Отметка проставлена"), null, m2.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Цель въезда"), null, m3.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Первично/Продлено"), null, m4.Id);
+                    UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "КПП въезда"), null, m5.Id);
 
                     if (DateTime.TryParseExact(row["дата выдачи"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата выдачи"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата выдачи"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["дата въезда"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата въезда"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата въезда"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["дата рег. с"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата регистрации С"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата регистрации С"), null, null, null, date);
                     }
 
                     if (DateTime.TryParseExact(row["дата рег. до"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                     {
-                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.NameRu == "Дата регистрации ДО"), null, null, null, date);
+                        UpdateOrCreateDocumentParameter(document, prmNames.Single(d => d.Name == "Дата регистрации ДО"), null, null, null, date);
                     }
 
                     i++;
@@ -499,6 +499,8 @@ namespace Domain.Concreate
         #region Вспомогательные методы    
         private Misc GetOrCreateMisc(MiscName miskName, string value)
         {
+            value = NormalizeString(value, false);
+
             var misc = _db.Misc.SingleOrDefault(m => m.MiscId == miskName.Id && m.MiscValue == value);
             if (misc == null)
             {
@@ -551,6 +553,8 @@ namespace Domain.Concreate
         }
         private Document UpdateOrCreateDocumentByNumber(Person applicant, DocumentType type, string number, string userid)
         {
+            number = NormalizeString(number, false);
+
             var doc = _db.Documents.SingleOrDefault(d => d.Number == number && d.Type == type);
             if (doc == null)
             {
@@ -573,6 +577,8 @@ namespace Domain.Concreate
         }
         private Document UpdateOrCreateDocumentByNumber(Person applicant, Person host, DocumentType type, string number, string userid)
         {
+            number = NormalizeString(number, false);
+
             var doc = _db.Documents.SingleOrDefault(d => d.Number == number && d.Type == type);
             if (doc == null)
             {
@@ -595,6 +601,8 @@ namespace Domain.Concreate
         }
         private Document UpdateOrCreateDocumentByApplicantDateNumber(Person person, DocumentType type, DateTime date, string number, string userid)
         {
+            number = NormalizeString(number, false);
+
             var doc = _db.Documents.SingleOrDefault(d => d.CreatedDate == date && d.Number == number && d.ApplicantPersonId == person.Id && d.Type == type);
             if (doc == null)
             {
@@ -614,8 +622,10 @@ namespace Domain.Concreate
             }
             return doc;
         }
-        private PersonFact UpdateOrCreatePersonFact(Person person, PrmFactName factName, string strValue = null, int? intValue = null, float? floatValue = null, DateTime? dateValue = null)
+        private PersonFact UpdateOrCreatePersonFact(Person person, ParameterName factName, string strValue = null, int? intValue = null, float? floatValue = null, DateTime? dateValue = null)
         {
+            strValue = NormalizeString(strValue, true);
+
             var fact = _db.PersonFacts.SingleOrDefault(f => f.PersonId == person.Id && f.FactId == factName.Id && f.StringValue == strValue
             && f.IntValue == intValue && f.FloatValue == floatValue && f.DateValue == dateValue);
 
@@ -641,9 +651,9 @@ namespace Domain.Concreate
             _db.SaveChanges();
             return fact;
         }
-        private DocumentParameter UpdateOrCreateDocumentParameter(Document doc, PrmFactName paramName, string strValue = null, int? intValue = null, float? floatValue = null, DateTime? dateValue = null)
+        private DocumentParameter UpdateOrCreateDocumentParameter(Document doc, ParameterName paramName, string strValue = null, int? intValue = null, float? floatValue = null, DateTime? dateValue = null)
         {
-            strValue = strValue ?? string.Empty;
+            strValue = NormalizeString(strValue, true);
 
             var docPrm = _db.DocumentParameters.SingleOrDefault(d => d.DocumentId == doc.Id && d.ParameterId == paramName.Id);
             if (docPrm == null)
@@ -715,11 +725,11 @@ namespace Domain.Concreate
 
             return list;
         }
-        private string NormalizeString(string value)
+        private string NormalizeString(string value, bool retainEmpty = true)
         {
             if (value != null && string.IsNullOrWhiteSpace(value.Replace("-", "")))
             {
-                value = null;
+                value = retainEmpty ? null : "[нет значения]";
             }
             return value;
         }
