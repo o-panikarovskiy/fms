@@ -1,0 +1,42 @@
+﻿<div class="col-md-8 col-md-offset-2" data-ng-repeat="prm in doc.parameters track by prm.id">
+    <div class="form-group">
+        <label data-ng-attr-for="{{prm.id}}">{{prm.nameRu}}</label>
+        <div data-ng-switch="prm.prmType">
+            <div data-ng-switch-when="1">
+                <select class="form-control"
+                        data-ng-attr-name="{{prm.name}}"
+                        data-ng-attr-id="{{prm.id}}"
+                        data-ng-disabled="vm.loader[prm.dicId]"
+                        data-ng-options="item.key as item.value for item in vm.dicts[prm.dicId]"
+                        data-ng-model="prm.miscId">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div data-ng-switch-when="2">
+                <textarea class="form-control"
+                          data-ng-attr-name="{{prm.name}}"
+                          data-ng-attr-id="{{prm.id}}"
+                          data-ng-model="prm.stringValue"></textarea>
+            </div>
+            <div data-ng-switch-when="3">
+                <input type="text"
+                       class="form-control"
+                       placeholder="гггг-мм-дд"
+                       data-ng-attr-name="{{prm.name}}"
+                       data-ng-attr-id="{{prm.id}}"
+                       data-bs-datepicker=""
+                       data-autoclose="true"
+                       data-placement="auto bottom left"
+                       data-ng-model="prm.dateValue" />
+            </div>
+            <div data-ng-switch-when="4">
+                <input type="text"
+                       class="form-control"
+                       data-ng-attr-name="{{prm.name}}"
+                       data-ng-attr-id="{{prm.id}}"
+                       maxlength="255"
+                       data-ng-model="prm.floatValue" />
+            </div>
+        </div>
+    </div>
+</div>

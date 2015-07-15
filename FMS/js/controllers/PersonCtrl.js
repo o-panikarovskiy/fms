@@ -57,8 +57,7 @@
         function loadAdditionalDicts(documents) {
             var dicts = {};
             documents.forEach(function (doc) {
-                Object.keys(doc.parameters).forEach(function (key) {
-                    var prm = doc.parameters[key];
+                doc.parameters.forEach(function (prm) {
                     if (prm.prmType === 1) {
                         dicts[prm.dicId] = true;
                     }

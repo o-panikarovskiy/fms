@@ -575,6 +575,7 @@
     <Content Include="views\person.html" />
     <Content Include="views\person\ap.html" />
     <Content Include="views\person\mu.html" />
+    <Content Include="views\person\prms-body.html" />
     <Content Include="views\person\vng.html" />
     <Content Include="views\person\rvp.html" />
     <Content Include="views\person\ctz.html" />

@@ -175,7 +175,7 @@ namespace FMS.Controllers
                                     DicId = x.MiscId,
                                     PrmCategory = dpn.Category,
                                     PrmType = dpn.Type
-                                }).ToDictionary(k => k.Name, v => v);
+                                }).ToList();
             };
 
             return Ok(new { Documents = documents });
