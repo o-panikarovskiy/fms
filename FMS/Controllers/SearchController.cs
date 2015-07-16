@@ -124,7 +124,7 @@ namespace FMS.Controllers
                 {
                     q = from p in q
                         join pf in _repPersonFacts.GetAll() on p.Id equals pf.PersonId
-                        join pfg in GetPersonFactsSubQuery("Тип документа") on pf.PersonId equals pfg.PersonId
+                        join pfg in GetPersonFactsSubQuery("Личный документ") on pf.PersonId equals pfg.PersonId
                         where pf.FactDate == pfg.FactDate && pf.IntValue == query.Person.DocType
                         select p;
                 }
@@ -133,7 +133,7 @@ namespace FMS.Controllers
                 {
                     q = from p in q
                         join pf in _repPersonFacts.GetAll() on p.Id equals pf.PersonId
-                        join pfg in GetPersonFactsSubQuery("Тип документа") on pf.PersonId equals pfg.PersonId
+                        join pfg in GetPersonFactsSubQuery("Личный документ") on pf.PersonId equals pfg.PersonId
                         where pf.FactDate == pfg.FactDate && pf.StringValue.Contains(query.Person.DocNo)
                         select p;
                 }

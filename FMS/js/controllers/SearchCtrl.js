@@ -59,13 +59,13 @@
             return m;
         }
 
-        function loadDict(name, enName) {
-            return DictionaryService.get(name, $scope.vm, enName);
+        function loadDict(name, type) {
+            return DictionaryService.get(name, type, $scope.vm);
         }
 
         function init() {
             $scope.vm.loader.dicts = true;
-            $q.all([loadDict('personCategory'), loadDict('personType'), loadDict('citizenship'), loadDict('privateDoc')]).finally(function () {
+            $q.all([loadDict('personCategory'), loadDict('personType'), loadDict('Гражданство', 'individual'), loadDict('Личный документ', 'individual')]).finally(function () {
                 $scope.vm.loader.dicts = false;
             });
         }

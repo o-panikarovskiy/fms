@@ -9,14 +9,17 @@ namespace Domain.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [Index("PrmFactNameEnIndex", IsUnique = true)]
+      
         [MaxLength(255)]
         public string Name { get; set; }
 
         public ParameterType Type { get; set; }
 
         public ParameterCategory Category { get; set; }
+
+        public DocumentType? DocType { get; set; }
+
+        public PersonCategory? PersonCategory { get; set; }
 
         public bool IsFact { get; set; }
 

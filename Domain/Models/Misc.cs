@@ -11,10 +11,11 @@ namespace Domain.Models
     public class MiscName
     {
         [Key]
-        public int Id { get; set; }
-        [Index("MiscNameIndex", IsUnique = true)]
+        public int Id { get; set; }        
         [MaxLength(255)]
         public string Name { get; set; }
+        public DocumentType? DocType { get; set; }
+        public PersonCategory? PersonCategory { get; set; }
     }
 
     public class Misc

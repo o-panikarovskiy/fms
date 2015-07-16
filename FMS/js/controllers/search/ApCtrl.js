@@ -8,12 +8,12 @@
         });
 
         function loadDicts() {
-            $scope.loadDict('article');
-            $scope.loadDict('crimeType');
-            $scope.loadDict('stateDepartment');
-            $scope.loadDict('docStatus');
-            $scope.loadDict('decreeStr');
-            $scope.loadDict('penaltyType');
+            $scope.loadDict('Статья');
+            $scope.loadDict('Вид правонарушения');
+            $scope.loadDict('Орган рассмотрения');
+            $scope.loadDict('Статус дела');
+            $scope.loadDict('Принятое решение');
+            $scope.loadDict('Тип взыскания');
         }
     }]);
 

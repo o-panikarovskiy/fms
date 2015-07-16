@@ -19,8 +19,8 @@
                     <select class="form-control"
                             id="article"
                             name="article"
-                            data-ng-disabled="vm.loader.article"
-                            data-ng-options="item.key as item.value for item in vm.dicts.article"
+                            data-ng-disabled="vm.loader['Статья']"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Статья']"
                             data-ng-model="searchModel.docs.ap.article">
                         <option value=""></option>
                     </select>
@@ -32,8 +32,8 @@
                     <select class="form-control"
                             id="crimeType"
                             name="crimeType"
-                            data-ng-disabled="vm.loader.crimeType"
-                            data-ng-options="item.key as item.value for item in vm.dicts.crimeType"
+                            data-ng-disabled="vm.loader['Вид правонарушения']"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Вид правонарушения']"
                             data-ng-model="searchModel.docs.ap.crimeType">
                         <option value=""></option>
                     </select>
@@ -45,8 +45,8 @@
                     <select class="form-control"
                             id="stateDepartment"
                             name="stateDepartment"
-                            data-ng-disabled="vm.loader.stateDepartment"
-                            data-ng-options="item.key as item.value for item in vm.dicts.stateDepartment"
+                            data-ng-disabled="vm.loader['Орган рассмотрения']"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Орган рассмотрения']"
                             data-ng-model="searchModel.docs.ap.stateDepartment">
                         <option value=""></option>
                     </select>
@@ -59,8 +59,8 @@
                     <select class="form-control"
                             id="docStatus"
                             name="docStatus"
-                            data-ng-disabled="vm.loader.docStatus"
-                            data-ng-options="item.key as item.value for item in vm.dicts.docStatus"
+                            data-ng-disabled="vm.loader['Статус дела']"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Статус дела']"
                             data-ng-model="searchModel.docs.ap.docStatus">
                         <option value=""></option>
                     </select>
@@ -73,8 +73,8 @@
                     <select class="form-control"
                             id="decreeStr"
                             name="decreeStr"
-                            data-ng-disabled="vm.loader.decreeStr"
-                            data-ng-options="item.key as item.value for item in vm.dicts.decreeStr"
+                            data-ng-disabled="vm.loader['Принятое решение']"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Принятое решение']"
                             data-ng-model="searchModel.docs.ap.decreeStr">
                         <option value=""></option>
                     </select>
@@ -86,8 +86,8 @@
                     <select class="form-control"
                             id="penaltyType"
                             name="penaltyType"
-                            data-ng-disabled="vm.loader.penaltyType"
-                            data-ng-options="item.key as item.value for item in vm.dicts.penaltyType"
+                            data-ng-disabled="vm.loader['Тип взыскания']"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Тип взыскания']"
                             data-ng-model="searchModel.docs.ap.penaltyType">
                         <option value=""></option>
                     </select>

@@ -24,9 +24,10 @@ namespace FMS.Controllers
             _repositoryNames = repositoryNames;
         }
 
-        public IHttpActionResult GetDictionary(string id)
+        [Route("api/dictionary/{name}/{type}")]
+        public IHttpActionResult GetDictionary(string name, string type)
         {
-            if (string.Compare(id, "PersonCategory", true) == 0)
+            if (string.Compare(name, "PersonCategory", true) == 0)
             {
                 var result = new List<MiscViewModel>(2);
                 result.Add(new MiscViewModel { Key = (int)PersonCategory.Individual, Value = "Физическое лицо" });
@@ -34,7 +35,7 @@ namespace FMS.Controllers
                 return Ok(new DictioanryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
             }
 
-            if (string.Compare(id, "PersonType", true) == 0)
+            if (string.Compare(name, "PersonType", true) == 0)
             {
                 var result = new List<MiscViewModel>(2);
                 result.Add(new MiscViewModel { Key = (int)PersonType.Applicant, Value = "Соискатель" });
@@ -42,7 +43,7 @@ namespace FMS.Controllers
                 return Ok(new DictioanryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
             }
 
-            if (string.Compare(id, "DocumentType", true) == 0)
+            if (string.Compare(name, "DocumentType", true) == 0)
             {
                 var result = new List<MiscViewModel>(5);
                 result.Add(new MiscViewModel { Key = (int)DocumentType.AdministrativePractice, Value = "Административная практика" });
@@ -56,24 +57,40 @@ namespace FMS.Controllers
 
 
             int dicId;
-            IQueryable<MiscViewModel> q;
-            if (int.TryParse(id, out dicId))
+            var q = _repository.GetAll();
+            if (int.TryParse(name, out dicId))
             {
                 q = from m in _repository.GetAll()
                     where m.MiscId == dicId
                     orderby m.MiscValue
-                    select new MiscViewModel { Key = m.Id, Value = m.MiscValue };
+                    select m;
             }
             else
             {
-                q = from m in _repository.GetAll()
-                    join mn in _repositoryNames.GetAll() on m.MiscId equals mn.Id
-                    where mn.Name == id 
-                    orderby m.MiscValue
-                    select new MiscViewModel { Key = m.Id, Value = m.MiscValue };
+                var sub = from m in q
+                          join mn in _repositoryNames.GetAll() on m.MiscId equals mn.Id
+                          where mn.Name == name
+                          select new { mn = mn, m = m };
+
+                PersonCategory category;
+                DocumentType docType;
+                if (Enum.TryParse<PersonCategory>(type, out category))
+                {
+                    sub = sub.Where(s => s.mn.PersonCategory == category);
+                }
+
+                if (Enum.TryParse<DocumentType>(type, out docType))
+                {
+                    sub = sub.Where(s => s.mn.DocType == docType);
+                };
+
+                q = sub.Select(s => s.m);
+
             }
 
-            return Ok(new DictioanryMiscViewModel { Dictionary = q.ToList() });
+            var res = q.Select(m => new MiscViewModel { Key = m.Id, Value = m.MiscValue }).ToList();
+
+            return Ok(new DictioanryMiscViewModel { Dictionary = res });
         }
     }
 }
