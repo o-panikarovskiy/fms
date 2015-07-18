@@ -14,11 +14,13 @@ namespace Domain.Models
         public float Percent { get; set; }
         public int CurrentRow { get; set; }
         public int TotalRows { get; set; }
-        public string FileName { get; set; }
+        public Guid FileId { get; set; }
         public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public string UserId { get; set; }
+        public DateTime? EndDate { get; set; }        
+        public Guid UserId { get; set; }
         public bool HasErrors { get; set; }
+
+        [MaxLength(1024)]
         public string ExceptionMessage { get; set; }
         public bool IsCompleted { get; set; }
     }

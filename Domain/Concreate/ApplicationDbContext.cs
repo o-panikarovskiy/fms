@@ -130,7 +130,7 @@ namespace Domain.Concrete
             context.MiscNames.Add(new MiscName { Name = "Основание для приема", DocType = DocumentType.TemporaryResidencePermit });
             context.MiscNames.Add(new MiscName { Name = "Основание решения", DocType = DocumentType.Citizenship });
             context.MiscNames.Add(new MiscName { Name = "Основание решения", DocType = DocumentType.TemporaryResidencePermit });
-            context.MiscNames.Add(new MiscName { Name = "Отметка проставлена (МУ)", DocType = DocumentType.MigrationRegistration });
+            context.MiscNames.Add(new MiscName { Name = "Отметка проставлена", DocType = DocumentType.MigrationRegistration });
             context.MiscNames.Add(new MiscName { Name = "Первично/Продлено", DocType = DocumentType.MigrationRegistration });
             context.MiscNames.Add(new MiscName { Name = "Пользователь решения", DocType = DocumentType.TemporaryResidencePermit });
             context.MiscNames.Add(new MiscName { Name = "Принятое решение", DocType = DocumentType.AdministrativePractice });
@@ -142,7 +142,7 @@ namespace Domain.Concrete
             context.MiscNames.Add(new MiscName { Name = "Тип дела", DocType = DocumentType.Residence });
             context.MiscNames.Add(new MiscName { Name = "Тип дела", DocType = DocumentType.Citizenship });
             context.MiscNames.Add(new MiscName { Name = "Тип решения", DocType = DocumentType.Residence });
-            context.MiscNames.Add(new MiscName { Name = "Цель въезда (МУ)", DocType = DocumentType.MigrationRegistration });
+            context.MiscNames.Add(new MiscName { Name = "Цель въезда", DocType = DocumentType.MigrationRegistration });
 
             context.SaveChanges();
 

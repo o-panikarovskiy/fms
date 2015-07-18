@@ -1,17 +1,13 @@
 ﻿using Domain.Abstract;
 using Domain.Concrete;
 using Domain.Models;
-using Domain.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Domain.Concreate
@@ -25,13 +21,13 @@ namespace Domain.Concreate
 
         }
 
-        public async Task<UploadingProgress> CreateProgressAsync(string fileName, string userID)
+        public async Task<UploadingProgress> CreateProgressAsync(string fileId, string userID)
         {
             var progress = new UploadingProgress()
             {
                 StartDate = DateTime.Now,
-                UserId = userID,
-                FileName = Path.GetFileNameWithoutExtension(fileName),
+                UserId = Guid.Parse(userID),
+                FileId = Guid.Parse(fileId),
                 Percent = 0,
                 IsCompleted = false
             };
@@ -41,18 +37,22 @@ namespace Domain.Concreate
 
             return progress;
         }
-        public async Task<UploadingProgress> GetProgressByIdAsync(int ID, string userID)
+        public async Task<UploadingProgress> GetProgressByIdAsync(int ID, string userId)
         {
-            return await _db.UploadProgress.SingleOrDefaultAsync(p => p.Id == ID && p.UserId == userID);
+            var uid = Guid.Parse(userId);
+            return await _db.UploadProgress.SingleOrDefaultAsync(p => p.Id == ID && p.UserId == uid);
         }
-        public async Task<UploadingProgress> GetProgressByFileNameAsync(string fileName, string userID)
+        public async Task<UploadingProgress> GetProgressByFileNameAsync(string fileId, string userId)
         {
-            return await _db.UploadProgress.SingleOrDefaultAsync(p => p.FileName == fileName && p.UserId == userID);
+            var uid = Guid.Parse(userId);
+            var fid = Guid.Parse(fileId);
+            return await _db.UploadProgress.SingleOrDefaultAsync(p => p.FileId == fid && p.UserId == uid);
         }
-        public async Task<UploadingProgress> GetCurrentUserProgressAsync(string userID)
+        public async Task<UploadingProgress> GetCurrentUserProgressAsync(string userId)
         {
+            var uid = Guid.Parse(userId);
             var result = from p in _db.UploadProgress
-                         where p.UserId == userID && !p.IsCompleted
+                         where p.UserId == uid && !p.IsCompleted
                          orderby p.StartDate descending
                          select p;
 
@@ -94,8 +94,7 @@ namespace Domain.Concreate
                 _db.SaveChanges();
             }
         }
-
-
+        
         private void ImportAdministrativePractice(UploadingProgress progress, string filePath, string userid)
         {
             var table = ReadCSVTable(filePath, ';', new string[] { "ФИО", "Дата рождения", "Гражданство", "Категория лица",
