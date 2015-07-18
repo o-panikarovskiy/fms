@@ -26,7 +26,13 @@
                                     <label for="number">
                                         Номер документа
                                     </label>
-                                    <input type="text" class="form-control" id="number" name="number" maxlength="255" data-ng-model="doc.number" />
+                                    <input type="text" class="form-control" 
+                                           id="number" 
+                                           name="number" 
+                                           maxlength="255" 
+                                           data-ng-model="doc.number" 
+                                           data-ng-model-options="vm.modelUpdate"
+                                           data-ng-change="saveDoc(docForm, doc)"/>
                                 </div>
                             </div>
                             <div data-ng-include="'views/person/prms-body.html'"></div>

@@ -24,6 +24,10 @@ namespace Domain.Models
         public bool IsFact { get; set; }
 
         public float OrderIndex { get; set; }
+
+        public int? MiscParentId { get; set; }
+
+        public virtual MiscName MiscParent { get; set; }
     }
 
 }
