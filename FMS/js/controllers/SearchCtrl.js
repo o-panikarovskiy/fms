@@ -3,6 +3,7 @@
 
     angular.module('fms').controller('SearchCtrl', ['$scope', '$state', '$q', 'DictionaryService', 'SearchService', function ($scope, $state, $q, DictionaryService, SearchService) {
         $scope.vm = { loader: {} };
+
         $scope.searchModel = {
             person: {
                 birthday: null,
@@ -38,9 +39,10 @@
             });
         }
 
-        $scope.loadDict = function (name) {
-            if (!$scope.vm.dicts[name]) {
-                loadDict(name);
+        $scope.loadDict = function (name, docType, categody, vm) {
+            vm = vm || $scope.vm;
+            if (!vm.dicts[name]) {
+                loadDict(name, docType, categody, vm);
             }
         };
 
@@ -59,13 +61,13 @@
             return m;
         }
 
-        function loadDict(name, type) {
-            return DictionaryService.get(name, type, $scope.vm);
+        function loadDict(name, docType, categody, vm) {
+            return DictionaryService.get(name, docType, categody, vm || $scope.vm);
         }
 
         function init() {
             $scope.vm.loader.dicts = true;
-            $q.all([loadDict('personCategory'), loadDict('personType'), loadDict('Гражданство', 'individual'), loadDict('Личный документ', 'individual')]).finally(function () {
+            $q.all([loadDict('personCategory'), loadDict('personType'), loadDict('Гражданство', null, 'individual'), loadDict('Личный документ', null, 'individual')]).finally(function () {
                 $scope.vm.loader.dicts = false;
             });
         }

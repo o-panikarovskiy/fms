@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Models;
+using System.Collections.Generic;
 
 namespace FMS.Models
 {
@@ -11,5 +12,12 @@ namespace FMS.Models
     public class DictioanryMiscViewModel
     {
         public IList<MiscViewModel> Dictionary { get; set; }
+    }
+
+    public class DictioanryBindModel
+    {
+        public string Name { get; set; }
+        public DocumentType? DocType { get; set; }
+        public PersonCategory? Category { get; set; }
     }
 }

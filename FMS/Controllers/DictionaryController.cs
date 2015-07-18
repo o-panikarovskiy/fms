@@ -24,10 +24,10 @@ namespace FMS.Controllers
             _repositoryNames = repositoryNames;
         }
 
-        [Route("api/dictionary/{name}/{type}")]
-        public IHttpActionResult GetDictionary(string name, string type)
+        [HttpPost]
+        public IHttpActionResult GetDictionary([FromBody] DictioanryBindModel query)
         {
-            if (string.Compare(name, "PersonCategory", true) == 0)
+            if (string.Compare(query.Name, "PersonCategory", true) == 0)
             {
                 var result = new List<MiscViewModel>(2);
                 result.Add(new MiscViewModel { Key = (int)PersonCategory.Individual, Value = "Физическое лицо" });
@@ -35,7 +35,7 @@ namespace FMS.Controllers
                 return Ok(new DictioanryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
             }
 
-            if (string.Compare(name, "PersonType", true) == 0)
+            if (string.Compare(query.Name, "PersonType", true) == 0)
             {
                 var result = new List<MiscViewModel>(2);
                 result.Add(new MiscViewModel { Key = (int)PersonType.Applicant, Value = "Соискатель" });
@@ -43,7 +43,7 @@ namespace FMS.Controllers
                 return Ok(new DictioanryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
             }
 
-            if (string.Compare(name, "DocumentType", true) == 0)
+            if (string.Compare(query.Name, "DocumentType", true) == 0)
             {
                 var result = new List<MiscViewModel>(5);
                 result.Add(new MiscViewModel { Key = (int)DocumentType.AdministrativePractice, Value = "Административная практика" });
@@ -57,8 +57,8 @@ namespace FMS.Controllers
 
 
             int dicId;
-            var q = _repository.GetAll();
-            if (int.TryParse(name, out dicId))
+            IQueryable<Misc> q;
+            if (int.TryParse(query.Name, out dicId))
             {
                 q = from m in _repository.GetAll()
                     where m.MiscId == dicId
@@ -67,28 +67,14 @@ namespace FMS.Controllers
             }
             else
             {
-                var sub = from m in q
-                          join mn in _repositoryNames.GetAll() on m.MiscId equals mn.Id
-                          where mn.Name == name
-                          select new { mn = mn, m = m };
-
-                PersonCategory category;
-                DocumentType docType;
-                if (Enum.TryParse<PersonCategory>(type, out category))
-                {
-                    sub = sub.Where(s => s.mn.PersonCategory == category);
-                }
-
-                if (Enum.TryParse<DocumentType>(type, out docType))
-                {
-                    sub = sub.Where(s => s.mn.DocType == docType);
-                };
-
-                q = sub.Select(s => s.m);
+                q = from m in _repository.GetAll()
+                    join mn in _repositoryNames.GetAll() on m.MiscId equals mn.Id
+                    where mn.Name == query.Name && mn.DocType == query.DocType && mn.PersonCategory == query.Category
+                    select m;
 
             }
 
-            var res = q.Select(m => new MiscViewModel { Key = m.Id, Value = m.MiscValue }).ToList();
+            var res = q.Select(m => new MiscViewModel { Key = m.Id, Value = m.MiscValue }).OrderBy(m => m.Value).ToList();
 
             return Ok(new DictioanryMiscViewModel { Dictionary = res });
         }

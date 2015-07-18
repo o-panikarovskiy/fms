@@ -35,8 +35,8 @@
                         id="citizenship"
                         name="citizenship"
                         data-ng-disabled="vm.loader.citizenship"
-                        data-ng-options="item.key as item.value for item in vm.dicts.citizenship"
-                        data-ng-model="person.facts.citizenship.miscId">
+                        data-ng-options="item.key as item.value for item in vm.dicts['Гражданство']"
+                        data-ng-model="person.facts['гражданство'].miscId">
                     <option value=""></option>
                 </select>
             </div>
@@ -65,8 +65,8 @@
                         id="privateDoc"
                         name="privateDoc"
                         data-ng-disabled="vm.loader.privateDoc"
-                        data-ng-options="item.key as item.value for item in vm.dicts.privateDoc"
-                        data-ng-model="person.facts.privateDoc.miscId">
+                        data-ng-options="item.key as item.value for item in vm.dicts['Личный документ']"
+                        data-ng-model="person.facts['личный документ'].miscId">
                     <option value=""></option>
                 </select>
             </div>
@@ -86,13 +86,13 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="phone">Телефон</label>
-                <input type="tel" class="form-control" id="phone" name="phone" maxlength="25" data-ng-model="person.parameters.phone.stringValue" />
+                <input type="tel" class="form-control" id="phone" name="phone" maxlength="25" data-ng-model="person.parameters['телефон'].stringValue" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="email">Электронная почта</label>
-                <input type="email" class="form-control" id="email" name="email" maxlength="100" data-ng-model="person.parameters.email.stringValue" />
+                <input type="email" class="form-control" id="email" name="email" maxlength="100" data-ng-model="person.parameters['электронная почта'].stringValue" />
             </div>
         </div>
         <div class="col-md-6">
@@ -133,7 +133,7 @@
                 <textarea class="form-control col-md-12"
                           name="address"
                           id="address"
-                          data-ng-model="person.facts.address.stringValue"></textarea>
+                          data-ng-model="person.facts['адрес'].stringValue"></textarea>
             </div>
         </div>
     </div>
