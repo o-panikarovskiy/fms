@@ -1,22 +1,43 @@
 ﻿<form name="form" data-ng-submit="save(form)">
     <div class="row">
         <div class="col-md-6" data-ng-if="person.category==2">
-            <div class="form-group">
+            <div class="form-group" data-ng-class="{'has-error': form.code.$dirty && form.name.$invalid}">
                 <label for="name">Название</label>
-                <input class="form-control" id="name" name="name" maxlength="255" data-ng-model="person.name" required="" />
+                <input class="form-control"
+                       id="name"
+                       name="name"
+                       maxlength="255"
+                       required=""
+                       data-ng-model="person.name"
+                       data-ng-model-options="vm.modelUpdate"
+                       data-ng-change="save(form)" />
             </div>
         </div>
         <div class="col-md-6" data-ng-if="person.category==2">
-            <div class="form-group">
+            <div class="form-group" data-ng-class="{'has-error': form.code.$dirty && form.code.$invalid}">
                 <label for="code">ИНН</label>
-                <input class="form-control" id="code" name="code" maxlength="255" data-ng-model="person.code" required="" />
+                <input class="form-control"
+                       id="code"
+                       name="code"
+                       maxlength="255"
+                       required=""
+                       data-ng-model="person.code"
+                       data-ng-model-options="vm.modelUpdate"
+                       data-ng-change="save(form)" />
             </div>
         </div>
 
-        <div class="col-md-12" data-ng-if="person.category==1">
-            <div class="form-group">
-                <label for="name">ФИО</label>
-                <input class="form-control" id="name" name="name" maxlength="255" data-ng-model="person.name" required="" />
+        <div class="col-md-12" data-ng-if="person.category==1">          
+            <div class="form-group" data-ng-class="{'has-error': form.fio.$dirty && form.fio.$invalid}">
+                <label for="fio">ФИО</label>
+                <input class="form-control"
+                       id="fio"
+                       name="fio"
+                       maxlength="255"
+                       required=""
+                       data-ng-model="person.name"
+                       data-ng-model-options="vm.modelUpdate"
+                       data-ng-change="save(form)" />
             </div>
         </div>
 
@@ -36,20 +57,23 @@
                         name="citizenship"
                         data-ng-disabled="vm.loader['Гражданство']"
                         data-ng-options="item.key as item.value for item in vm.dicts['Гражданство']"
-                        data-ng-model="person.facts['гражданство'].miscId">
+                        data-ng-model="person.facts['гражданство'].miscId"
+                        data-ng-change="save(form)">
                     <option value=""></option>
                 </select>
             </div>
         </div>
         <div class="col-md-6" data-ng-if="person.category==1">
-            <div class="form-group">
+            <div class="form-group"  data-ng-class="{'has-error': form.birthday.$dirty && form.birthday.$invalid}">
                 <label for="birthday">Дата рождения</label>
                 <input type="text"
                        class="form-control"
                        id="birthday"
                        name="birthday"
+                       required=""
+                       data-bs-datepicker=""
                        data-ng-model="person.birthday"
-                       data-bs-datepicker="">
+                       data-ng-change="save(form)" />
             </div>
         </div>
         <div class="col-md-6" data-ng-if="person.category==1">
@@ -66,7 +90,8 @@
                         name="privateDoc"
                         data-ng-disabled="vm.loader['Личный документ']"
                         data-ng-options="item.key as item.value for item in vm.dicts['Личный документ']"
-                        data-ng-model="person.facts['личный документ'].miscId">
+                        data-ng-model="person.facts['личный документ'].miscId"
+                        data-ng-change="save(form)">
                     <option value=""></option>
                 </select>
             </div>
@@ -80,19 +105,39 @@
                       data-fact-id="person.facts['личный документ'].prmId"
                       data-person-id="person.id"
                       data-value-name="stringValue"></span>
-                <input class="form-control" id="name" name="name" maxlength="255" data-ng-model="person.facts['личный документ'].stringValue" />
+                <input class="form-control"
+                       id="name"
+                       name="name"
+                       maxlength="255"
+                       data-ng-model="person.facts['личный документ'].stringValue"
+                       data-ng-model-options="vm.modelUpdate"
+                       data-ng-change="save(form)" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="phone">Телефон</label>
-                <input type="tel" class="form-control" id="phone" name="phone" maxlength="25" data-ng-model="person.parameters['телефон'].stringValue" />
+                <input type="tel"
+                       class="form-control"
+                       id="phone"
+                       name="phone"
+                       maxlength="25"
+                       data-ng-model="person.parameters['телефон'].stringValue"
+                       data-ng-model-options="vm.modelUpdate"
+                       data-ng-change="save(form)" />
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
+            <div class="form-group" data-ng-class="{'has-error': form.email.$dirty && form.email.$invalid}">
                 <label for="email">Электронная почта</label>
-                <input type="email" class="form-control" id="email" name="email" maxlength="100" data-ng-model="person.parameters['электронная почта'].stringValue" />
+                <input type="email"
+                       class="form-control"
+                       id="email"
+                       name="email"
+                       maxlength="100"
+                       data-ng-model="person.parameters['электронная почта'].stringValue"
+                       data-ng-model-options="vm.modelUpdate"
+                       data-ng-change="save(form)" />
             </div>
         </div>
         <div class="col-md-6">
@@ -103,7 +148,8 @@
                         id="type"
                         data-ng-disabled="vm.loader.personType"
                         data-ng-options="item.key as item.value for item in vm.dicts.personType"
-                        data-ng-model="person.type">
+                        data-ng-model="person.type"
+                        data-ng-change="save(form)">
                     <option value=""></option>
                 </select>
             </div>
@@ -116,7 +162,8 @@
                         id="category"
                         data-ng-disabled="vm.loader.personCategory"
                         data-ng-options="item.key as item.value for item in vm.dicts.personCategory"
-                        data-ng-model="person.category">
+                        data-ng-model="person.category"
+                        data-ng-change="save(form)">
                     <option value=""></option>
                 </select>
             </div>
@@ -133,23 +180,10 @@
                 <textarea class="form-control col-md-12"
                           name="address"
                           id="address"
-                          data-ng-model="person.facts['адрес'].stringValue"></textarea>
+                          data-ng-model="person.facts['адрес'].stringValue"
+                          data-ng-model-options="vm.modelUpdate"
+                          data-ng-change="save(form)"></textarea>
             </div>
         </div>
-    </div>
-    <div class="clearfix spacer-40">
-        <button type="submit" class="btn btn-primary btn-lg pull-right" data-ng-disabled="vm.loader.savingPerson" data-ng-class="{'btn-success':vm.state.savingPerson==1, 'btn-danger':vm.state.savingPerson==2}">
-            <span data-ng-switch="vm.state.savingPerson">
-                <span data-ng-switch-when="1">
-                    <i class="fa fa-check"></i> Анкета успешно сохранена
-                </span>
-                <span data-ng-switch-when="2">
-                    <i class="fa fa-exclamation"></i> При сохранении произошла ошибка
-                </span>
-                <span data-ng-switch-default="">
-                    <i class="fa fa-save"></i> Сохранить
-                </span>
-            </span>
-        </button>
     </div>
 </form>

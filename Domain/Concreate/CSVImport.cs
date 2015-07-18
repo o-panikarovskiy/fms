@@ -94,7 +94,7 @@ namespace Domain.Concreate
                 _db.SaveChanges();
             }
         }
-        
+
         private void ImportAdministrativePractice(UploadingProgress progress, string filePath, string userid)
         {
             var table = ReadCSVTable(filePath, ';', new string[] { "ФИО", "Дата рождения", "Гражданство", "Категория лица",
@@ -102,10 +102,7 @@ namespace Domain.Concreate
                     "Орган рассмотрения", "Статус дела", "Дата постановления", "Принятое решение", "Тип взыскания",
                     "Сумма(начислено)", "Сумма(оплачено)"});
 
-            var allPersonCategories = new List<PersonCategory?> { PersonCategory.Individual, PersonCategory.Legal, PersonCategory.Legal | PersonCategory.Individual };
-
-            var mscNames = _db.MiscNames.Where(m => m.DocType == DocumentType.AdministrativePractice || allPersonCategories.Contains(m.PersonCategory)).ToDictionary(k => k.Name, v => v);
-            var prmNames = _db.ParameterNames.Where(p => p.DocType == DocumentType.AdministrativePractice || allPersonCategories.Contains(p.PersonCategory)).ToDictionary(k => k.Name, v => v);
+            var prmNames = _db.ParameterNames.Where(p => p.DocType == DocumentType.AdministrativePractice || p.PersonCategory != null).ToDictionary(k => k.Name, v => v);
 
             int i = 0;
             progress.TotalRows = table.Count;
@@ -116,13 +113,13 @@ namespace Domain.Concreate
 
                 if (DateTime.TryParseExact(row["Дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                 {
-                    var m1 = GetOrCreateMisc(mscNames["Гражданство"], row["Гражданство"]);
-                    var m2 = GetOrCreateMisc(mscNames["Статья"], row["Статья"]);
-                    var m3 = GetOrCreateMisc(mscNames["Вид правонарушения"], row["Вид правонарушения"]);
-                    var m4 = GetOrCreateMisc(mscNames["Орган рассмотрения"], row["Орган рассмотрения"]);
-                    var m5 = GetOrCreateMisc(mscNames["Статус дела"], row["Статус дела"]);
-                    var m6 = GetOrCreateMisc(mscNames["Принятое решение"], row["Принятое решение"]);
-                    var m7 = GetOrCreateMisc(mscNames["Тип взыскания"], row["Тип взыскания"]);
+                    var m1 = GetOrCreateMisc(prmNames["Гражданство"].MiscParentId, row["Гражданство"]);
+                    var m2 = GetOrCreateMisc(prmNames["Статья"].MiscParentId, row["Статья"]);
+                    var m3 = GetOrCreateMisc(prmNames["Вид правонарушения"].MiscParentId, row["Вид правонарушения"]);
+                    var m4 = GetOrCreateMisc(prmNames["Орган рассмотрения"].MiscParentId, row["Орган рассмотрения"]);
+                    var m5 = GetOrCreateMisc(prmNames["Статус дела"].MiscParentId, row["Статус дела"]);
+                    var m6 = GetOrCreateMisc(prmNames["Принятое решение"].MiscParentId, row["Принятое решение"]);
+                    var m7 = GetOrCreateMisc(prmNames["Тип взыскания"].MiscParentId, row["Тип взыскания"]);
 
                     var person = GetOrCreatePerson(row["ФИО"], date,
                         row["Категория лица"] == "Физическое" ? PersonCategory.Individual : PersonCategory.Legal,
@@ -192,10 +189,8 @@ namespace Domain.Concreate
                 "ФИО", "Дата рождения", "Гражданство", "Тип документа", "Номер документа",
                 "Адрес", "Решение", "Основание решения", "Дата решения", "Номер решения"});
 
-            var allPersonCategories = new List<PersonCategory?> { PersonCategory.Individual, PersonCategory.Legal, PersonCategory.Legal | PersonCategory.Individual };
 
-            var mscNames = _db.MiscNames.Where(m => m.DocType == DocumentType.Citizenship || allPersonCategories.Contains(m.PersonCategory)).ToDictionary(k => k.Name, v => v);
-            var prmNames = _db.ParameterNames.Where(p => p.DocType == DocumentType.Citizenship || allPersonCategories.Contains(p.PersonCategory)).ToDictionary(k => k.Name, v => v);
+            var prmNames = _db.ParameterNames.Where(p => p.DocType == DocumentType.Citizenship || p.PersonCategory != null).ToDictionary(k => k.Name, v => v);
 
             int i = 0;
             progress.TotalRows = table.Count;
@@ -204,12 +199,12 @@ namespace Domain.Concreate
                 DateTime date;
                 if (DateTime.TryParseExact(row["Дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                 {
-                    var m1 = GetOrCreateMisc(mscNames["Тип дела"], row["Тип дела"]);
-                    var m2 = GetOrCreateMisc(mscNames["Основание для приема"], row["Основание для приема"]);
-                    var m3 = GetOrCreateMisc(mscNames["Гражданство"], row["Гражданство"]);
-                    var m4 = GetOrCreateMisc(mscNames["Личный документ"], row["Тип документа"]);
-                    var m5 = GetOrCreateMisc(mscNames["Решение"], row["Решение"]);
-                    var m6 = GetOrCreateMisc(mscNames["Основание решения"], row["Основание решения"]);
+                    var m1 = GetOrCreateMisc(prmNames["Тип дела"].MiscParentId, row["Тип дела"]);
+                    var m2 = GetOrCreateMisc(prmNames["Основание для приема"].MiscParentId, row["Основание для приема"]);
+                    var m3 = GetOrCreateMisc(prmNames["Гражданство"].MiscParentId, row["Гражданство"]);
+                    var m4 = GetOrCreateMisc(prmNames["Личный документ"].MiscParentId, row["Тип документа"]);
+                    var m5 = GetOrCreateMisc(prmNames["Решение"].MiscParentId, row["Решение"]);
+                    var m6 = GetOrCreateMisc(prmNames["Основание решения"].MiscParentId, row["Основание решения"]);
 
                     var person = GetOrCreatePerson(row["ФИО"], date, PersonCategory.Individual, PersonType.Applicant);
                     var document = UpdateOrCreateDocumentByNumber(person, DocumentType.Citizenship, row["Рег.номер"], userid);
@@ -250,11 +245,8 @@ namespace Domain.Concreate
                 "Дата приема заявления", "Дата решения", "Номер решения", "Основание решения", "Пользователь решения", "Номер РВП", "Дата печати",
                 "Дата факт.выдачи", "Предполагаемый адрес" });
 
-            var allPersonCategories = new List<PersonCategory?> { PersonCategory.Individual, PersonCategory.Legal, PersonCategory.Legal | PersonCategory.Individual };
-
-            var mscNames = _db.MiscNames.Where(m => m.DocType == DocumentType.TemporaryResidencePermit || allPersonCategories.Contains(m.PersonCategory)).ToDictionary(k => k.Name, v => v);
-            var prmNames = _db.ParameterNames.Where(p => p.DocType == DocumentType.TemporaryResidencePermit || allPersonCategories.Contains(p.PersonCategory)).ToDictionary(k => k.Name, v => v);
-            var foreignPassportMisc = GetOrCreateMisc(mscNames["Личный документ"], "Иностранный паспорт");
+            var prmNames = _db.ParameterNames.Where(p => p.DocType == DocumentType.TemporaryResidencePermit || p.PersonCategory != null).ToDictionary(k => k.Name, v => v);
+            var foreignPassportMisc = GetOrCreateMisc(prmNames["Личный документ"].MiscParentId, "Иностранный паспорт");
 
             int i = 0;
             progress.TotalRows = table.Count;
@@ -265,10 +257,10 @@ namespace Domain.Concreate
                     DateTime.TryParseExact(row["Дата приема заявления"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
                 {
 
-                    var m1 = GetOrCreateMisc(mscNames["Гражданство"], row["Гражданство"]);
-                    var m2 = GetOrCreateMisc(mscNames["Основание для приема"], row["Основание для приема"]);
-                    var m3 = GetOrCreateMisc(mscNames["Основание решения"], row["Основание решения"]);
-                    var m4 = GetOrCreateMisc(mscNames["Пользователь решения"], row["Пользователь решения"]);
+                    var m1 = GetOrCreateMisc(prmNames["Гражданство"].MiscParentId, row["Гражданство"]);
+                    var m2 = GetOrCreateMisc(prmNames["Основание для приема"].MiscParentId, row["Основание для приема"]);
+                    var m3 = GetOrCreateMisc(prmNames["Основание решения"].MiscParentId, row["Основание решения"]);
+                    var m4 = GetOrCreateMisc(prmNames["Пользователь решения"].MiscParentId, row["Пользователь решения"]);
 
                     var person = GetOrCreatePerson(row["ФИО"], birthday, PersonCategory.Individual, PersonType.Applicant);
                     var document = UpdateOrCreateDocumentByApplicantDateNumber(person, DocumentType.TemporaryResidencePermit, date, row["Номер дела"], userid);
@@ -318,27 +310,23 @@ namespace Domain.Concreate
             var table = ReadCSVTable(filePath, ';', new string[] { "Идентификатор дела", "Номер дела", "Тип дела", "ФИО",
                 "Дата рождения", "Гражданство", "Серия", "Номер", "Основание дела", "Дата приема заявления", "Дата решения", "Тип решения", "Серия ВНЖ", "Номер ВНЖ",
                 "Дата выдачи", "Действителен С", "Действителен ПО", "Дата фактической выдачи", "Адрес" });
-
-            var allPersonCategories = new List<PersonCategory?> { PersonCategory.Individual, PersonCategory.Legal, PersonCategory.Legal | PersonCategory.Individual };
-
-            var mscNames = _db.MiscNames.Where(m => m.DocType == DocumentType.Residence || allPersonCategories.Contains(m.PersonCategory)).ToDictionary(k => k.Name, v => v);
-            var prmNames = _db.ParameterNames.Where(p => p.DocType == DocumentType.Residence || allPersonCategories.Contains(p.PersonCategory)).ToDictionary(k => k.Name, v => v);
-            var foreignPassportMisc = GetOrCreateMisc(mscNames["Личный документ"], "Иностранный паспорт");
+            
+            var prmNames = _db.ParameterNames.Where(p => p.DocType == DocumentType.Residence || p.PersonCategory != null).ToDictionary(k => k.Name, v => v);
+            var foreignPassportMisc = GetOrCreateMisc(prmNames["Личный документ"].MiscParentId, "Иностранный паспорт");
 
             int i = 0;
-            var list = table.Where(row => !string.IsNullOrWhiteSpace(row["ФИО"]) && !string.IsNullOrWhiteSpace(row["Дата рождения"])).ToList();
-            progress.TotalRows = list.Count;
-            foreach (var row in list)
+            progress.TotalRows = table.Count;
+            foreach (var row in table.Where(row => !string.IsNullOrWhiteSpace(row["ФИО"]) && !string.IsNullOrWhiteSpace(row["Дата рождения"])))
             {
                 DateTime date, birthday;
                 if (DateTime.TryParseExact(row["Дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthday))
                 {
 
-                    var m1 = GetOrCreateMisc(mscNames["Гражданство"], row["Гражданство"]);
-                    var m2 = GetOrCreateMisc(mscNames["Тип дела"], row["Тип дела"]);
-                    var m3 = GetOrCreateMisc(mscNames["Основание дела"], row["Основание дела"]);
-                    var m4 = GetOrCreateMisc(mscNames["Тип решения"], row["Тип решения"]);
-                    var m5 = GetOrCreateMisc(mscNames["Серия"], row["Серия ВНЖ"]);
+                    var m1 = GetOrCreateMisc(prmNames["Гражданство"].MiscParentId, row["Гражданство"]);
+                    var m2 = GetOrCreateMisc(prmNames["Тип дела"].MiscParentId, row["Тип дела"]);
+                    var m3 = GetOrCreateMisc(prmNames["Основание дела"].MiscParentId, row["Основание дела"]);
+                    var m4 = GetOrCreateMisc(prmNames["Тип решения"].MiscParentId, row["Тип решения"]);
+                    var m5 = GetOrCreateMisc(prmNames["Серия ВНЖ"].MiscParentId, row["Серия ВНЖ"]);
 
                     var person = GetOrCreatePerson(row["ФИО"], birthday, PersonCategory.Individual, PersonType.Applicant);
                     var document = UpdateOrCreateDocumentByNumber(person, DocumentType.Residence, row["Идентификатор дела"], userid);
@@ -385,7 +373,7 @@ namespace Domain.Concreate
                     }
 
                     i++;
-                    progress.Percent = (float)i / list.Count * 100;
+                    progress.Percent = (float)i / table.Count * 100;
                     progress.CurrentRow = i;
                     _db.SaveChanges();
                 }
@@ -400,12 +388,10 @@ namespace Domain.Concreate
                 "серия", "номер", "дата выдачи", "отметка проставлена", "дата въезда", "дата рег. с", "дата рег. до", "цель въезда", "первично/продлено",
                 "КПП въезда", "принимающая сторона", "гражданство прин.стороны", "адрес регистрации иг" });
 
-            var allPersonCategories = new List<PersonCategory?> { PersonCategory.Individual, PersonCategory.Legal, PersonCategory.Legal | PersonCategory.Individual };
-
-            var mscNames = _db.MiscNames.Where(m => m.DocType == DocumentType.MigrationRegistration || allPersonCategories.Contains(m.PersonCategory)).ToDictionary(k => k.Name, v => v);
-            var prmNames = _db.ParameterNames.Where(p => p.DocType == DocumentType.MigrationRegistration || allPersonCategories.Contains(p.PersonCategory)).ToDictionary(k => k.Name, v => v);
-            var foreignPassportMisc = GetOrCreateMisc(mscNames["Личный документ"], "Иностранный паспорт");
-            var ruCtz = GetOrCreateMisc(mscNames["Гражданство"], "Россия");
+         
+            var prmNames = _db.ParameterNames.Where(p => p.DocType == DocumentType.MigrationRegistration || p.PersonCategory != null).ToDictionary(k => k.Name, v => v);
+            var foreignPassportMisc = GetOrCreateMisc(prmNames["Личный документ"].MiscParentId, "Иностранный паспорт");
+            var ruCtz = GetOrCreateMisc(prmNames["Гражданство"].MiscParentId, "Россия");
 
 
             int i = 0;
@@ -415,11 +401,11 @@ namespace Domain.Concreate
                 DateTime date, birthday;
                 if (DateTime.TryParseExact(row["дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthday))
                 {
-                    var m1 = GetOrCreateMisc(mscNames["Гражданство"], row["гражданство"]);
-                    var m2 = GetOrCreateMisc(mscNames["Отметка проставлена"], row["отметка проставлена"]);
-                    var m3 = GetOrCreateMisc(mscNames["Цель въезда"], row["цель въезда"]);
-                    var m4 = GetOrCreateMisc(mscNames["Первично/Продлено"], row["первично/продлено"]);
-                    var m5 = GetOrCreateMisc(mscNames["КПП въезда"], row["КПП въезда"]);
+                    var m1 = GetOrCreateMisc(prmNames["Гражданство"].MiscParentId, row["гражданство"]);
+                    var m2 = GetOrCreateMisc(prmNames["Отметка проставлена"].MiscParentId, row["отметка проставлена"]);
+                    var m3 = GetOrCreateMisc(prmNames["Цель въезда"].MiscParentId, row["цель въезда"]);
+                    var m4 = GetOrCreateMisc(prmNames["Первично/Продлено"].MiscParentId, row["первично/продлено"]);
+                    var m5 = GetOrCreateMisc(prmNames["КПП въезда"].MiscParentId, row["КПП въезда"]);
 
                     var applicant = GetOrCreatePerson(row["фио иг рус"], birthday, PersonCategory.Individual, PersonType.Applicant);
 
@@ -451,7 +437,7 @@ namespace Domain.Concreate
                             }
                             else if (!string.IsNullOrWhiteSpace(ctz))
                             {
-                                var mctz = GetOrCreateMisc(mscNames["Гражданство"], ctz);
+                                var mctz = GetOrCreateMisc(prmNames["Гражданство"].MiscParentId, ctz);
                                 UpdateOrCreatePersonFact(host, prmNames["Гражданство"], null, mctz.Id);
                             }
                         }
@@ -499,16 +485,16 @@ namespace Domain.Concreate
         }
 
         #region Вспомогательные методы    
-        private Misc GetOrCreateMisc(MiscName miskName, string value)
+        private Misc GetOrCreateMisc(int? miskParentId, string value)
         {
             value = NormalizeString(value, false);
 
-            var misc = _db.Misc.SingleOrDefault(m => m.MiscId == miskName.Id && m.MiscValue == value);
+            var misc = _db.Misc.SingleOrDefault(m => m.MiscId == miskParentId && m.MiscValue == value);
             if (misc == null)
             {
                 misc = new Misc
                 {
-                    MiscId = miskName.Id,
+                    MiscId = (int)miskParentId,
                     MiscValue = value
                 };
                 _db.Misc.Add(misc);

@@ -31,7 +31,9 @@
                                            id="number"
                                            name="number"
                                            maxlength="255"
-                                           data-ng-model="doc.number" />
+                                           data-ng-model="doc.number" 
+                                           data-ng-model-options="vm.modelUpdate"
+                                           data-ng-change="saveDoc(docForm, doc)"/>
                                 </div>
                             </div>
                             <div data-ng-include="'views/person/prms-body.html'"></div>

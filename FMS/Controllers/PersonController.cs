@@ -19,14 +19,16 @@ namespace FMS.Controllers
         private readonly IRepository<PersonFact> _repPersonFacts;
         private readonly IRepository<ParameterName> _repParameterFactNames;
         private readonly IRepository<PersonParameter> _repPersonParams;
+        private readonly IRepository<MiscName> _repMiscNames;
         private readonly IRepository<Misc> _repMisc;
         private readonly IRepository<Document> _repDocs;
         private readonly IRepository<DocumentParameter> _repDocParams;
         public PersonController(IRepository<Person> repPerople, IRepository<PersonFact> repPersonFacts, IRepository<PersonParameter> repPersonParams, IRepository<ParameterName> repParameterFactNames,
-            IRepository<Misc> repMisc, IRepository<Document> repDocs, IRepository<DocumentParameter> repDocParams)
+            IRepository<MiscName> repMiscNames, IRepository<Misc> repMisc, IRepository<Document> repDocs, IRepository<DocumentParameter> repDocParams)
         {
             _repPeople = repPerople;
             _repPersonFacts = repPersonFacts;
+            _repMiscNames = repMiscNames;
             _repMisc = repMisc;
             _repPersonParams = repPersonParams;
             _repDocs = repDocs;
@@ -45,49 +47,47 @@ namespace FMS.Controllers
 
             var pvm = new PersonViewModel(person);
 
-            pvm.Facts = (from pf in _repPersonFacts.GetAll()
-                         join pfn in _repParameterFactNames.GetAll() on pf.FactId equals pfn.Id
-                         join pfg in (from pf in _repPersonFacts.GetAll()
-                                      where pf.PersonId == person.Id
-                                      group pf by pf.FactId into g
-                                      select new GroupPersonFact { FactId = g.Key, FactDate = g.Max(e => e.FactDate) }) on pf.FactId equals pfg.FactId
-                         join m in _repMisc.GetAll() on pf.IntValue equals m.Id into mlj
-                         from x in mlj.DefaultIfEmpty()
-                         where pf.FactDate == pfg.FactDate && pf.PersonId == id
+            pvm.Facts = (from fn in _repParameterFactNames.GetAll()
+                         join f in (from pf in _repPersonFacts.GetAll()
+                                    join pfg in (from pf in _repPersonFacts.GetAll()
+                                                 where pf.PersonId == person.Id
+                                                 group pf by pf.FactId into g
+                                                 select new GroupPersonFact { FactId = g.Key, FactDate = g.Max(e => e.FactDate) }) on pf.FactId equals pfg.FactId
+                                    where pf.FactDate == pfg.FactDate && pf.PersonId == id
+                                    select pf) on fn.Id equals f.FactId into ft
+                         from fl in ft.DefaultIfEmpty()
+                         where (fn.PersonCategory & person.Category) > 0 && fn.IsFact == true && fn.Category == ParameterCategory.Person
                          select new FactViewModel
                          {
-                             Id = pf.Id,
-                             PrmId = pf.FactId,
-                             FactDate = pf.FactDate,
-                             Name = pfn.Name,
-                             MiscId = pf.IntValue,
-                             MiscValue = x.MiscValue,
-                             DicId = x.MiscId,
-                             StringValue = pf.StringValue,
-                             DateValue = pf.DateValue,
-                             FloatValue = pf.FloatValue,
-                             PrmCategory = pfn.Category,
-                             PrmType = pfn.Type
+                             Id = fl.Id,
+                             PrmId = fl.FactId,
+                             FactDate = fl.FactDate,
+                             Name = fn.Name,
+                             MiscId = fl.IntValue,
+                             DicId = fn.MiscParentId,
+                             StringValue = fl.StringValue,
+                             DateValue = fl.DateValue,
+                             FloatValue = fl.FloatValue,
+                             PrmCategory = fn.Category,
+                             PrmType = fn.Type
                          }).ToDictionary(k => k.Name, v => v);
 
-            pvm.Parameters = (from pp in _repPersonParams.GetAll()
-                              join ppn in _repParameterFactNames.GetAll() on pp.ParameterId equals ppn.Id
-                              join m in _repMisc.GetAll() on pp.IntValue equals m.Id into mlj
-                              from x in mlj.DefaultIfEmpty()
-                              where pp.PersonId == id
+            pvm.Parameters = (from pn in _repParameterFactNames.GetAll()
+                              join pp in _repPersonParams.GetAll().Where(p => p.PersonId == id) on pn.Id equals pp.ParameterId into pt
+                              from pl in pt.DefaultIfEmpty()
+                              where (pn.PersonCategory & person.Category) > 0 && pn.IsFact == false && pn.Category == ParameterCategory.Person
                               select new ParameterViewModel
                               {
-                                  Id = pp.Id,
-                                  PrmId = pp.ParameterId,
-                                  Name = ppn.Name,
-                                  MiscId = pp.IntValue,
-                                  MiscValue = x.MiscValue,
-                                  DicId = x.MiscId,
-                                  StringValue = pp.StringValue,
-                                  FloatValue = pp.FloatValue,
-                                  DateValue = pp.DateValue,
-                                  PrmCategory = ppn.Category,
-                                  PrmType = ppn.Type
+                                  Id = pl.Id,
+                                  PrmId = pl.ParameterId,
+                                  Name = pn.Name,
+                                  MiscId = pl.IntValue,
+                                  DicId = pn.MiscParentId,
+                                  StringValue = pl.StringValue,
+                                  FloatValue = pl.FloatValue,
+                                  DateValue = pl.DateValue,
+                                  PrmCategory = pn.Category,
+                                  PrmType = pn.Type
                               }).ToDictionary(k => k.Name, v => v);
 
             pvm.DocsCount = (from d in _repDocs.GetAll()
@@ -154,24 +154,22 @@ namespace FMS.Controllers
 
             foreach (var d in documents)
             {
-                d.Parameters = (from dp in _repDocParams.GetAll()
-                                join dpn in _repParameterFactNames.GetAll() on dp.ParameterId equals dpn.Id
-                                join m in _repMisc.GetAll() on dp.IntValue equals m.Id into mlj
-                                from x in mlj.DefaultIfEmpty()
-                                where dp.DocumentId == d.Id
+                d.Parameters = (from pn in _repParameterFactNames.GetAll()                                
+                                join dp in _repDocParams.GetAll().Where(dc => dc.DocumentId == d.Id) on pn.Id equals dp.ParameterId into dt
+                                from dj in dt.DefaultIfEmpty()
+                                where pn.DocType == d.Type && pn.IsFact == false && pn.Category == ParameterCategory.Document
                                 select new ParameterViewModel
                                 {
-                                    Id = dp.Id,
-                                    PrmId = dp.ParameterId,
-                                    Name = dpn.Name,
-                                    StringValue = dp.StringValue,
-                                    FloatValue = dp.FloatValue,
-                                    DateValue = dp.DateValue,
-                                    MiscId = dp.IntValue,
-                                    MiscValue = x.MiscValue,
-                                    DicId = x.MiscId,
-                                    PrmCategory = dpn.Category,
-                                    PrmType = dpn.Type
+                                    Id = dj.Id,
+                                    PrmId = dj.ParameterId,
+                                    Name = pn.Name,
+                                    StringValue = dj.StringValue,
+                                    FloatValue = dj.FloatValue,
+                                    DateValue = dj.DateValue,
+                                    MiscId = dj.IntValue,
+                                    DicId = pn.MiscParentId,
+                                    PrmCategory = pn.Category,
+                                    PrmType = pn.Type
                                 }).ToList();
             };
 
@@ -189,9 +187,9 @@ namespace FMS.Controllers
             }
 
             var list = (from pf in _repPersonFacts.GetAll()
-                        join m in _repMisc.GetAll() on pf.IntValue equals m.Id into mlj
                         join pfn in _repParameterFactNames.GetAll() on pf.FactId equals pfn.Id
-                        from x in mlj.DefaultIfEmpty()
+                        join m in _repMisc.GetAll() on pf.IntValue equals m.Id into mt
+                        from ml in mt.DefaultIfEmpty()
                         where pf.PersonId == personId && pf.FactId == factId
                         orderby pf.FactDate descending
                         select new FactViewModel
@@ -201,7 +199,8 @@ namespace FMS.Controllers
                             FactDate = pf.FactDate,
                             Name = pfn.Name,
                             MiscId = pf.IntValue,
-                            MiscValue = x.MiscValue,
+                            MiscValue = ml.MiscValue,
+                            DicId = pfn.MiscParentId,
                             StringValue = pf.StringValue,
                             DateValue = pf.DateValue,
                             FloatValue = pf.FloatValue,

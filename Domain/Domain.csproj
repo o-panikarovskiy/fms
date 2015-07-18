@@ -77,7 +77,7 @@
     <Compile Include="Models\DocumentParameter.cs" />
     <Compile Include="Models\DocumentFact.cs" />
     <Compile Include="Models\Misc.cs" />
-    <Compile Include="Models\PrmFactName.cs" />
+    <Compile Include="Models\ParameterName.cs" />
     <Compile Include="Models\PersonFact.cs" />
     <Compile Include="Models\PersonParameter.cs" />
     <Compile Include="Models\SearchQuery.cs" />
