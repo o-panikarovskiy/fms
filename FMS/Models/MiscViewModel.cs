@@ -9,12 +9,12 @@ namespace FMS.Models
         public string Value { get; set; }
     }
 
-    public class DictioanryMiscViewModel
+    public class DictioanaryMiscViewModel
     {
         public IList<MiscViewModel> Dictionary { get; set; }
     }
 
-    public class DictioanryBindModel
+    public class DictioanaryBindModel
     {
         public string Name { get; set; }
         public DocumentType? DocType { get; set; }

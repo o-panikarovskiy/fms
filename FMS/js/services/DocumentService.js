@@ -10,6 +10,12 @@
             });
         };
 
+        DocumentService.create = function (doc) {
+            return $http.post(config.API_ROOT + 'document', doc).then(function (res) {
+                return res.data;
+            });
+        };
+
         return DocumentService;
     }]);
 

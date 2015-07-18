@@ -18,6 +18,9 @@
                             Документ №: {{doc.number}}
                             <small data-ng-if="doc.createdDate==doc.updatedDate">(создан: {{::doc.createdDate|date:'dd.MM.yyyy'}}, автор: {{::doc.createdBy}})</small>
                             <small data-ng-if="doc.createdDate!=doc.updatedDate">(изменен: {{doc.updatedDate|date:'dd.MM.yyyy'}}, автор: {{doc.updatedBy}})</small>
+                            <button class="btn btn-sm btn-default">
+                                <i class="fa fa-trash-o"></i>
+                            </button>
                         </h4>
 
                         <div class="row">

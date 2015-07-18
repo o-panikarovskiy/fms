@@ -60,7 +60,7 @@ namespace FMS.Controllers
                          select new FactViewModel
                          {
                              Id = fl.Id,
-                             PrmId = fl.FactId,
+                             PrmId = fn.Id,
                              FactDate = fl.FactDate,
                              Name = fn.Name,
                              MiscId = fl.IntValue,
@@ -79,7 +79,7 @@ namespace FMS.Controllers
                               select new ParameterViewModel
                               {
                                   Id = pl.Id,
-                                  PrmId = pl.ParameterId,
+                                  PrmId = pn.Id,
                                   Name = pn.Name,
                                   MiscId = pl.IntValue,
                                   DicId = pn.MiscParentId,
@@ -161,7 +161,7 @@ namespace FMS.Controllers
                                 select new ParameterViewModel
                                 {
                                     Id = dj.Id,
-                                    PrmId = dj.ParameterId,
+                                    PrmId = pn.Id,
                                     Name = pn.Name,
                                     StringValue = dj.StringValue,
                                     FloatValue = dj.FloatValue,

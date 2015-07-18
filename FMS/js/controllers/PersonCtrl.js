@@ -27,7 +27,7 @@
             $scope.toggleDocuments = function (type) {
                 $scope.vm.collapse[type] = !$scope.vm.collapse[type];
                 if (!$scope.documents[type]) {
-                    loadDocuments($state.params.id, type);
+                    loadDocuments($scope.person.id, type);
                 }
             };
 
@@ -40,6 +40,17 @@
             $scope.saveDoc = function (form, doc) {
                 if (form.$valid) {
                     saveDocument(doc);
+                }
+            }
+
+            $scope.createDoc = function (form) {
+                if (form.$valid) {
+                    createDocument({
+                        type: $scope.vm.newDocType,
+                        personFromId: $scope.person.id
+                    }).then(function (doc) {
+
+                    });
                 }
             }
 
@@ -67,9 +78,23 @@
                 });
             }
 
-            function loadDocuments(id, type) {
+            function createDocument(doc) {
+                $scope.vm.loader.creatingDocument = true;
+                $scope.vm.state.creatingDocument = 0;
+                return DocumentService.create(doc).then(function (resDoc) {
+                    $scope.vm.state.creatingDocument = 1;
+                    $scope.person.docsCount[doc.type] = ($scope.person.docsCount[doc.type] | 0) + 1;
+                    return resDoc;
+                }).catch(function () {
+                    $scope.vm.state.creatingDocument = 2;
+                }).finally(function () {
+                    $scope.vm.loader.creatingDocument = false;
+                });
+            }
+
+            function loadDocuments(personId, type) {
                 $scope.vm.loader[type] = true;
-                return PersonService.getDocuments(id, type).then(function (data) {
+                return PersonService.getDocuments(personId, type).then(function (data) {
                     $scope.documents[type] = data.documents;
                     loadAdditionalDicts(data.documents);
                     return data;

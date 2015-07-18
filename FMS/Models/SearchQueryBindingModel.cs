@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FMS.Models
 {
-    public class PersonQueryBindingModel
+    public class SearchPersonBindingModel
     {
         public string Name { get; set; }
         public DateTime? Birthday { get; set; }
@@ -21,13 +21,13 @@ namespace FMS.Models
         public string Email { get; set; }
     }
 
-    public class DocumentBindingModel
+    public class SearchDocumentBindingModel
     {
         public string DocNo { get; set; }
         public bool IsChecked { get; set; }
     }
 
-    public class AdminPracticeDocBindingModel : DocumentBindingModel
+    public class SearchAPDocBindingModel : SearchDocumentBindingModel
     {
         public DateTime? StDateCreate { get; set; }
         public DateTime? EndDateCreate { get; set; }
@@ -41,7 +41,7 @@ namespace FMS.Models
         public int? PenaltyType { get; set; }
     }
 
-    public class MigrationRegisrationBindingModel : DocumentBindingModel
+    public class SearchMUBindingModel : SearchDocumentBindingModel
     {
         public int? CardMark { get; set; }
         public int? PurposeOfEntry { get; set; }
@@ -55,7 +55,7 @@ namespace FMS.Models
         public DateTime? RegDateTo { get; set; }
     }
 
-    public class RVPBindingModel : DocumentBindingModel
+    public class SearchRVPBindingModel : SearchDocumentBindingModel
     {
         public string DecisionNo { get; set; }
         public string RvpNo { get; set; }
@@ -73,7 +73,7 @@ namespace FMS.Models
 
     }
 
-    public class VngBindingModel : DocumentBindingModel
+    public class SearchVNGBindingModel : SearchDocumentBindingModel
     {
         public string DocNo2 { get; set; }
         public string VngNo { get; set; }
@@ -94,7 +94,7 @@ namespace FMS.Models
 
     }
 
-    public class CtzBindingModel : DocumentBindingModel
+    public class SearchCtzBindingModel : SearchDocumentBindingModel
     {
         public string DecisionNo { get; set; }
         public int? DocActionType { get; set; }
@@ -110,16 +110,16 @@ namespace FMS.Models
 
     public class SearchDocumnet
     {
-        public AdminPracticeDocBindingModel Ap { get; set; }
-        public MigrationRegisrationBindingModel Mu { get; set; }
-        public RVPBindingModel Rvp { get; set; }
-        public VngBindingModel Vng { get; set; }
-        public CtzBindingModel Ctz { get; set; }
+        public SearchAPDocBindingModel Ap { get; set; }
+        public SearchMUBindingModel Mu { get; set; }
+        public SearchRVPBindingModel Rvp { get; set; }
+        public SearchVNGBindingModel Vng { get; set; }
+        public SearchCtzBindingModel Ctz { get; set; }
     }
 
     public class SearchQueryBindingModel
     {
-        public PersonQueryBindingModel Person { get; set; }
+        public SearchPersonBindingModel Person { get; set; }
         public SearchDocumnet Docs { get; set; }
     }
 }

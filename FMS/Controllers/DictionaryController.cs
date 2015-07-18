@@ -25,14 +25,14 @@ namespace FMS.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult GetDictionary([FromBody] DictioanryBindModel query)
+        public IHttpActionResult GetDictionary([FromBody] DictioanaryBindModel query)
         {
             if (string.Compare(query.Name, "PersonCategory", true) == 0)
             {
                 var result = new List<MiscViewModel>(2);
                 result.Add(new MiscViewModel { Key = (int)PersonCategory.Individual, Value = "Физическое лицо" });
                 result.Add(new MiscViewModel { Key = (int)PersonCategory.Legal, Value = "Юридическое лицо" });
-                return Ok(new DictioanryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
+                return Ok(new DictioanaryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
             }
 
             if (string.Compare(query.Name, "PersonType", true) == 0)
@@ -40,7 +40,7 @@ namespace FMS.Controllers
                 var result = new List<MiscViewModel>(2);
                 result.Add(new MiscViewModel { Key = (int)PersonType.Applicant, Value = "Соискатель" });
                 result.Add(new MiscViewModel { Key = (int)PersonType.Host, Value = "Принимающая сторона" });
-                return Ok(new DictioanryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
+                return Ok(new DictioanaryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
             }
 
             if (string.Compare(query.Name, "DocumentType", true) == 0)
@@ -51,7 +51,7 @@ namespace FMS.Controllers
                 result.Add(new MiscViewModel { Key = (int)DocumentType.MigrationRegistration, Value = "Миграционный учёт" });
                 result.Add(new MiscViewModel { Key = (int)DocumentType.Residence, Value = "Разрешение на временное проживание" });
                 result.Add(new MiscViewModel { Key = (int)DocumentType.TemporaryResidencePermit, Value = "Вид на жительство" });
-                return Ok(new DictioanryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
+                return Ok(new DictioanaryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
             }
 
 
@@ -76,7 +76,7 @@ namespace FMS.Controllers
 
             var res = q.Select(m => new MiscViewModel { Key = m.Id, Value = m.MiscValue }).OrderBy(m => m.Value).ToList();
 
-            return Ok(new DictioanryMiscViewModel { Dictionary = res });
+            return Ok(new DictioanaryMiscViewModel { Dictionary = res });
         }
     }
 }

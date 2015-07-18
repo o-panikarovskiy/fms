@@ -1,6 +1,6 @@
 ﻿<div data-ng-if="!vm.loader.person" class="animate">
     <p class="bg-danger" data-ng-if="vm.loader.errors.person">Анкета не найдена.</p>
-    <div data-ng-if="!!person && !vm.loader.errors.person">
+    <div class="row" data-ng-if="!!person && !vm.loader.errors.person">
         <h1>
             {{person.name}}
             <small data-ng-if="person.category==1">({{person.birthday|date:'dd.MM.yyyy'}})</small>
@@ -8,11 +8,14 @@
         </h1>
 
         <div data-ng-include="'views/person/info.html'" class="spacer-b-40"></div>
+
+        <div data-ng-include="'views/person/createdoc.html'" class="spacer-b-40"></div>
+
         <div data-ng-include="'views/person/ap.html'" data-ng-if="person.docsCount.administrativePractice>0"></div>
         <div data-ng-include="'views/person/mu.html'" data-ng-if="person.docsCount.migrationRegistration>0"></div>
         <div data-ng-include="'views/person/rvp.html'" data-ng-if="person.docsCount.temporaryResidencePermit>0"></div>
         <div data-ng-include="'views/person/vng.html'" data-ng-if="person.docsCount.residence>0"></div>
-        <div data-ng-include="'views/person/ctz.html'" data-ng-if="person.docsCount.citizenship>0"></div>        
+        <div data-ng-include="'views/person/ctz.html'" data-ng-if="person.docsCount.citizenship>0"></div>
     </div>
 </div>
 <img class="spacer-80 preloader" src="img/dark_preloader.gif" data-ng-if="vm.loader.person" />
