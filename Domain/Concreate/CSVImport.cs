@@ -417,8 +417,8 @@ namespace Domain.Concreate
                 if (DateTime.TryParseExact(row["дата рождения"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthday))
                 {
                     var m1 = GetOrCreateMisc(mscNames["Гражданство"], row["гражданство"]);
-                    var m2 = GetOrCreateMisc(mscNames["Отметка проставлена (МУ)"], row["отметка проставлена"]);
-                    var m3 = GetOrCreateMisc(mscNames["Цель въезда (МУ)"], row["цель въезда"]);
+                    var m2 = GetOrCreateMisc(mscNames["Отметка проставлена"], row["отметка проставлена"]);
+                    var m3 = GetOrCreateMisc(mscNames["Цель въезда"], row["цель въезда"]);
                     var m4 = GetOrCreateMisc(mscNames["Первично/Продлено"], row["первично/продлено"]);
                     var m5 = GetOrCreateMisc(mscNames["КПП въезда"], row["КПП въезда"]);
 
@@ -629,7 +629,7 @@ namespace Domain.Concreate
         {
             strValue = NormalizeString(strValue, true);
 
-            var fact = _db.PersonFacts.SingleOrDefault(f => f.PersonId == person.Id && f.FactId == factName.Id && f.StringValue == strValue
+            var fact = _db.PersonFacts.FirstOrDefault(f => f.PersonId == person.Id && f.FactId == factName.Id && f.StringValue == strValue
             && f.IntValue == intValue && f.FloatValue == floatValue && f.DateValue == dateValue);
 
             if (fact == null)
