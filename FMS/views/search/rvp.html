@@ -32,7 +32,7 @@
                             id="admissionReason"
                             name="admissionReason"
                             data-ng-disabled="vm.loader.admissionReasonRvp"
-                            data-ng-options="item.key as item.value for item in vm.dicts.admissionReasonRvp"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Основание для приема']"
                             data-ng-model="searchModel.docs.rvp.admissionReason">
                         <option value=""></option>
                     </select>
@@ -45,7 +45,7 @@
                             id="decisionBase"
                             name="decisionBase"
                             data-ng-disabled="vm.loader.decisionBaseRvp"
-                            data-ng-options="item.key as item.value for item in vm.dicts.decisionBaseRvp"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Основание решения']"
                             data-ng-model="searchModel.docs.rvp.decisionBase">
                         <option value=""></option>
                     </select>
@@ -58,7 +58,7 @@
                             id="decisionUser"
                             name="decisionUser"
                             data-ng-disabled="vm.loader.decisionUserRVP"
-                            data-ng-options="item.key as item.value for item in vm.dicts.decisionUserRVP"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Пользователь решения']"
                             data-ng-model="searchModel.docs.rvp.decisionUser">
                         <option value=""></option>
                     </select>

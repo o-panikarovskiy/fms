@@ -30,6 +30,6 @@ namespace Domain.Models
 
         public Document Document { get; set; }
 
-        public PrmFactName Fact { get; set; }
+        public ParameterName Fact { get; set; }
     }
 }

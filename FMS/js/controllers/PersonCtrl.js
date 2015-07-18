@@ -9,9 +9,6 @@
         $scope.person = {};
         $scope.documents = {};
 
-        var DOC_TYPES = { administrativePractice: 1, temporaryResidencePermit: 2, residence: 3, citizenship: 4, migrationRegistration: 5 };
-
-
         $scope.toggleDocuments = function (type) {
             $scope.vm.collapse[type] = !$scope.vm.collapse[type];
             if (!$scope.documents[type]) {
@@ -57,8 +54,7 @@
         function loadAdditionalDicts(documents) {
             var dicts = {};
             documents.forEach(function (doc) {
-                Object.keys(doc.parameters).forEach(function (key) {
-                    var prm = doc.parameters[key];
+                doc.parameters.forEach(function (prm) {
                     if (prm.prmType === 1) {
                         dicts[prm.dicId] = true;
                     }
@@ -68,7 +64,7 @@
             var promises = Object.keys(dicts).filter(function (key) {
                 return !$scope.vm.dicts[key];
             }).map(function (key) {
-                return loadDict(key);
+                return loadDict(key, null, null);
             });
 
             $scope.vm.loader.addDicts = true;
@@ -89,25 +85,13 @@
             });
         };
 
-        //TO DO: удалить эту функцию, если вариант с подзагрузкой документов по желанию их устроит
-        function afterPersonLoadDocuments(person) {
-            var promises = Object.keys(person.docsCount).filter(function (key) {
-                return person.docsCount[key] > 0;
-            }).map(function (key) {
-                $scope.vm.collapse[key] = true;
-                return loadDocuments(person.id, key);
-            });
-
-            return $q.all(promises);
-        };
-
-        function loadDict(name, ruName) {
-            return DictionaryService.get(name, $scope.vm, ruName);
+        function loadDict(name, docType, category) {
+            return DictionaryService.get(name, docType, category, $scope.vm);
         };
 
         function init() {
             $scope.vm.loader.dicts = true;
-            $q.all([loadDict('personCategory'), loadDict('personType'), loadDict('citizenship'), loadDict('privateDoc')]).finally(function () {
+            $q.all([loadDict('personCategory'), loadDict('personType'), loadDict('Гражданство', null, 'individual'), loadDict('Личный документ', null, 'individual')]).finally(function () {
                 $scope.vm.loader.dicts = false;
             });
 

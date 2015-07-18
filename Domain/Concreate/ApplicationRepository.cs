@@ -100,7 +100,7 @@ namespace Domain.Concreate
         }
 
         public IQueryable<T> GetAll()
-        {
+        {          
             return _dbContext.Set<T>().AsQueryable();
         }
 

@@ -32,7 +32,7 @@
                             id="docActionType"
                             name="docActionType"
                             data-ng-disabled="vm.loader.docActionTypeVng"
-                            data-ng-options="item.key as item.value for item in vm.dicts.docActionTypeVng"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Тип дела']"
                             data-ng-model="searchModel.docs.vng.docActionType">
                         <option value=""></option>
                     </select>
@@ -45,7 +45,7 @@
                             id="docAdmission"
                             name="docAdmission"
                             data-ng-disabled="vm.loader.docAdmissionVng"
-                            data-ng-options="item.key as item.value for item in vm.dicts.docAdmissionVng"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Основание дела']"
                             data-ng-model="searchModel.docs.vng.docAdmission">
                         <option value=""></option>
                     </select>
@@ -58,7 +58,7 @@
                             id="decisionType"
                             name="decisionType"
                             data-ng-disabled="vm.loader.decisionTypeVng"
-                            data-ng-options="item.key as item.value for item in vm.dicts.decisionTypeVng"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Тип решения']"
                             data-ng-model="searchModel.docs.vng.decisionType">
                         <option value=""></option>
                     </select>
@@ -71,7 +71,7 @@
                             id="series"
                             name="series"
                             data-ng-disabled="vm.loader.seriesVng"
-                            data-ng-options="item.key as item.value for item in vm.dicts.seriesVng"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Серия ВНЖ']"
                             data-ng-model="searchModel.docs.vng.series">
                         <option value=""></option>
                     </select>
