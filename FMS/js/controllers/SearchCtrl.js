@@ -2,9 +2,7 @@
     'use strict';
 
     angular.module('fms').controller('SearchCtrl', ['$scope', '$state', '$q', 'DictionaryService', 'SearchService', function ($scope, $state, $q, DictionaryService, SearchService) {
-        $scope.vm = { loader: {} };
-
-        $scope.searchModel = {
+        var model = {
             person: {
                 birthday: null,
                 name: null,
@@ -30,6 +28,9 @@
             }
         };
 
+        $scope.vm = { loader: {} };
+        $scope.searchModel = angular.copy(model);
+
         $scope.search = function () {
             $scope.vm.isSendingRequest = true;
             return SearchService.query(bindModel($scope.searchModel)).then(function (data) {
@@ -37,6 +38,10 @@
             }).finally(function () {
                 $scope.vm.isSendingRequest = false;
             });
+        }
+
+        $scope.reset = function () {
+            $scope.searchModel = angular.copy(model);
         }
 
         $scope.loadDict = function (name, docType, categody, vm) {

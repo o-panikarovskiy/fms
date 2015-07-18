@@ -26,15 +26,15 @@
                     Гражданство
                 </label>
                 <span class="clickable"
-                      data-ng-if="person.facts.citizenship.prmId"
+                      data-ng-if="person.facts['гражданство'].prmId"
                       data-fact-history=""
-                      data-fact-id="person.facts.citizenship.prmId"
+                      data-fact-id="person.facts['гражданство'].prmId"
                       data-person-id="person.id"
                       data-value-name="miscValue"></span>
                 <select class="form-control"
                         id="citizenship"
                         name="citizenship"
-                        data-ng-disabled="vm.loader.citizenship"
+                        data-ng-disabled="vm.loader['Гражданство']"
                         data-ng-options="item.key as item.value for item in vm.dicts['Гражданство']"
                         data-ng-model="person.facts['гражданство'].miscId">
                     <option value=""></option>
@@ -56,15 +56,15 @@
             <div class="form-group">
                 <label for="personDocType">Личный документ</label>
                 <span class="clickable"
-                      data-ng-if="person.facts.privateDoc.prmId"
+                      data-ng-if="person.facts['личный документ'].prmId"
                       data-fact-history=""
-                      data-fact-id="person.facts.privateDoc.prmId"
+                      data-fact-id="person.facts['личный документ'].prmId"
                       data-person-id="person.id"
                       data-value-name="miscValue"></span>
                 <select class="form-control"
                         id="privateDoc"
                         name="privateDoc"
-                        data-ng-disabled="vm.loader.privateDoc"
+                        data-ng-disabled="vm.loader['Личный документ']"
                         data-ng-options="item.key as item.value for item in vm.dicts['Личный документ']"
                         data-ng-model="person.facts['личный документ'].miscId">
                     <option value=""></option>
@@ -75,12 +75,12 @@
             <div class="form-group">
                 <label for="docNo">Номер личного документа</label>
                 <span class="clickable"
-                      data-ng-if="person.facts.privateDoc.prmId"
+                      data-ng-if="person.facts['личный документ'].prmId"
                       data-fact-history=""
-                      data-fact-id="person.facts.privateDoc.prmId"
+                      data-fact-id="person.facts['личный документ'].prmId"
                       data-person-id="person.id"
                       data-value-name="stringValue"></span>
-                <input class="form-control" id="name" name="name" maxlength="255" data-ng-model="person.facts.privateDoc.stringValue" />
+                <input class="form-control" id="name" name="name" maxlength="255" data-ng-model="person.facts['личный документ'].stringValue" />
             </div>
         </div>
         <div class="col-md-6">
@@ -125,9 +125,9 @@
             <div class="form-group">
                 <label for="address">Адрес</label>
                 <span class="clickable"
-                      data-ng-if="person.facts.address.prmId"
+                      data-ng-if="person.facts['адрес'].prmId"
                       data-fact-history=""
-                      data-fact-id="person.facts.address.prmId"
+                      data-fact-id="person.facts['адрес'].prmId"
                       data-person-id="person.id"
                       data-value-name="stringValue"></span>
                 <textarea class="form-control col-md-12"

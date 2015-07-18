@@ -9,9 +9,6 @@
         $scope.person = {};
         $scope.documents = {};
 
-        var DOC_TYPES = { administrativePractice: 1, temporaryResidencePermit: 2, residence: 3, citizenship: 4, migrationRegistration: 5 };
-
-
         $scope.toggleDocuments = function (type) {
             $scope.vm.collapse[type] = !$scope.vm.collapse[type];
             if (!$scope.documents[type]) {
