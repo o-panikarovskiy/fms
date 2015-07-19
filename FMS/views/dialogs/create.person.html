@@ -1,0 +1,89 @@
+﻿<div class="content">
+    <div class="modal-header">
+        <h3 class="modal-title">
+            Создать анкету:
+        </h3>
+    </div>
+    <script type="text/ng-template" id="person-template.html">
+        <a>
+            <span data-bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+        </a>
+    </script>
+
+    <form name="form" class="form" data-ng-submit="ok(form)">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="category">
+                    Соискатель/Принимающая сторона:
+                </label>
+                <select class="form-control"
+                        id="type"
+                        name="type"
+                        required=""
+                        data-ng-disabled="vm.loader.personType"
+                        data-ng-options="item.key as item.value for item in vm.dicts.personType"
+                        data-ng-model="model.type"></select>
+            </div>
+            <div class="form-group">
+                <label for="category">
+                    Физическое/Юридическое лицо:
+                </label>
+                <select class="form-control"
+                        id="category"
+                        name="category"
+                        required=""
+                        data-ng-disabled="vm.loader.personCategory"
+                        data-ng-options="item.key as item.value for item in vm.dicts.personCategory"
+                        data-ng-model="model.category"></select>
+            </div>
+            <div data-ng-if="model.category == 'individual'">
+                <div class="form-group" data-ng-class="{'has-error': vm.error}">
+                    <label for="fio">ФИО</label>
+                    <input type="text"
+                           id="fio"
+                           name="fio"
+                           class="form-control"
+                           required=""
+                           data-ng-model="model.name" />
+                </div>
+                <div class="form-group" data-ng-class="{'has-error': vm.error}">
+                    <label for="birthday">Дата рождения</label>
+                    <input type="text"
+                           class="form-control"
+                           id="birthday"
+                           name="birthday"
+                           required=""
+                           data-bs-datepicker=""
+                           data-ng-model="model.birthday" />
+                </div>
+            </div>
+            <div data-ng-if="model.category == 'legal'">
+                <div class="form-group" data-ng-class="{'has-error': vm.error}">
+                    <label for="name">Название</label>
+                    <input type="text"
+                           id="name"
+                           name="name"
+                           class="form-control"
+                           required=""
+                           data-ng-model="model.name" />
+                </div>
+                <div class="form-group" data-ng-class="{'has-error': vm.error}">
+                    <label for="code">ИНН</label>
+                    <input type="text"
+                           id="code"
+                           name="code"
+                           class="form-control"
+                           required=""
+                           data-ng-model="model.code" />
+                </div>
+            </div>
+            <p class="bg-danger" data-ng-if="vm.error">
+                {{vm.error}}
+            </p>
+        </div>
+        <div class="modal-footer" data-ng-if="vm.status!=200">
+            <button class="btn btn-primary" type="submit" data-ng-disabled="form.$invalid">Создать</button>
+            <button class="btn btn-danger" type="button" data-ng-click="close()">Отмена</button>
+        </div>
+    </form>
+</div>

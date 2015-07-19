@@ -19,7 +19,7 @@
                             id="cardMark"
                             name="cardMark"
                             data-ng-disabled="vm.loader.cardMarkMu"
-                            data-ng-options="item.key as item.value for item in vm.dicts.cardMarkMu"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Отметка проставлена']"
                             data-ng-model="searchModel.docs.mu.cardMark">
                         <option value=""></option>
                     </select>
@@ -32,7 +32,7 @@
                             id="purposeOfEntry"
                             name="purposeOfEntry"
                             data-ng-disabled="vm.loader.purposeOfEntryMu"
-                            data-ng-options="item.key as item.value for item in vm.dicts.purposeOfEntryMu"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Цель въезда']"
                             data-ng-model="searchModel.docs.mu.purposeOfEntry">
                         <option value=""></option>
                     </select>
@@ -45,7 +45,7 @@
                             id="primaryExtend"
                             name="primaryExtend"
                             data-ng-disabled="vm.loader.primaryExtendMu"
-                            data-ng-options="item.key as item.value for item in vm.dicts.primaryExtendMu"
+                            data-ng-options="item.key as item.value for item in vm.dicts['Первично/Продлено']"
                             data-ng-model="searchModel.docs.mu.primaryExtend">
                         <option value=""></option>
                     </select>
@@ -58,7 +58,7 @@
                             id="kPP"
                             name="kPP"
                             data-ng-disabled="vm.loader.kPPMu"
-                            data-ng-options="item.key as item.value for item in vm.dicts.kPPMu"
+                            data-ng-options="item.key as item.value for item in vm.dicts['КПП въезда']"
                             data-ng-model="searchModel.docs.mu.kPP">
                         <option value=""></option>
                     </select>

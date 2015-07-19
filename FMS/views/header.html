@@ -3,10 +3,15 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li data-ui-sref-active="active">
+                    <a data-ng-click="createPerson()">
+                        <i class="fa fa-user-plus"></i> Создать анкету
+                    </a>
+                </li>
+                <li data-ui-sref-active="active">
                     <a data-ui-sref="root.home">
                         <i class="fa fa-download"></i> Импорт
                     </a>
-                </li>
+                </li>               
                 <li data-ui-sref-active="active">
                     <a data-ui-sref="root.search">
                         <i class="fa fa-search"></i> Поиск

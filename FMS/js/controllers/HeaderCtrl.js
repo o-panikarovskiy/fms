@@ -10,6 +10,12 @@
         $scope.changePassword = function () {
             DialogManager.showChangePassword();
         }
+
+        $scope.createPerson = function () {
+            DialogManager.showCreatePerson({ category: 'individual', type: 'applicant' }).then(function (person) {
+                $state.go('root.person', { id: person.id });
+            });
+        }
     }]);
 
 })(window, window.angular);

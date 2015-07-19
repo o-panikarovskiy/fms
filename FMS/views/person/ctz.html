@@ -3,7 +3,7 @@
         <div class="panel-heading clearfix clickable" data-ng-click="toggleDocuments('citizenship')">
             <h3 class="panel-title pull-left">
                 Документы - Гражданство
-                <span>({{::person.docsCount.citizenship}})</span>
+                <span>({{person.docsCount.citizenship}})</span>
             </h3>
             <h3 class="panel-title pull-right">
                 <i class="fa"
@@ -18,6 +18,9 @@
                             Документ №: {{doc.number}}
                             <small data-ng-if="doc.createdDate==doc.updatedDate">(создан: {{::doc.createdDate|date:'dd.MM.yyyy'}}, автор: {{::doc.createdBy}})</small>
                             <small data-ng-if="doc.createdDate!=doc.updatedDate">(изменен: {{doc.updatedDate|date:'dd.MM.yyyy'}}, автор: {{doc.updatedBy}})</small>
+                            <button class="btn btn-xs btn-danger pull-right" data-ng-click="removeDoc(doc)">
+                                Удалить
+                            </button>
                         </h4>
 
                         <div class="row">
@@ -26,100 +29,17 @@
                                     <label for="number">
                                         Номер документа
                                     </label>
-                                    <input type="text" class="form-control" id="number" name="number" maxlength="255" data-ng-model="doc.number" />
-                                </div>
-                            </div>
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="form-group">
-                                    <label>
-                                        Тип дела
-                                    </label>
-                                    <select class="form-control"
-                                            name="docActionType"
-                                            data-ng-disabled="vm.loader[doc.parameters.docActionType.dicId]"
-                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.docActionType.dicId]"
-                                            data-ng-model="doc.parameters.docActionType.miscId">
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="form-group">
-                                    <label>
-                                        Дата приема
-                                    </label>
                                     <input type="text"
                                            class="form-control"
-                                           name="admissionDate"
-                                           data-ng-model="doc.parameters.admissionDate.dateValue"
-                                           data-bs-datepicker="">
+                                           id="number"
+                                           name="number"
+                                           maxlength="255"
+                                           data-ng-model="doc.number"
+                                           data-ng-model-options="vm.modelUpdate"
+                                           data-ng-change="saveDoc(docForm, doc)" />
                                 </div>
                             </div>
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="form-group">
-                                    <label>
-                                        Основание для приема
-                                    </label>
-                                    <select class="form-control"
-                                            name="admissionReason"
-                                            data-ng-disabled="vm.loader[doc.parameters.admissionReason.dicId]"
-                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.admissionReason.dicId]"
-                                            data-ng-model="doc.parameters.admissionReason.miscId">
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="form-group">
-                                    <label>
-                                        Решение
-                                    </label>
-                                    <select class="form-control"
-                                            name="decision"
-                                            data-ng-disabled="vm.loader[doc.parameters.decision.dicId]"
-                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.decision.dicId]"
-                                            data-ng-model="doc.parameters.decision.miscId">
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="form-group">
-                                    <label>
-                                        Основание решения
-                                    </label>
-                                    <select class="form-control"
-                                            name="decisionBase"
-                                            data-ng-disabled="vm.loader[doc.parameters.decisionBase.dicId]"
-                                            data-ng-options="item.key as item.value for item in vm.dicts[doc.parameters.decisionBase.dicId]"
-                                            data-ng-model="doc.parameters.decisionBase.miscId">
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="form-group">
-                                    <label>
-                                        Дата решения
-                                    </label>
-                                    <input type="text"
-                                           class="form-control"
-                                           name="decisionDate"
-                                           data-ng-model="doc.parameters.decisionDate.dateValue"
-                                           data-bs-datepicker="">
-                                </div>
-                            </div>
-                            <div class="col-md-8 col-md-offset-2">
-                                <div class="form-group">
-                                    <label>
-                                        Номер решения
-                                    </label>
-                                    <input type="text"
-                                           class="form-control"
-                                           name="decisionNo"
-                                           data-ng-model="doc.parameters.decisionNo.stringValue">
-                                </div>
-                            </div>
+                            <div data-ng-include="'views/person/prms-body.html'"></div>
                         </div>
                     </div>
                 </form>

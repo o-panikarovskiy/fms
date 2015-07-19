@@ -3,6 +3,9 @@ body {
   padding-bottom: 40px;
   background-color: #eee;
 }
+a {
+  cursor: pointer;
+}
 .form {
   padding: 15px;
   margin: 0 auto;
@@ -95,6 +98,14 @@ body {
 .panel-search .s-block .bs-callout {
   margin: 5px 0;
   padding: 20px;
+}
+.create-doc .typehead-conteiner {
+  position: relative;
+}
+.create-doc .typehead-conteiner .fa-spin {
+  position: absolute;
+  right: 10px;
+  top: 34px;
 }
 .bs-callout {
   padding: 20px;

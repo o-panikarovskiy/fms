@@ -13,24 +13,24 @@ namespace Domain.Models
         [Key]
         public int Id { get; set; }
 
-        [Index("MiscNameIndex", IsUnique = true)]
-        [MaxLength(255)]
-        public string NameRu { get; set; }
-
-        [Index("MiscNameEnIndex", IsUnique = true)]
+        [Index]
         [MaxLength(255)]
         public string Name { get; set; }
+        public DocumentType? DocType { get; set; }
+        public PersonCategory? PersonCategory { get; set; }
     }
 
     public class Misc
     {
         [Key]
         public int Id { get; set; }
+        [Index]
         public int MiscId { get; set; }
-
-        [MaxLength(1024)]
+        [Index]
+        [MaxLength(1024)]        
         public string MiscValue { get; set; }
         public MiscName MiscParent { get; set; }
+        public float OrderIndex { get; set; }
 
     }
 }

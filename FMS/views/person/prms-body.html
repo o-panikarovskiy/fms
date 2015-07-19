@@ -1,0 +1,49 @@
+﻿<div class="col-md-8 col-md-offset-2" data-ng-repeat="prm in doc.parameters track by prm.prmId">
+    <div class="form-group">
+        <label data-ng-attr-for="{{prm.id}}">{{prm.name}}</label>
+        <div data-ng-switch="prm.prmType">
+            <div data-ng-switch-when="misc">
+                <select class="form-control"
+                        data-ng-attr-name="{{prm.name}}"
+                        data-ng-attr-id="{{prm.id}}"
+                        data-ng-disabled="vm.loader[prm.dicId]"
+                        data-ng-options="item.key as item.value for item in vm.dicts[prm.dicId]"
+                        data-ng-model="prm.miscId"
+                        data-ng-change="saveDoc(docForm, doc)">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div data-ng-switch-when="str">
+                <input class="form-control"
+                       maxlength="1024"
+                       data-ng-attr-name="{{prm.name}}"
+                       data-ng-attr-id="{{prm.id}}"
+                       data-ng-model="prm.stringValue"
+                       data-ng-model-options="vm.modelUpdate"
+                       data-ng-change="saveDoc(docForm, doc)" />
+            </div>
+            <div data-ng-switch-when="date">
+                <input type="text"
+                       class="form-control"
+                       placeholder="гггг-мм-дд"
+                       data-ng-attr-name="{{prm.name}}"
+                       data-ng-attr-id="{{prm.id}}"
+                       data-bs-datepicker=""
+                       data-autoclose="true"
+                       data-placement="auto bottom left"
+                       data-ng-model="prm.dateValue"
+                       data-ng-change="saveDoc(docForm, doc)" />
+            </div>
+            <div data-ng-switch-when="float">
+                <input type="text"
+                       class="form-control"
+                       maxlength="255"
+                       data-ng-attr-name="{{prm.name}}"
+                       data-ng-attr-id="{{prm.id}}"
+                       data-ng-model="prm.floatValue"
+                       data-ng-model-options="vm.modelUpdate"
+                       data-ng-change="saveDoc(docForm, doc)" />
+            </div>
+        </div>
+    </div>
+</div>

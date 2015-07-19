@@ -24,56 +24,59 @@ namespace FMS.Controllers
             _repositoryNames = repositoryNames;
         }
 
-        public IHttpActionResult GetDictionary(string id)
+        [HttpPost]
+        public IHttpActionResult GetDictionary([FromBody] DictioanaryBindModel query)
         {
-            if (string.Compare(id, "PersonCategory", true) == 0)
+            if (string.Compare(query.Name, "PersonCategory", true) == 0)
             {
-                var result = new List<MiscViewModel>(2);
-                result.Add(new MiscViewModel { Key = (int)PersonCategory.Individual, Value = "Физическое лицо" });
-                result.Add(new MiscViewModel { Key = (int)PersonCategory.Legal, Value = "Юридическое лицо" });
-                return Ok(new DictioanryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
+                var result = new List<MiscEnumViewModel>(2);
+                result.Add(new MiscEnumViewModel { Key = PersonCategory.Individual, Value = "Физическое лицо" });
+                result.Add(new MiscEnumViewModel { Key = PersonCategory.Legal, Value = "Юридическое лицо" });
+                return Ok(new DictioanaryMiscEnumViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
             }
 
-            if (string.Compare(id, "PersonType", true) == 0)
+            if (string.Compare(query.Name, "PersonType", true) == 0)
             {
-                var result = new List<MiscViewModel>(2);
-                result.Add(new MiscViewModel { Key = (int)PersonType.Applicant, Value = "Соискатель" });
-                result.Add(new MiscViewModel { Key = (int)PersonType.Host, Value = "Принимающая сторона" });
-                return Ok(new DictioanryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
+                var result = new List<MiscEnumViewModel>(2);
+                result.Add(new MiscEnumViewModel { Key = PersonType.Applicant, Value = "Соискатель" });
+                result.Add(new MiscEnumViewModel { Key = PersonType.Host, Value = "Принимающая сторона" });
+                return Ok(new DictioanaryMiscEnumViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
             }
 
-            if (string.Compare(id, "DocumentType", true) == 0)
+            if (string.Compare(query.Name, "DocumentType", true) == 0)
             {
-                var result = new List<MiscViewModel>(5);
-                result.Add(new MiscViewModel { Key = (int)DocumentType.AdministrativePractice, Value = "Административная практика" });
-                result.Add(new MiscViewModel { Key = (int)DocumentType.Citizenship, Value = "Гражданство" });
-                result.Add(new MiscViewModel { Key = (int)DocumentType.MigrationRegistration, Value = "Миграционный учёт" });
-                result.Add(new MiscViewModel { Key = (int)DocumentType.Residence, Value = "Разрешение на временное проживание" });
-                result.Add(new MiscViewModel { Key = (int)DocumentType.TemporaryResidencePermit, Value = "Вид на жительство" });
-                return Ok(new DictioanryMiscViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
+                var result = new List<MiscEnumViewModel>(5);
+                result.Add(new MiscEnumViewModel { Key = DocumentType.AdministrativePractice, Value = "Административная практика" });
+                result.Add(new MiscEnumViewModel { Key = DocumentType.Citizenship, Value = "Гражданство" });
+                result.Add(new MiscEnumViewModel { Key = DocumentType.MigrationRegistration, Value = "Миграционный учёт" });
+                result.Add(new MiscEnumViewModel { Key = DocumentType.TemporaryResidencePermit, Value = "Разрешение на временное проживание" });
+                result.Add(new MiscEnumViewModel { Key = DocumentType.Residence, Value = "Вид на жительство" });
+                return Ok(new DictioanaryMiscEnumViewModel { Dictionary = result.OrderBy(r => r.Value).ToList() });
             }
 
 
 
             int dicId;
-            IQueryable<MiscViewModel> q;
-            if (int.TryParse(id, out dicId))
+            IQueryable<Misc> q;
+            if (int.TryParse(query.Name, out dicId))
             {
                 q = from m in _repository.GetAll()
                     where m.MiscId == dicId
                     orderby m.MiscValue
-                    select new MiscViewModel { Key = m.Id, Value = m.MiscValue };
+                    select m;
             }
             else
             {
                 q = from m in _repository.GetAll()
                     join mn in _repositoryNames.GetAll() on m.MiscId equals mn.Id
-                    where mn.NameRu == id || mn.Name == id
-                    orderby m.MiscValue
-                    select new MiscViewModel { Key = m.Id, Value = m.MiscValue };
+                    where mn.Name == query.Name && mn.DocType == query.DocType && mn.PersonCategory == query.Category
+                    select m;
+
             }
 
-            return Ok(new DictioanryMiscViewModel { Dictionary = q.ToList() });
+            var res = q.Select(m => new MiscViewModel { Key = m.Id, Value = m.MiscValue }).OrderBy(m => m.Value).ToList();
+
+            return Ok(new DictioanaryMiscViewModel { Dictionary = res });
         }
     }
 }

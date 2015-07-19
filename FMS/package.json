@@ -1,6 +1,6 @@
 {
   "name": "fms",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "private": true,
   "devDependencies": {
     "del": "^1.2.0",

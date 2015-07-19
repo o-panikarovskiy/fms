@@ -3,6 +3,8 @@
     'use strict';
 
     angular.module('fms').controller('search.CtzCtrl', ['$scope', function ($scope) {
+        $scope.vm = { dicts: {} };
+
         $scope.$watch('searchModel.docs.ctz.isChecked', function (val) {
             if (val) {
                 loadDicts();
@@ -10,10 +12,10 @@
         });
 
         function loadDicts() {
-            $scope.loadDict('docActionTypeCtz');
-            $scope.loadDict('docAdmissionVng');
-            $scope.loadDict('decisionTypeVng');
-            $scope.loadDict('seriesVng');
+            $scope.loadDict('Тип дела', 'citizenship', null, $scope.vm);
+            $scope.loadDict('Основание для приема', 'citizenship', null, $scope.vm);
+            $scope.loadDict('Решение', 'citizenship', null, $scope.vm);
+            $scope.loadDict('Основание решения', 'citizenship', null, $scope.vm);
         }
     }]);
 

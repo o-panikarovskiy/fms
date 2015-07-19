@@ -18,16 +18,16 @@
             <h4>{{::person.name}}</h4>
             <div class="row">
                 <div class="col-md-4">
-                    <span data-ng-if="person.category==1">{{::person.birthday|date:'dd.MM.yyyy'}}</span>
-                    <span data-ng-if="person.category==2">ИНН: {{::person.code}}</span>
+                    <span data-ng-if="person.category=='individual'">{{::person.birthday|date:'dd.MM.yyyy'}}</span>
+                    <span data-ng-if="person.category=='legal'">ИНН: {{::person.code}}</span>
                 </div>
                 <div class="col-md-4">
-                    <span data-ng-if="person.type==1">Соискатель</span>
-                    <span data-ng-if="person.type==2">Принимающая сторона</span>
+                    <span data-ng-if="person.type=='applicant'">Соискатель</span>
+                    <span data-ng-if="person.type=='host'">Принимающая сторона</span>
                 </div>
                 <div class="col-md-4">
-                    <span data-ng-if="person.category==1">Физическое лицо</span>
-                    <span data-ng-if="person.category==2">Юридическое лицо</span>
+                    <span data-ng-if="person.category=='individual'">Физическое лицо</span>
+                    <span data-ng-if="person.category=='legal'">Юридическое лицо</span>
                 </div>
             </div>
         </div>

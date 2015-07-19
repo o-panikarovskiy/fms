@@ -6,10 +6,10 @@ namespace Domain.Abstract
 {
     public interface IFileImport
     {
-        void StartImport(UploadingProgress progress, DocumentType type, string filePath, string userID);
-        Task<UploadingProgress> CreateProgressAsync(string fileName, string userID);
-        Task<UploadingProgress> GetProgressByIdAsync(int ID, string userID);
-        Task<UploadingProgress> GetProgressByFileNameAsync(string fileName, string userID);
-        Task<UploadingProgress> GetCurrentUserProgressAsync(string userID);
+        void StartImport(UploadingProgress progress, DocumentType type, string filePath, string userId);
+        Task<UploadingProgress> CreateProgressAsync(string fileId, string userId);
+        Task<UploadingProgress> GetProgressByIdAsync(int ID, string userId);
+        Task<UploadingProgress> GetProgressByFileNameAsync(string fileId, string userId);
+        Task<UploadingProgress> GetCurrentUserProgressAsync(string userId);
     }
 }

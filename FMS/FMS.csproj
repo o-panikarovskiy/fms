@@ -183,6 +183,22 @@
     <Content Include="bower\angular-bootstrap\ui-bootstrap-tpls.min.js" />
     <Content Include="bower\angular-bootstrap\ui-bootstrap.js" />
     <Content Include="bower\angular-bootstrap\ui-bootstrap.min.js" />
+    <Content Include="bower\angular-motion\.gitignore" />
+    <Content Include="bower\angular-motion\dist\angular-motion.css" />
+    <Content Include="bower\angular-motion\dist\angular-motion.min.css" />
+    <Content Include="bower\angular-motion\dist\modules\collapse.css" />
+    <Content Include="bower\angular-motion\dist\modules\collapse.min.css" />
+    <Content Include="bower\angular-motion\dist\modules\fade-and-scale.css" />
+    <Content Include="bower\angular-motion\dist\modules\fade-and-scale.min.css" />
+    <Content Include="bower\angular-motion\dist\modules\fade-and-slide.css" />
+    <Content Include="bower\angular-motion\dist\modules\fade-and-slide.min.css" />
+    <Content Include="bower\angular-motion\dist\modules\fade.css" />
+    <Content Include="bower\angular-motion\dist\modules\fade.min.css" />
+    <Content Include="bower\angular-motion\dist\modules\flip.css" />
+    <Content Include="bower\angular-motion\dist\modules\flip.min.css" />
+    <Content Include="bower\angular-motion\dist\modules\slide.css" />
+    <Content Include="bower\angular-motion\dist\modules\slide.min.css" />
+    <Content Include="bower\angular-motion\gulpfile.js" />
     <Content Include="bower\angular-strap\.gitattributes" />
     <Content Include="bower\angular-strap\.gitignore" />
     <Content Include="bower\angular-strap\dist\angular-strap.js" />
@@ -535,6 +551,28 @@
     <Content Include="bower\bootstrap-additions\src\popover\popover.less" />
     <Content Include="bower\bootstrap-additions\src\timepicker\timepicker.less" />
     <Content Include="bower\bootstrap-additions\src\tooltip\tooltip.less" />
+    <Content Include="bower\angular-motion\.bower.json" />
+    <Content Include="bower\angular-motion\.editorconfig" />
+    <Content Include="bower\angular-motion\.jshintrc" />
+    <Content Include="bower\angular-motion\.travis.yml" />
+    <Content Include="bower\angular-motion\bower.json" />
+    <Content Include="bower\angular-motion\dist\angular-motion.min.css.map" />
+    <Content Include="bower\angular-motion\dist\modules\collapse.min.css.map" />
+    <Content Include="bower\angular-motion\dist\modules\fade-and-scale.min.css.map" />
+    <Content Include="bower\angular-motion\dist\modules\fade-and-slide.min.css.map" />
+    <Content Include="bower\angular-motion\dist\modules\fade.min.css.map" />
+    <Content Include="bower\angular-motion\dist\modules\flip.min.css.map" />
+    <Content Include="bower\angular-motion\dist\modules\slide.min.css.map" />
+    <Content Include="bower\angular-motion\LICENSE.md" />
+    <Content Include="bower\angular-motion\ngfactory.json" />
+    <Content Include="bower\angular-motion\package.json" />
+    <Content Include="bower\angular-motion\README.md" />
+    <Content Include="bower\angular-motion\src\collapse\collapse.less" />
+    <Content Include="bower\angular-motion\src\fade-and-scale\fade-and-scale.less" />
+    <Content Include="bower\angular-motion\src\fade-and-slide\fade-and-slide.less" />
+    <Content Include="bower\angular-motion\src\fade\fade.less" />
+    <Content Include="bower\angular-motion\src\flip\flip.less" />
+    <Content Include="bower\angular-motion\src\slide\slide.less" />
     <None Include="gulpfile.js" />
     <Content Include="css\style.min.css" />
     <Content Include="img\dark_preloader.gif" />
@@ -554,16 +592,19 @@
     <Content Include="js\directives\fileClear.js" />
     <Content Include="js\directives\fileDialog.js" />
     <Content Include="js\directives\ngDateFix.js" />
-    <Content Include="js\directives\match.js" />
+    <Content Include="js\directives\matchEq.js" />
     <Content Include="js\modules\angular-locale_ru.js" />
     <Content Include="js\modules\synergetica-file-upload.js" />
     <Content Include="js\services\DictionaryService.js" />
+    <Content Include="js\services\DocumentService.js" />
     <Content Include="js\services\PersonService.js" />
     <Content Include="js\services\SearchService.js" />
     <Content Include="js\services\ImportService.js" />
     <Content Include="js\services\DialogManager.js" />
     <Content Include="js\services\UploaderService.js" />
     <Content Include="views\admin.html" />
+    <Content Include="views\dialogs\create.person.html" />
+    <Content Include="views\dialogs\create.doc.html" />
     <Content Include="views\dialogs\change.password.html" />
     <Content Include="views\dialogs\alert.html" />
     <Content Include="views\dialogs\confirm.html" />
@@ -575,6 +616,7 @@
     <Content Include="views\person.html" />
     <Content Include="views\person\ap.html" />
     <Content Include="views\person\mu.html" />
+    <Content Include="views\person\prms-body.html" />
     <Content Include="views\person\vng.html" />
     <Content Include="views\person\rvp.html" />
     <Content Include="views\person\ctz.html" />
@@ -603,6 +645,7 @@
     <Compile Include="App_Start\Startup.Filters.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -615,7 +658,7 @@
     <Compile Include="Models\SearchQueryBindingModel.cs" />
     <Compile Include="Models\MiscViewModel.cs" />
     <Compile Include="Models\UploadingProgressViewModel.cs" />
-    <Compile Include="Models\UserInfoModel.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="App_Start\Startup.WebApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -656,6 +699,12 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptEnabled>false</TypeScriptEnabled>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="..\packages\MSBuild.Microsoft.VisualStudio.Web.targets.12.0.4\tools\VSToolsPath\WebApplications\Microsoft.WebApplication.targets" Condition="true" />
   <ProjectExtensions>

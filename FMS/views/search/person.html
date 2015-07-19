@@ -11,8 +11,8 @@
             <select class="form-control"
                     id="citizenship"
                     name="citizenship"
-                    data-ng-disabled="vm.loader.citizenship"
-                    data-ng-options="item.key as item.value for item in vm.dicts.citizenship"
+                    data-ng-disabled="vm.loader['Гражданство']"
+                    data-ng-options="item.key as item.value for item in vm.dicts['Гражданство']"
                     data-ng-model="searchModel.person.citizenship">
                 <option value=""></option>
             </select>
@@ -46,8 +46,8 @@
             <select class="form-control"
                     id="privateDocType"
                     name="privateDocType"
-                    data-ng-disabled="vm.loader.privateDoc"
-                    data-ng-options="item.key as item.value for item in vm.dicts.privateDoc"
+                    data-ng-disabled="vm.loader['Личный документ']"
+                    data-ng-options="item.key as item.value for item in vm.dicts['Личный документ']"
                     data-ng-model="searchModel.person.docType">
                 <option value=""></option>
             </select>

@@ -16,12 +16,12 @@ namespace FMS.Controllers
         }
 
         [HttpGet]
-        public async Task<UserInfoModel> UserInfo()
+        public async Task<UserViewModel> UserInfo()
         {
             var appUser = await _userManager.FindByIdAsync(User.Identity.GetUserId());
             var roles = await _userManager.GetRolesAsync(appUser.Id);
 
-            return new UserInfoModel()
+            return new UserViewModel()
             {
                 Id = appUser.Id,
                 Username = appUser.UserName,
