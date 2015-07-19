@@ -3,6 +3,9 @@ body {
   padding-bottom: 40px;
   background-color: #eee;
 }
+a {
+  cursor: pointer;
+}
 .form {
   padding: 15px;
   margin: 0 auto;

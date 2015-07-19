@@ -603,6 +603,7 @@
     <Content Include="js\services\DialogManager.js" />
     <Content Include="js\services\UploaderService.js" />
     <Content Include="views\admin.html" />
+    <Content Include="views\dialogs\create.person.html" />
     <Content Include="views\dialogs\create.doc.html" />
     <Content Include="views\dialogs\change.password.html" />
     <Content Include="views\dialogs\alert.html" />

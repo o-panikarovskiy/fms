@@ -68,8 +68,12 @@
                 $scope.vm.state.savingPerson = 0;
                 return PersonService.save($scope.person).then(function () {
                     $scope.vm.state.savingPerson = 1;
-                }).catch(function () {
+                }).catch(function (res) {
                     $scope.vm.state.savingPerson = 2;
+                    if (res.status === 400) {
+                        DialogManager.showAlert({ text: res.data.exceptionMessage, head: 'Ошибка при сохранении' });
+                        throw res.data.exceptionMessage;
+                    }
                 }).finally(function () {
                     $scope.vm.loader.savingPerson = false;
                 });

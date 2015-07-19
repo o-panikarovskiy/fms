@@ -113,6 +113,13 @@ namespace FMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
+            if (_repPeople.GetAll().Any(pr => (pr.Name == pvm.Name && pr.Birthday == pvm.Birthday &&
+               pr.Category == PersonCategory.Individual) || (pr.Code == pvm.Code && pr.Name == pvm.Name && pr.Category == PersonCategory.Legal)))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    new ArgumentException("Анкета с такими данными уже существует"));
+            }
+
             person.Birthday = pvm.Birthday;
             person.Code = pvm.Code;
             person.Category = pvm.Category;
@@ -125,6 +132,34 @@ namespace FMS.Controllers
             UpdatePersonFacts(person, pvm.Facts);
 
             return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
+
+        [HttpPost]
+        public async Task<HttpResponseMessage> CreatePerson([FromBody] Person p)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            if (_repPeople.GetAll().Any(pr => (pr.Name == p.Name && pr.Birthday == p.Birthday &&
+                pr.Category == PersonCategory.Individual) || (pr.Code == p.Code && pr.Name == p.Name && pr.Category == PersonCategory.Legal)))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    new ArgumentException("Анкета с такими данными уже существует"));
+            }
+
+            var person = new Person
+            {
+                Name = p.Name,
+                Birthday = p.Birthday,
+                Code = p.Code,
+                Type = p.Type,
+                Category = p.Category
+            };
+
+            await _repPeople.AddAsync(person);
+            return Request.CreateResponse(HttpStatusCode.OK, person);
         }
 
         [HttpGet]
@@ -158,6 +193,7 @@ namespace FMS.Controllers
                                 join dp in _repDocParams.GetAll().Where(dc => dc.DocumentId == d.Id) on pn.Id equals dp.ParameterId into dt
                                 from dj in dt.DefaultIfEmpty()
                                 where pn.DocType == d.Type && pn.IsFact == false && pn.Category == ParameterCategory.Document
+                                orderby pn.OrderIndex
                                 select new ParameterViewModel
                                 {
                                     Id = dj.Id,
@@ -210,7 +246,7 @@ namespace FMS.Controllers
 
             return Ok(new { Facts = list });
         }
-             
+
         private void UpdatePersonParams(Person person, IDictionary<string, ParameterViewModel> parameters)
         {
             var names = _repParameterFactNames.FindAll(p => p.Category == ParameterCategory.Person && p.IsFact == false).ToList();

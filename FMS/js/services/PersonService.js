@@ -28,6 +28,12 @@
             });
         };
 
+        PersonService.create = function (person) {
+            return $http.post(config.API_ROOT + 'person', person).then(function (res) {
+                return res.data;
+            });
+        };
+
         return PersonService;
     }]);
 
