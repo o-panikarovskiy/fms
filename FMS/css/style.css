@@ -96,6 +96,14 @@ body {
   margin: 5px 0;
   padding: 20px;
 }
+.create-doc .typehead-conteiner {
+  position: relative;
+}
+.create-doc .typehead-conteiner .fa-spin {
+  position: absolute;
+  right: 10px;
+  top: 34px;
+}
 .bs-callout {
   padding: 20px;
   margin: 20px 0;

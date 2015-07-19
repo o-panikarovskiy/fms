@@ -3,13 +3,14 @@
     <div class="row" data-ng-if="!!person && !vm.loader.errors.person">
         <h1>
             {{person.name}}
-            <small data-ng-if="person.category==1">({{person.birthday|date:'dd.MM.yyyy'}})</small>
-            <small data-ng-if="person.category==2">(инн: {{person.code}})</small>
+            <small data-ng-if="person.category=='individual'">({{person.birthday|date:'dd.MM.yyyy'}})</small>
+            <small data-ng-if="person.category=='legal'">(инн: {{person.code}})</small>
+            <button class="btn btn-sm btn-success pull-right" data-ng-click="addDoc()">
+                Добавить документ
+            </button>
         </h1>
 
         <div data-ng-include="'views/person/info.html'" class="spacer-b-40"></div>
-
-        <div data-ng-include="'views/person/createdoc.html'" class="spacer-b-40"></div>
 
         <div data-ng-include="'views/person/ap.html'" data-ng-if="person.docsCount.administrativePractice>0"></div>
         <div data-ng-include="'views/person/mu.html'" data-ng-if="person.docsCount.migrationRegistration>0"></div>

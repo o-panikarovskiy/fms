@@ -83,9 +83,9 @@
                     if (form.$valid) {
                         $scope.vm.isSendingRequest = true;
                         AuthService.changePassword($scope.model).then(function () {
-                            $scope.vm.status = 200;                            
+                            $scope.vm.status = 200;
                         }).catch(function (rejection) {
-                            if (rejection && rejection.status === 400 && rejection.data && rejection.data.modelState) {                                
+                            if (rejection && rejection.status === 400 && rejection.data && rejection.data.modelState) {
                                 $scope.vm.status = rejection.status;
                                 $scope.vm.statusText = rejection.data.modelState.error[0];
                             }
@@ -105,6 +105,40 @@
             }];
 
             return openDialog('views/dialogs/change.password.html', params, options, ctrl, scope);
+        };
+
+        this.showCreateDoc = function (params, options, scope) {
+
+            var ctrl = ['$scope', '$scopeParams', '$modalInstance', 'DictionaryService', 'SearchService', function ($scope, $scopeParams, $modalInstance, DictionaryService, SearchService) {
+                $scope.vm = {};
+                $scope.model = angular.extend({}, $scopeParams);
+
+                $scope.ok = function (form) {
+                    $modalInstance.close($scope.model);
+                };
+
+                $scope.close = function () {
+                    $modalInstance.dismiss();
+                };
+
+                $scope.getPeople = function (name) {
+                    var type = $scope.model.personFrom.type == 'applicant' ? 'host' : 'applicant';
+                    return SearchService.peopleByName(name, type).then(function (res) {
+                        return res;
+                    });
+                }
+
+                function init() {
+                    $scope.vm.placeholder = 'Введите имя ' + ($scope.model.personFrom.type == 'applicant' ?
+                        'принимающей стороны' : 'соискателя');
+
+                    DictionaryService.get('documentType', null, null, $scope.vm);
+                }
+
+                init();
+            }];
+
+            return openDialog('views/dialogs/create.doc.html', params, options, ctrl, scope);
         };
 
     }]);

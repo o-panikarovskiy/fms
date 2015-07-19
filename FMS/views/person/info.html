@@ -1,6 +1,6 @@
 ﻿<form name="form" data-ng-submit="save(form)">
     <div class="row">
-        <div class="col-md-6" data-ng-if="person.category==2">
+        <div class="col-md-6" data-ng-if="person.category=='legal'">
             <div class="form-group" data-ng-class="{'has-error': form.code.$dirty && form.name.$invalid}">
                 <label for="name">Название</label>
                 <input class="form-control"
@@ -13,7 +13,7 @@
                        data-ng-change="save(form)" />
             </div>
         </div>
-        <div class="col-md-6" data-ng-if="person.category==2">
+        <div class="col-md-6" data-ng-if="person.category=='legal'">
             <div class="form-group" data-ng-class="{'has-error': form.code.$dirty && form.code.$invalid}">
                 <label for="code">ИНН</label>
                 <input class="form-control"
@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div class="col-md-12" data-ng-if="person.category==1">          
+        <div class="col-md-12" data-ng-if="person.category=='individual'">          
             <div class="form-group" data-ng-class="{'has-error': form.fio.$dirty && form.fio.$invalid}">
                 <label for="fio">ФИО</label>
                 <input class="form-control"
@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <div class="col-md-6" data-ng-if="person.category==1">
+        <div class="col-md-6" data-ng-if="person.category=='individual'">
             <div class="form-group">
                 <label for="citizenship">
                     Гражданство
@@ -63,7 +63,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-6" data-ng-if="person.category==1">
+        <div class="col-md-6" data-ng-if="person.category=='individual'">
             <div class="form-group"  data-ng-class="{'has-error': form.birthday.$dirty && form.birthday.$invalid}">
                 <label for="birthday">Дата рождения</label>
                 <input type="text"
@@ -76,7 +76,7 @@
                        data-ng-change="save(form)" />
             </div>
         </div>
-        <div class="col-md-6" data-ng-if="person.category==1">
+        <div class="col-md-6" data-ng-if="person.category=='individual'">
             <div class="form-group">
                 <label for="personDocType">Личный документ</label>
                 <span class="clickable"
@@ -96,7 +96,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-6" data-ng-if="person.category==1">
+        <div class="col-md-6" data-ng-if="person.category=='individual'">
             <div class="form-group">
                 <label for="docNo">Номер личного документа</label>
                 <span class="clickable"

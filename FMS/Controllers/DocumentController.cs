@@ -19,12 +19,15 @@ namespace FMS.Controllers
         private readonly IRepository<Document> _repDocs;
         private readonly IRepository<ParameterName> _repParamNames;
         private readonly IRepository<DocumentParameter> _repDocParams;
-        public DocumentController(IRepository<Person> repPeople, IRepository<Document> repDocs, IRepository<DocumentParameter> repDocParams, IRepository<ParameterName> repParamNames)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public DocumentController(IRepository<Person> repPeople, IRepository<Document> repDocs, IRepository<DocumentParameter> repDocParams,
+            IRepository<ParameterName> repParamNames, UserManager<ApplicationUser> userManager)
         {
             _repDocs = repDocs;
             _repDocParams = repDocParams;
             _repParamNames = repParamNames;
             _repPeople = repPeople;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -42,34 +45,36 @@ namespace FMS.Controllers
                 return BadRequest("Анкета не найдена");
             }
 
-            if (docBind.Type != DocumentType.MigrationRegistration)
+            var userId = User.Identity.GetUserId();
+            var now = DateTime.Now;
+
+            var doc = new Document
             {
-                var userId = User.Identity.GetUserId();
-                var now = DateTime.Now;
+                CreatedById = userId,
+                UpdatedById = userId,
+                CreatedDate = now,
+                UpdatedDate = now,
+                HostPersonId = personFrom.Id,
+                Type = (DocumentType)docBind.Type
+            };
 
-                var doc = new Document
+            if (docBind.Type == DocumentType.MigrationRegistration)
+            {
+                var personTo = _repPeople.Find(p => p.Id == docBind.PersonToId);
+                if (personTo == null)
                 {
-                    CreatedById = userId,
-                    UpdatedById = userId,
-                    CreatedDate = now,
-                    UpdatedDate = now,
-                    Type = docBind.Type
-                };
-
-                if (personFrom.Type == PersonType.Applicant)
-                {
-                    doc.ApplicantPersonId = personFrom.Id;
-                }else
-                {
-                    doc.HostPersonId = personFrom.Id;
+                    return BadRequest("Анкета не найдена");
                 }
-
-                _repDocs.Add(doc);
-
-                return Ok(doc);
+                if (personTo.Type == PersonType.Host && personFrom.Type == PersonType.Host)
+                {
+                    return BadRequest("Принимающей стороне невозможно добавить принимающую сторону");
+                }
+                doc.ApplicantPersonId = personTo.Id;
             }
 
-            return Ok();
+            _repDocs.Add(doc);
+
+            return Ok(doc);
         }
 
         [HttpPut]
@@ -81,7 +86,7 @@ namespace FMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
-            doc.Number = docView.Number;            
+            doc.Number = docView.Number;
             doc.UpdatedDate = DateTime.Now;
             doc.UpdatedById = User.Identity.GetUserId();
 
@@ -92,6 +97,19 @@ namespace FMS.Controllers
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
+        [HttpDelete]
+        public async Task<HttpResponseMessage> RemoveDocument(int id)
+        {
+            var doc = await _repDocs.FindAsync(d => d.Id == id);
+            if (doc == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            _repDocs.Remove(doc);
+
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
         private void UpdateDocumentParams(Document doc, IList<ParameterViewModel> parameters)
         {
             var names = _repParamNames.FindAll(d => d.Category == ParameterCategory.Document && d.DocType == doc.Type && d.IsFact == false).ToDictionary(k => k.Name, v => v);

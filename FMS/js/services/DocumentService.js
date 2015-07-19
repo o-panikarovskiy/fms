@@ -16,6 +16,12 @@
             });
         };
 
+        DocumentService.remove = function (doc) {
+            return $http.delete(config.API_ROOT + 'document/' + doc.id).then(function (res) {
+                return res.data;
+            });
+        };
+
         return DocumentService;
     }]);
 

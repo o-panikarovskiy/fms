@@ -1,19 +1,11 @@
 ﻿using Domain.Abstract;
 using Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using FMS.Models;
-using Domain.Utils;
 using Newtonsoft.Json;
-using System.Threading;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Converters;
-using System.Globalization;
 
 namespace FMS.Controllers
 {
@@ -719,7 +711,7 @@ namespace FMS.Controllers
                                join dp in GetDocParametersSubQuery("Номер решения") on d.Id equals dp.DocumentId
                                where dp.StringValue.Contains(query.Docs.Ctz.DecisionNo)
                                select d;
-                    }                  
+                    }
 
                     if (query.Docs.Ctz.DocActionType != null)
                     {
@@ -798,7 +790,7 @@ namespace FMS.Controllers
                                join dp in GetDocParametersSubQuery("Дата решения") on d.Id equals dp.DocumentId
                                where dp.DateValue <= query.Docs.Ctz.EndDecisionDate
                                select d;
-                    }                    
+                    }
                 }
 
                 #endregion
@@ -820,6 +812,21 @@ namespace FMS.Controllers
             var res = q.Skip(page * limit).Take(limit).ToList();
 
             return Ok(new { People = res, Total = total, Query = query });
+        }
+
+        [HttpGet]
+        [Route("api/search/people/{name}")]
+        public IHttpActionResult GetByName(string name, [FromUri] PersonType? type = null)
+        {
+            var query = _repPeople.GetAll().Where(p => p.Name.Contains(name));
+
+            if (type != null)
+            {
+                query = query.Where(p => p.Type == type);
+            }
+
+            var res = query.OrderBy(p => p.Name).Take(20).ToList();
+            return Ok(res);
         }
 
         private IQueryable<GroupPersonFact> GetPersonFactsSubQuery(string factName)

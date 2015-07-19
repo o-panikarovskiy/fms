@@ -18,8 +18,8 @@
                             Документ №: {{doc.number}}
                             <small data-ng-if="doc.createdDate==doc.updatedDate">(создан: {{doc.createdDate|date:'dd.MM.yyyy'}}, автор: {{doc.createdBy}})</small>
                             <small data-ng-if="doc.createdDate!=doc.updatedDate">(изменен: {{doc.updatedDate|date:'dd.MM.yyyy'}}, автор: {{doc.updatedBy}})</small>
-                            <button class="btn btn-sm btn-danger">
-                                <i class="fa fa-trash"></i>
+                            <button class="btn btn-xs btn-danger pull-right" data-ng-click="removeDoc(doc)">
+                                Удалить
                             </button>
                         </h4>
 

@@ -3,7 +3,7 @@
         <div class="panel-heading clearfix clickable" data-ng-click="toggleDocuments('migrationRegistration')">
             <h3 class="panel-title pull-left">
                 Документы - Миграционный учёт
-                <span>({{::person.docsCount.migrationRegistration}})</span>
+                <span>({{person.docsCount.migrationRegistration}})</span>
             </h3>
             <h3 class="panel-title pull-right">
                 <i class="fa"
@@ -18,12 +18,15 @@
                             Документ №: {{doc.number}}
                             <small data-ng-if="doc.createdDate==doc.updatedDate">(создан: {{::doc.createdDate|date:'dd.MM.yyyy'}}, автор: {{::doc.createdBy}})</small>
                             <small data-ng-if="doc.createdDate!=doc.updatedDate">(изменен: {{doc.updatedDate|date:'dd.MM.yyyy'}}, автор: {{doc.updatedBy}})</small>
+                            <button class="btn btn-xs btn-danger pull-right" data-ng-click="removeDoc(doc)">
+                                Удалить
+                            </button>
                         </h4>
-                        <h5 data-ng-if="doc.corrPerson.category==1">
+                        <h5 data-ng-if="doc.corrPerson.category=='individual'">
                             Соискатель: <a data-ui-sref="root.person({id:doc.corrPerson.id})" target="_blank">{{::doc.corrPerson.name}}</a>
                             <small>({{::doc.corrPerson.birthday|date:'dd.MM.yyyy'}})</small>
                         </h5>
-                        <h5 data-ng-if="doc.corrPerson.category==2">
+                        <h5 data-ng-if="doc.corrPerson.category=='legal'">
                             Принимающая сторона: <a data-ui-sref="root.person({id:doc.corrPerson.id})" target="_blank">{{::doc.corrPerson.name}}</a>
                             <small>(инн: {{::doc.corrPerson.code}})</small>
                         </h5>

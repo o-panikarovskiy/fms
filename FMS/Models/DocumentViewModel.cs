@@ -25,7 +25,7 @@ namespace FMS.Models
     public class DocumentBindModel
     {
         [Required]
-        public DocumentType Type { get; set; }
+        public DocumentType? Type { get; set; }
         [Required]
         public int PersonFromId { get; set; }
         public int? PersonToId { get; set; }

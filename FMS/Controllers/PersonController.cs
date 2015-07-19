@@ -154,7 +154,7 @@ namespace FMS.Controllers
 
             foreach (var d in documents)
             {
-                d.Parameters = (from pn in _repParameterFactNames.GetAll()                                
+                d.Parameters = (from pn in _repParameterFactNames.GetAll()
                                 join dp in _repDocParams.GetAll().Where(dc => dc.DocumentId == d.Id) on pn.Id equals dp.ParameterId into dt
                                 from dj in dt.DefaultIfEmpty()
                                 where pn.DocType == d.Type && pn.IsFact == false && pn.Category == ParameterCategory.Document
@@ -210,9 +210,7 @@ namespace FMS.Controllers
 
             return Ok(new { Facts = list });
         }
-
-
-
+             
         private void UpdatePersonParams(Person person, IDictionary<string, ParameterViewModel> parameters)
         {
             var names = _repParameterFactNames.FindAll(p => p.Category == ParameterCategory.Person && p.IsFact == false).ToList();

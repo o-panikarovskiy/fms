@@ -1,11 +1,12 @@
 ﻿/// <reference path="../services/DictionaryService.js" />
 /// <reference path="../services/PersonService.js" />
 /// <reference path="../app.js" />
+/// <reference path="../services/DialogManager.js" />
 (function (window, angular) {
     'use strict';
 
-    angular.module('fms').controller('PersonCtrl', ['$scope', '$state', '$q', 'DictionaryService', 'PersonService', 'DocumentService',
-        function ($scope, $state, $q, DictionaryService, PersonService, DocumentService) {
+    angular.module('fms').controller('PersonCtrl', ['$scope', '$state', '$q', 'DictionaryService', 'PersonService', 'DocumentService', 'DialogManager',
+        function ($scope, $state, $q, DictionaryService, PersonService, DocumentService, DialogManager) {
             $scope.vm = {
                 loader: {
                     errors: {}
@@ -43,15 +44,23 @@
                 }
             }
 
-            $scope.createDoc = function (form) {
-                if (form.$valid) {
-                    createDocument({
-                        type: $scope.vm.newDocType,
-                        personFromId: $scope.person.id
-                    }).then(function (doc) {
+            $scope.addDoc = function (form) {
+                DialogManager.showCreateDoc({ personFrom: $scope.person }).then(function (data) {
+                    var model = { type: data.docType, personFromId: $scope.person.id };
+                    if (data.docType == "migrationRegistration") model.personToId = data.personTo.id;
+                    return createDocument(model);
+                }).then(function (doc) {
+                    $scope.vm.collapse[doc.type] = true;
+                    return loadDocuments($scope.person.id, doc.type);
+                });
+            }
 
-                    });
-                }
+            $scope.removeDoc = function (doc) {
+                DialogManager.showConfirm({ text: 'Вы уверены что хотите удалить документ?' }).then(function () {
+                    return removeDocument(doc);
+                }).then(function () {
+
+                });
             }
 
             function savePerson(person) {
@@ -81,14 +90,29 @@
             function createDocument(doc) {
                 $scope.vm.loader.creatingDocument = true;
                 $scope.vm.state.creatingDocument = 0;
-                return DocumentService.create(doc).then(function (resDoc) {
+                return DocumentService.create(doc).then(function (doc) {
                     $scope.vm.state.creatingDocument = 1;
                     $scope.person.docsCount[doc.type] = ($scope.person.docsCount[doc.type] | 0) + 1;
-                    return resDoc;
+                    return doc;
                 }).catch(function () {
                     $scope.vm.state.creatingDocument = 2;
                 }).finally(function () {
                     $scope.vm.loader.creatingDocument = false;
+                });
+            }
+
+            function removeDocument(doc) {
+                $scope.vm.loader.removingDocument = true;
+                $scope.vm.state.removingDocument = 0;
+                return DocumentService.remove(doc).then(function (data) {
+                    $scope.vm.state.removingDocument = 1;
+                    $scope.person.docsCount[doc.type] = ($scope.person.docsCount[doc.type] | 0) - 1;
+                    removeFromArr($scope.documents[doc.type], doc);
+                    return data;
+                }).catch(function () {
+                    $scope.vm.state.removingDocument = 2;
+                }).finally(function () {
+                    $scope.vm.loader.removingDocument = false;
                 });
             }
 
@@ -109,7 +133,7 @@
                 var dicts = {};
                 documents.forEach(function (doc) {
                     doc.parameters.forEach(function (prm) {
-                        if (prm.prmType === 1) {
+                        if (prm.prmType === 'misc') {
                             dicts[prm.dicId] = true;
                         }
                     });
@@ -142,6 +166,12 @@
             function loadDict(name, docType, category) {
                 return DictionaryService.get(name, docType, category, $scope.vm);
             };
+
+            function removeFromArr(arr, item) {
+                var idx = arr.indexOf(item);
+                if (~idx) arr.splice(idx, 1);
+                return arr;
+            }
 
             function init() {
                 $scope.vm.loader.dicts = true;
