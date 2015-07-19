@@ -350,7 +350,6 @@
     <Content Include="bower\fontawesome\css\font-awesome.css" />
     <Content Include="bower\fontawesome\css\font-awesome.min.css" />
     <Content Include="bower\fontawesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="css\style.min.css.map" />
     <Content Include="bower.json" />
     <Content Include=".bowerrc" />
     <Content Include="bower\angular-animate\.bower.json" />
@@ -574,7 +573,6 @@
     <Content Include="bower\angular-motion\src\flip\flip.less" />
     <Content Include="bower\angular-motion\src\slide\slide.less" />
     <None Include="gulpfile.js" />
-    <Content Include="css\style.min.css" />
     <Content Include="img\dark_preloader.gif" />
     <Content Include="js\config\config.js" />
     <Content Include="js\controllers\PersonCtrl.js" />
@@ -631,7 +629,6 @@
     <Content Include="views\search\person.html" />
     <Content Include="views\search\results.html" />
     <Content Include="Web.config" />
-    <Content Include="css\style.css" />
     <Content Include="index.html" />
     <Content Include="js\app.js" />
     <Content Include="js\controllers\LayoutCtrl.js" />
