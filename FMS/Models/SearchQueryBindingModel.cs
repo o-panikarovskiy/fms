@@ -10,8 +10,9 @@ namespace FMS.Models
     public class PersonQueryBindingModel
     {
         public string Name { get; set; }
-        public DateTime? Birthday { get; set; }
-        public PersonType? Type { get; set; }
+        public DateTime? StBirthday { get; set; }
+		public DateTime? EndBirthday { get; set; }
+		public PersonType? Type { get; set; }
         public PersonCategory? Category { get; set; }
         public int? Citizenship { get; set; }
         public string Address { get; set; }

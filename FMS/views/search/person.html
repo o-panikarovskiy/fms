@@ -18,14 +18,25 @@
             </select>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="form-group">
-            <label for="birthday">Дата рождения</label>
+            <label for="stBirthday">Дата рождения c</label>
             <input type="text"
                    class="form-control"
-                   id="birthday"
-                   name="birthday"
-                   data-ng-model="searchModel.person.birthday"
+                   id="stBirthday"
+                   name="stBirthday"
+                   data-ng-model="searchModel.person.stBirthday"
+                   data-bs-datepicker="">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="endBirthday">по</label>
+            <input type="text"
+                   class="form-control"
+                   id="endBirthday"
+                   name="endBirthday"
+                   data-ng-model="searchModel.person.endBirthday"
                    data-bs-datepicker="">
         </div>
     </div>

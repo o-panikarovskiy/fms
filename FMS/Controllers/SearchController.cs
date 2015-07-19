@@ -1,23 +1,15 @@
 ﻿using Domain.Abstract;
 using Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using FMS.Models;
-using Domain.Utils;
 using Newtonsoft.Json;
-using System.Threading;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Converters;
-using System.Globalization;
 
 namespace FMS.Controllers
 {
-    [Authorize]
+	[Authorize]
     public class SearchController : ApiController
     {
         private readonly IRepository<Person> _repPeople;
@@ -87,12 +79,17 @@ namespace FMS.Controllers
                     q = q.Where(p => p.Name.Contains(query.Person.Name) || p.Code.Contains(code));
                 }
 
-                if (query.Person.Birthday != null)
+                if (query.Person.StBirthday != null)
                 {
-                    q = q.Where(p => p.Birthday == query.Person.Birthday);
+                    q = q.Where(p => p.Birthday >= query.Person.StBirthday);
                 }
 
-                if (query.Person.Category != null)
+				if (query.Person.EndBirthday != null)
+				{
+					q = q.Where(p => p.Birthday <= query.Person.EndBirthday);
+				}
+
+				if (query.Person.Category != null)
                 {
                     q = q.Where(p => p.Category == query.Person.Category);
                 }
