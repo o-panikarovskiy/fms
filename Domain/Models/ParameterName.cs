@@ -9,16 +9,20 @@ namespace Domain.Models
     {
         [Key]
         public int Id { get; set; }
-      
+
+        [Index]
         [MaxLength(255)]
         public string Name { get; set; }
 
+        [Index]
         public ParameterType Type { get; set; }
-
+        [Index]
         public ParameterCategory Category { get; set; }
 
+        [Index]
         public DocumentType? DocType { get; set; }
 
+        [Index]
         public PersonCategory? PersonCategory { get; set; }
 
         public bool IsFact { get; set; }

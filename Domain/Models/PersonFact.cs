@@ -8,13 +8,13 @@ namespace Domain.Models
     {
         [Key]
         public int Id { get; set; }
-
+        [Index]
         public int FactId { get; set; }
-
+        [Index]
         public int PersonId { get; set; }
-
+        [Index]
         public DateTime FactDate { get; set; }
-
+        [Index]
         public int? IntValue { get; set; }
 
         [MaxLength(1024)]

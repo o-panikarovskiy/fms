@@ -12,11 +12,11 @@ namespace Domain.Models
     {
         [Key]
         public int Id { get; set; }
-
+        [Index]
         public int ParameterId { get; set; }
-
+        [Index]
         public int DocumentId { get; set; }
-
+        [Index]
         public int? IntValue { get; set; }
 
         [MaxLength(1024)]

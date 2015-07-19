@@ -11,7 +11,9 @@ namespace Domain.Models
     public class MiscName
     {
         [Key]
-        public int Id { get; set; }        
+        public int Id { get; set; }
+
+        [Index]
         [MaxLength(255)]
         public string Name { get; set; }
         public DocumentType? DocType { get; set; }
@@ -22,8 +24,10 @@ namespace Domain.Models
     {
         [Key]
         public int Id { get; set; }
+        [Index]
         public int MiscId { get; set; }
-        [MaxLength(1024)]
+        [Index]
+        [MaxLength(1024)]        
         public string MiscValue { get; set; }
         public MiscName MiscParent { get; set; }
         public float OrderIndex { get; set; }
