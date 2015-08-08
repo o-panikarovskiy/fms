@@ -645,6 +645,7 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Models\ChangePasswordBindingModel.cs" />
@@ -678,7 +679,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="views\Base\" />
+    <Folder Include="views\Report\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{cf01b6e8-0dd3-4f3f-92b6-b969f0b9bb06}</Project>
