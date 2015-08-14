@@ -11,17 +11,18 @@ namespace Domain.Models
         public int Id { get; set; }
 
         [Index]
+		[Required]
         [MaxLength(255)]
         public string Name { get; set; }
 
-        [Index]
+        [Index]		
+		[Required]
         public ParameterType Type { get; set; }
         [Index]
+		[Required]
         public ParameterCategory Category { get; set; }
-
         [Index]
-        public DocumentType? DocType { get; set; }
-
+		public DocumentType? DocType { get; set; }
         [Index]
         public PersonCategory? PersonCategory { get; set; }
 

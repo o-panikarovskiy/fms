@@ -18,6 +18,20 @@
                 }
             }
         });
+
+        $rootScope.$on("login:success", updateCurrentUser);
+
+        function updateCurrentUser(event, user) {
+            if (!user) return;
+            user.isAdmin = AuthService.authorize('admin', user.roles);
+            $scope.currentUser = user;
+        }
+
+        function init() {
+            updateCurrentUser(null, AuthService.currentUser());
+        }
+        
+        init();
     }]);
 
 })(window, window.angular);

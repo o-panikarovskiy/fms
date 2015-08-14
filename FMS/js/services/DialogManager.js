@@ -1,4 +1,5 @@
-﻿(function (window, angular, undefined) {
+﻿/// <reference path="../app.js" />
+(function (window, angular, undefined) {
     'use strict';
 
     angular.module('fms').service('DialogManager', ['$modal', '$rootScope', function ($modal, $rootScope) {
@@ -6,7 +7,7 @@
 
         function openDialog(url, params, options, ctrl, scope) {
             var dlg = $modal.open(angular.extend({
-                animation: false, //has backdrop bug if true: https://github.com/angular-ui/bootstrap/issues/3620
+                animation: true, //has backdrop bug if true: https://github.com/angular-ui/bootstrap/issues/3620
                 backdrop: true,
                 keyboard: true,
                 backdropClass: '',
@@ -163,7 +164,7 @@
                         $scope.vm.creating = true;
                         $scope.vm.error = null;
                         return PersonService.create(person).catch(function (rejection) {
-                            if (rejection.status === 400) {                               
+                            if (rejection.status === 400) {
                                 $scope.vm.error = rejection.data.exceptionMessage;
                                 throw $scope.vm.error;
                             }
@@ -181,6 +182,25 @@
                 }];
 
             return openDialog('views/dialogs/create.person.html', params, options, ctrl, scope);
+        };
+
+        this.showCreateMisc = function (params, options, scope) {
+
+            var ctrl = ['$scope', '$scopeParams', '$modalInstance', function ($scope, $scopeParams, $modalInstance) {
+                $scope.vm = {};
+                $scope.model = angular.extend({}, $scopeParams.model);
+
+
+                $scope.ok = function () {
+                    $modalInstance.close($scope.model);
+                };
+
+                $scope.close = function () {
+                    $modalInstance.dismiss();
+                };
+            }];
+
+            return openDialog('views/dialogs/create.misc.html', params, options, ctrl, scope);
         };
 
     }]);

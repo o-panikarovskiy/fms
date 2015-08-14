@@ -1,4 +1,5 @@
-﻿(function (window, angular, undefined) {
+﻿/// <reference path="../app.js" />
+(function (window, angular, undefined) {
     'use strict';
 
     angular.module('fms').factory('DictionaryService', ['$http', 'config', function ($http, config) {
@@ -23,6 +24,36 @@
                 return arr;
             }).finally(function () {
                 vm.loader[name] = false;
+            });
+        }
+
+        DictionaryService.miscList = function () {
+            return $http.get(config.API_ROOT + 'misc').then(function (res) {
+                return res.data;
+            });
+        }      
+
+        DictionaryService.createMisc = function (misc) {
+            return $http.post(config.API_ROOT + 'misc', misc).then(function (res) {
+                return res.data;
+            });
+        }
+
+        DictionaryService.updateMisc = function (misc) {
+            return $http.put(config.API_ROOT + 'misc', misc).then(function (res) {
+                return res.data;
+            });
+        }
+
+        DictionaryService.removeMisc = function (misc) {
+            return $http.delete(config.API_ROOT + 'misc/' + misc.id).then(function (res) {
+                return res.data;
+            });
+        }
+
+        DictionaryService.miscValues = function (id) {
+            return $http.get(config.API_ROOT + 'misc/' + id + '/values').then(function (res) {
+                return res.data;
             });
         }
 

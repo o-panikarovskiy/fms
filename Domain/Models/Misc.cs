@@ -15,6 +15,7 @@ namespace Domain.Models
 
         [Index]
         [MaxLength(255)]
+		[Required]
         public string Name { get; set; }
         public DocumentType? DocType { get; set; }
         public PersonCategory? PersonCategory { get; set; }
@@ -25,8 +26,10 @@ namespace Domain.Models
         [Key]
         public int Id { get; set; }
         [Index]
+		[Required]
         public int MiscId { get; set; }
         [Index]
+		[Required]
         [MaxLength(1024)]        
         public string MiscValue { get; set; }
         public MiscName MiscParent { get; set; }

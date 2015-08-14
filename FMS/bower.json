@@ -3,14 +3,17 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "angular": "^1.4.1",
-    "angular-animate": "^1.4.1",
-    "angular-bootstrap": "^0.13.0",
-    "angular-ui-router": "^0.2.15",
-    "bootstrap-less-only": "^3.3.4",
+    "angular": "~1.4.1",
+    "angular-animate": "~1.4.1",
+    "angular-bootstrap": "~0.13.0",
+    "angular-ui-router": "~0.2.15",
+    "bootstrap-less-only": "~3.3.4",
     "fontawesome": "~4.3.0",
     "angular-strap": "~2.2.4",
     "bootstrap-additions": "~0.3.1",
     "angular-motion": "~0.4.2"
+  },
+  "resolutions": {
+    "angular": "^1.2.21"
   }
 }
