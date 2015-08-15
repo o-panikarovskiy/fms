@@ -1,4 +1,79 @@
-﻿<div class="panel panel-default">
+﻿<div class="panel panel-primary">
+    <div class="panel-heading clickable clearfix" data-ng-click="togglePanel('params')">
+        <h4 class="panel-title pull-left">Параметры документов</h4>
+        <h3 class="panel-title pull-right">
+            <i class="fa"
+               data-ng-class="{'fa-chevron-circle-up': vm.collapse.params, 'fa-chevron-circle-down': !vm.collapse.params}"></i>
+        </h3>
+    </div>
+    <div data-collapse="vm.collapse.params">      
+        <table class="table table-hover table-striped" data-ng-if="!vm.loader.params">
+            <thead>
+                <tr>
+                    <th class="col-md-5">
+                        <input type="text" name="filername" class="form-control" data-ng-model="vm.filter.name" placeholder="Название" />
+                    </th>
+                    <th class="col-md-3">
+                        <select data-ng-model="vm.filter.docType" class="form-control">
+                            <option value="">Тип документа</option>
+                            <option value="administrativePractice">Административная практика</option>
+                            <option value="migrationRegistration">Миграционный учёт</option>
+                            <option value="temporaryResidencePermit">РВП</option>
+                            <option value="residence">ВНЖ</option>
+                            <option value="citizenship">Гражданство</option>
+                        </select>
+                    </th>
+                    <th class="col-md-3">
+                        <select data-ng-model="vm.filter.type" class="form-control">
+                            <option value="">Тип данных</option>
+                            <option value="date">Дата</option>
+                            <option value="str">Строка</option>
+                            <option value="float">Число</option>
+                            <option value="misc">Словарь</option>
+                        </select>
+                    </th>
+                    <th class="col-md-1">
+                        <button class="btn btn-success btn-sm" data-ng-click="addParam()">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <tr data-ng-repeat="p in params | filter:vm.filter track by p.id">
+                <td>
+                    {{p.name}}
+                </td>
+                <td>
+                    <span data-ng-switch="p.docType">
+                        <span data-ng-switch-when="administrativePractice">Административная практика</span>
+                        <span data-ng-switch-when="migrationRegistration">Миграционный учёт</span>
+                        <span data-ng-switch-when="temporaryResidencePermit">РВП</span>
+                        <span data-ng-switch-when="residence">ВНЖ</span>
+                        <span data-ng-switch-when="citizenship">Гражданство</span>
+                    </span>
+                </td>
+                <td>
+                    <span data-ng-switch="p.type">
+                        <span data-ng-switch-when="date">Дата</span>
+                        <span data-ng-switch-when="str">Строка</span>
+                        <span data-ng-switch-when="float">Число</span>
+                        <span data-ng-switch-when="misc">Словарь</span>
+                    </span>
+                </td>
+                <td>                 
+                    <button class="btn btn-default btn-xs" data-ng-click="removeParam(p)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="spacer-40 spacer-b-40" data-ng-if="vm.loader.params">
+        <img class="preloader" src="img/dark_preloader.gif" />
+    </div>
+</div>
+
+<div class="panel panel-danger">
     <div class="panel-heading clickable clearfix" data-ng-click="togglePanel('misc')">
         <h4 class="panel-title pull-left">Словари</h4>
         <h3 class="panel-title pull-right">
@@ -11,7 +86,7 @@
             <div class="col-md-4">
                 <div data-ng-if="misc.person.length>0">
                     <div class="clearfix">
-                        <h4 class="pull-left">Словари персоны</h4>
+                        <h4 class="pull-left">Словари анкеты</h4>
                         <button class="btn btn-primary pull-right" data-ng-click="addMisc('person')">
                             <i class="fa fa-plus"></i>
                         </button>
@@ -161,7 +236,7 @@
                             <div class="pull-left control-label">
                                 {{m.miscValue}}
                             </div>
-                            <div class="pull-right  control-btn" >
+                            <div class="pull-right  control-btn">
                                 <button class="btn btn-default btn-xs" data-ng-click="updateMiscValue(m)">
                                     <i class="fa fa-pencil"></i>
                                 </button>
@@ -178,5 +253,4 @@
             <img class="preloader" src="img/dark_preloader.gif" />
         </div>
     </div>
-
 </div>

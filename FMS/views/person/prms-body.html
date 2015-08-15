@@ -25,12 +25,11 @@
             <div data-ng-switch-when="date">
                 <input type="text"
                        class="form-control"
-                       placeholder="гггг-мм-дд"
+                       placeholder="дд.мм.гггг"
                        data-ng-attr-name="{{prm.name}}"
                        data-ng-attr-id="{{prm.id}}"
                        data-bs-datepicker=""
-                       data-autoclose="true"
-                       data-placement="auto bottom left"
+                       data-autoclose="true"                    
                        data-ng-model="prm.dateValue"
                        data-ng-change="saveDoc(docForm, doc)" />
             </div>

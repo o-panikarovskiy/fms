@@ -1,11 +1,11 @@
 ﻿<div class="content">
-    <div class="modal-header" data-ng-if="vm.head">
-        <h3 class="modal-title">{{vm.head}}</h3>
+    <div class="modal-header" data-ng-class="{'bg-danger': vm.danger}" data-ng-if="vm.head">
+        <h5 class="modal-title">{{vm.head}}</h5>
     </div>
     <div class="modal-body">
         <p>{{vm.text}}</p>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" data-ng-click="ok()">{{vm.okBtn}}</button>
+        <button class="btn" data-ng-class="{'btn-primary': !vm.danger, 'btn-danger': vm.danger}" data-ng-click="ok()">{{vm.okBtn}}</button>
     </div>
 </div>

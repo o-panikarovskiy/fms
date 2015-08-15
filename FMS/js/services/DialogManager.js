@@ -43,6 +43,11 @@
                     okBtn: 'Закрыть'
                 }, $scopeParams);
 
+                if ($scopeParams.danger) {
+                    $scope.vm.head = $scope.vm.head || 'Ошибка!'
+                    $scope.vm.danger = true;
+                }
+
                 $scope.ok = function () {
                     $modalInstance.close();
                 };
@@ -201,6 +206,26 @@
             }];
 
             return openDialog('views/dialogs/create.misc.html', params, options, ctrl, scope);
+        };
+
+        this.showCreateParameter = function (params, options, scope) {
+
+            var ctrl = ['$scope', '$scopeParams', '$modalInstance',  function ($scope, $scopeParams, $modalInstance) {
+                $scope.vm = {};
+                $scope.model = {};
+
+
+                $scope.ok = function () {
+                    $modalInstance.close($scope.model);
+                };
+
+                $scope.close = function () {
+                    $modalInstance.dismiss();
+                };
+           
+            }];
+
+            return openDialog('views/dialogs/create.param.html', params, options, ctrl, scope);
         };
 
     }]);

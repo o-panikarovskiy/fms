@@ -1,0 +1,51 @@
+﻿<div class="content create-doc">
+    <div class="modal-header">
+        <h3 class="modal-title">
+            Создать параметр:
+        </h3>
+    </div>
+    <form name="form" class="form" data-ng-submit="ok(form)">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="docType">Тип документа:</label>
+                <select data-ng-model="model.docType" class="form-control" name="docType" id="docType" required="">
+                    <option value="administrativePractice">Административная практика</option>
+                    <option value="migrationRegistration">Миграционный учёт</option>
+                    <option value="temporaryResidencePermit">РВП</option>
+                    <option value="residence">ВНЖ</option>
+                    <option value="citizenship">Гражданство</option>
+                </select>
+            </div>
+            <div class="form-group" data-ng-if="!!model.docType">
+                <label for="modelname">Название:</label>
+                <input type="text" class="form-control" autofocus="" data-ng-model="model.name" required="" name="modelname" id="modelname" />
+            </div>
+            <div class="form-group" data-ng-if="!!model.docType">
+                <label for="type">Тип данных:</label>
+                <select data-ng-model="model.type"                       
+                        class="form-control"
+                        name="type"
+                        id="type"
+                        required="">
+                    <option value="date">Дата</option>
+                    <option value="str">Строка</option>
+                    <option value="float">Число</option>
+                    <option value="misc">Словарь</option>
+                </select>
+            </div>
+            <div class="form-group" data-ng-if="model.type === 'misc'">
+                <label for="type">Словарь:</label>
+                <select data-ng-model="model.miscParentId"
+                        data-ng-options="item.id as item.name for item in misc[model.docType] track by item.id"
+                        class="form-control"
+                        name="type"
+                        id="type"
+                        required=""></select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="submit" data-ng-disabled="form.$invalid">Сохранить</button>
+            <button class="btn btn-danger" type="button" data-ng-click="close()">Отмена</button>
+        </div>
+    </form>
+</div>

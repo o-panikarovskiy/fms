@@ -595,12 +595,14 @@
     <Content Include="js\modules\synergetica-file-upload.js" />
     <Content Include="js\services\DictionaryService.js" />
     <Content Include="js\services\DocumentService.js" />
+    <Content Include="js\services\ParameterService.js" />
     <Content Include="js\services\PersonService.js" />
     <Content Include="js\services\SearchService.js" />
     <Content Include="js\services\ImportService.js" />
     <Content Include="js\services\DialogManager.js" />
     <Content Include="js\services\UploaderService.js" />
     <Content Include="views\admin.html" />
+    <Content Include="views\dialogs\create.param.html" />
     <Content Include="views\dialogs\create.misc.html" />
     <Content Include="views\dialogs\create.person.html" />
     <Content Include="views\dialogs\create.doc.html" />
@@ -643,6 +645,7 @@
     <Compile Include="App_Start\Startup.Filters.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
+    <Compile Include="Controllers\ParametersController.cs" />
     <Compile Include="Controllers\MiscController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
@@ -680,9 +683,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="views\Base\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{cf01b6e8-0dd3-4f3f-92b6-b969f0b9bb06}</Project>

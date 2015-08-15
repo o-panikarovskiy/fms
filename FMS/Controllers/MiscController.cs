@@ -38,7 +38,7 @@ namespace FMS.Controllers
 		public IEnumerable<MiscName> GetListMiscNames()
 		{
 			var list = _repMiscNames.GetAll().OrderBy(m => m.Name);
-			return list.AsEnumerable();
+			return list.ToList();
 		}
 
 		[HttpPost]

@@ -11,10 +11,15 @@
                     <a data-ui-sref="root.home">
                         <i class="fa fa-download"></i> Импорт
                     </a>
-                </li>               
+                </li>
                 <li data-ui-sref-active="active">
                     <a data-ui-sref="root.search">
                         <i class="fa fa-search"></i> Поиск
+                    </a>
+                </li>
+                <li data-ui-sref-active="active" data-ng-if="currentUser.isAdmin">
+                    <a data-ui-sref="root.admin">
+                        <i class="fa fa-table"></i> Админка
                     </a>
                 </li>
             </ul>
@@ -29,11 +34,6 @@
                         <li>
                             <a href="javascript:void(0)" data-ng-click="changePassword()">
                                 <i class="fa fa-lock"></i> Сменить пароль
-                            </a>
-                        </li>
-                        <li>
-                            <a data-ui-sref="root.admin" data-ng-if="currentUser.isAdmin">
-                                <i class="fa fa-table"></i> Словари
                             </a>
                         </li>
                         <li role="separator" class="divider"></li>
