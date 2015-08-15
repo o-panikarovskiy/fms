@@ -1,8 +1,12 @@
 ﻿<div class="panel panel-default">
-    <div class="panel-heading">
-        <h4 class="panel-title">Словари</h4>
+    <div class="panel-heading clickable clearfix" data-ng-click="togglePanel('misc')">
+        <h4 class="panel-title pull-left">Словари</h4>
+        <h3 class="panel-title pull-right">
+            <i class="fa"
+               data-ng-class="{'fa-chevron-circle-up': vm.collapse.misc, 'fa-chevron-circle-down': !vm.collapse.misc}"></i>
+        </h3>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" data-collapse="vm.collapse.misc">
         <div class="row crud-row" data-ng-if="!vm.loader.misc">
             <div class="col-md-4">
                 <div data-ng-if="misc.person.length>0">
@@ -17,11 +21,11 @@
                             <div class="pull-left control-label">
                                 {{m.name}}
                             </div>
-                            <div class="pull-right  control-btn">
-                                <button class="btn btn-default" data-ng-click="updateMisc(m)">
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
                                     <i class="fa fa-pencil"></i>
                                 </button>
-                                <button class="btn btn-default" data-ng-click="removeMisc(m)">
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </div>
@@ -40,11 +44,11 @@
                             <div class="pull-left control-label">
                                 {{m.name}}
                             </div>
-                            <div class="pull-right  control-btn">
-                                <button class="btn btn-default" data-ng-click="updateMisc(m)">
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
                                     <i class="fa fa-pencil"></i>
                                 </button>
-                                <button class="btn btn-default" data-ng-click="removeMisc(m)">
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </div>
@@ -63,11 +67,11 @@
                             <div class="pull-left control-label">
                                 {{m.name}}
                             </div>
-                            <div class="pull-right  control-btn">
-                                <button class="btn btn-default" data-ng-click="updateMisc(m)">
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
                                     <i class="fa fa-pencil"></i>
                                 </button>
-                                <button class="btn btn-default" data-ng-click="removeMisc(m)">
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </div>
@@ -86,11 +90,11 @@
                             <div class="pull-left control-label">
                                 {{m.name}}
                             </div>
-                            <div class="pull-right  control-btn">
-                                <button class="btn btn-default" data-ng-click="updateMisc(m)">
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
                                     <i class="fa fa-pencil"></i>
                                 </button>
-                                <button class="btn btn-default" data-ng-click="removeMisc(m)">
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </div>
@@ -109,11 +113,11 @@
                             <div class="pull-left control-label">
                                 {{m.name}}
                             </div>
-                            <div class="pull-right  control-btn">
-                                <button class="btn btn-default" data-ng-click="updateMisc(m)">
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
                                     <i class="fa fa-pencil"></i>
                                 </button>
-                                <button class="btn btn-default" data-ng-click="removeMisc(m)">
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </div>
@@ -132,11 +136,11 @@
                             <div class="pull-left control-label">
                                 {{m.name}}
                             </div>
-                            <div class="pull-right  control-btn">
-                                <button class="btn btn-default" data-ng-click="updateMisc(m)">
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
                                     <i class="fa fa-pencil"></i>
                                 </button>
-                                <button class="btn btn-default" data-ng-click="removeMisc(m)">
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </div>
@@ -151,12 +155,22 @@
                         <i class="fa fa-plus"></i>
                     </button>
                 </div>
-                <div data-ng-if="vm.activeMisc.values.length>0">                   
+                <div data-ng-if="vm.activeMisc.values.length>0">
                     <div class="list-group">
-                        <a class="list-group-item" data-ng-repeat="m in vm.activeMisc.values track by m.id">
-                            {{m.miscValue}}
-                        </a>
-                    </div>                   
+                        <div class="list-group-item clearfix" data-ng-repeat="m in vm.activeMisc.values track by m.id" data-ng-click="vm.activeMisc.activeValue = m" data-ng-class="{active: vm.activeMisc.activeValue.id === m.id}">
+                            <div class="pull-left control-label">
+                                {{m.miscValue}}
+                            </div>
+                            <div class="pull-right  control-btn" >
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMiscValue(m)">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMiscValue(m)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

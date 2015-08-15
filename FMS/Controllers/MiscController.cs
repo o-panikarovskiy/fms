@@ -15,19 +15,29 @@ namespace FMS.Controllers
 	[Authorize(Roles = "Admin")]
 	public class MiscController : ApiController
 	{
-		private readonly IRepository<Misc> _repository;
-		private readonly IRepository<MiscName> _repositoryNames;
+		private readonly IRepository<Misc> _repMisc;
+		private readonly IRepository<MiscName> _repMiscNames;
+		private readonly IRepository<PersonParameter> _repPersonParams;
+		private readonly IRepository<PersonFact> _repPersonFacts;
+		private readonly IRepository<DocumentParameter> _repDocParams;
 
-		public MiscController(IRepository<Misc> repository, IRepository<MiscName> repositoryNames)
+		public MiscController(IRepository<Misc> repMisc,
+			IRepository<MiscName> repMiscNames,
+			IRepository<PersonParameter> repPersonParams,
+			IRepository<PersonFact> repPersonFacts,
+			IRepository<DocumentParameter> repDocParams)
 		{
-			_repository = repository;
-			_repositoryNames = repositoryNames;
+			_repMisc = repMisc;
+			_repMiscNames = repMiscNames;
+			_repPersonParams = repPersonParams;
+			_repPersonFacts = repPersonFacts;
+			_repDocParams = repDocParams;
 		}
 
 		[HttpGet]
 		public IEnumerable<MiscName> GetListMiscNames()
 		{
-			var list = _repositoryNames.GetAll().OrderBy(m => m.Name);
+			var list = _repMiscNames.GetAll().OrderBy(m => m.Name);
 			return list.AsEnumerable();
 		}
 
@@ -39,12 +49,12 @@ namespace FMS.Controllers
 				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
 			}
 
-			if (_repositoryNames.GetAll().Any(m => m.Name == misc.Name && m.DocType == misc.DocType))
+			if (_repMiscNames.GetAll().Any(m => m.Name == misc.Name && m.DocType == misc.DocType))
 			{
 				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "В этой группе уже используется данное значение.");
 			}
 
-			await _repositoryNames.AddAsync(misc);
+			await _repMiscNames.AddAsync(misc);
 
 			return Request.CreateResponse(HttpStatusCode.OK, misc);
 		}
@@ -57,7 +67,17 @@ namespace FMS.Controllers
 				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
 			}
 
-			var miscDb = await _repositoryNames.FindAsync(m => m.Id == misc.Id);
+			if (_repMisc.GetAll().Any(m => m.MiscId == misc.Id))
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Этот словарь содержит значения, его нельзя переименовать.");
+			}
+
+			if (_repMiscNames.GetAll().Any(m => m.Name == misc.Name))
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Эта группа словарей уже содержит словарь с таким названием.");
+			}
+
+			var miscDb = await _repMiscNames.FindAsync(m => m.Id == misc.Id);
 
 			if (miscDb == null)
 			{
@@ -66,7 +86,7 @@ namespace FMS.Controllers
 
 			miscDb.Name = misc.Name;
 
-			await _repositoryNames.UpdateAsync(miscDb);
+			await _repMiscNames.UpdateAsync(miscDb);
 
 			return Request.CreateResponse(HttpStatusCode.NoContent);
 		}
@@ -74,18 +94,18 @@ namespace FMS.Controllers
 		[HttpDelete]
 		public async Task<HttpResponseMessage> RemoveMisc(int id)
 		{
-			var misc = await _repositoryNames.FindAsync(m => m.Id == id);
+			var misc = await _repMiscNames.FindAsync(m => m.Id == id);
 			if (misc == null)
 			{
 				return Request.CreateResponse(HttpStatusCode.NotFound);
 			}
 
-			if (_repository.GetAll().Any(m => m.MiscId == id))
+			if (_repMisc.GetAll().Any(m => m.MiscId == id))
 			{
-				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Этот словарь нельзя удалить.");
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Этот словарь содержит значения, его нельзя удалить.");
 			}
 
-			await _repositoryNames.RemoveAsync(misc);
+			await _repMiscNames.RemoveAsync(misc);
 
 			return Request.CreateResponse(HttpStatusCode.NoContent);
 		}
@@ -94,8 +114,82 @@ namespace FMS.Controllers
 		[Route("api/misc/{id}/values")]
 		public IEnumerable<Misc> GetMiscValues(int id)
 		{
-			var list = _repository.FindAll(m => m.MiscId == id).OrderBy(m => m.MiscValue);
+			var list = _repMisc.FindAll(m => m.MiscId == id).OrderBy(m => m.MiscValue);
 			return list.AsEnumerable();
+		}
+
+		[HttpPost]
+		[Route("api/misc/{id}/values")]
+		public async Task<HttpResponseMessage> CreateMiscValue(Misc misc)
+		{
+			if (!ModelState.IsValid)
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+			}
+
+			if (!_repMiscNames.GetAll().Any(m => m.Id == misc.MiscId))
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Родительский словарь не найден.");
+			}
+
+			if (_repMisc.GetAll().Any(m => m.MiscValue == misc.MiscValue && m.MiscId == misc.MiscId))
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "В этом словаре уже используется данное значение.");
+			}
+
+			await _repMisc.AddAsync(misc);
+
+			return Request.CreateResponse(HttpStatusCode.OK, misc);
+		}
+
+		[HttpPut]
+		[Route("api/misc/{id}/values")]
+		public async Task<HttpResponseMessage> UpdateMiscValue(Misc misc)
+		{
+			if (!ModelState.IsValid)
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+			}
+
+			if (_repMisc.GetAll().Any(m => m.MiscValue == misc.MiscValue && m.MiscId == misc.MiscId))
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "В этом словаре уже используется данное значение.");
+			}
+
+			var miscDb = await _repMisc.FindAsync(m => m.Id == misc.Id);
+
+			if (miscDb == null)
+			{
+				return Request.CreateResponse(HttpStatusCode.NotFound);
+			}
+
+			miscDb.MiscValue = misc.MiscValue;
+
+			await _repMisc.UpdateAsync(miscDb);
+
+			return Request.CreateResponse(HttpStatusCode.NoContent);
+		}
+
+		[HttpDelete]
+		[Route("api/misc/{id}/values/{miscId}")]
+		public async Task<HttpResponseMessage> RemoveMiscValue(int miscId)
+		{
+			var misc = await _repMisc.FindAsync(m => m.Id == miscId);
+			if (misc == null)
+			{
+				return Request.CreateResponse(HttpStatusCode.NotFound);
+			}
+
+			if (_repPersonParams.GetAll().Any(p => p.IntValue == misc.Id && p.Parameter.MiscParentId == misc.MiscId) ||
+				_repPersonFacts.GetAll().Any(p => p.IntValue == misc.Id && p.Fact.MiscParentId == misc.MiscId) ||
+				_repDocParams.GetAll().Any(d => d.IntValue == misc.Id && d.Parameter.MiscParentId == misc.MiscId))
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Это значение используется в параметрах документов, его нельзя удалить.");
+			}
+
+			await _repMisc.RemoveAsync(misc);
+
+			return Request.CreateResponse(HttpStatusCode.NoContent);
 		}
 	}
 }

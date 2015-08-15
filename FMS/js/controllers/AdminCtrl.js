@@ -5,8 +5,12 @@
     'use strict';
 
     angular.module('fms').controller('AdminCtrl', ['$scope', '$state', '$q', 'DictionaryService', 'DialogManager', function ($scope, $state, $q, DictionaryService, DialogManager) {
-        $scope.vm = { loader: {} };
+        $scope.vm = { loader: {}, collapse: {} };
         $scope.model = {};
+
+        $scope.togglePanel = function (type) {
+            $scope.vm.collapse[type] = !$scope.vm.collapse[type];
+        };
 
         $scope.setActiveMisc = function (m) {
             $scope.vm.activeMisc = m;
@@ -33,7 +37,10 @@
         }
 
         $scope.removeMisc = function (misc) {
-            DialogManager.showConfirm().then(function () {
+            DialogManager.showConfirm({
+                text: 'Удаление словаря может испортить процедуру импорта.',
+                okBtn: 'Продолжить'
+            }).then(function () {
                 return removeMisc(misc);
             }).catch(function (res) {
                 if (res && res.status == 400 && res.data && res.data.message) {
@@ -43,17 +50,54 @@
         }
 
         $scope.updateMisc = function (misc) {
-            var model = angular.copy(misc);
+            var copy = angular.copy(misc);
             DialogManager.showConfirm({
                 text: 'Изменение названия может испортить процедуру импорта.',
                 okBtn: 'Продолжить'
             }).then(function () {
-                return DialogManager.showCreateMisc({ model: model });
-            }).then(function (data) {
-                model = data;
-                updateMisc(data);
+                return DialogManager.showCreateMisc({ model: copy });
+            }).then(function (model) {
+                copy.name = model.name;
+                updateMisc(model);
             }).then(function () {
-                angular.extend(misc, model);
+                angular.extend(misc, copy);
+            }).catch(function (res) {
+                if (res && res.status == 400 && res.data && res.data.message) {
+                    DialogManager.showAlert({ text: res.data.message });
+                }
+            });
+        }
+
+        $scope.addMiscValue = function () {
+            DialogManager.showCreateMisc({ model: { name: '' } }).then(function (model) {
+                return createMiscValue({
+                    miscValue: model.name,
+                    miscId: $scope.vm.activeMisc.id
+                });
+            }).catch(function (res) {
+                if (res && res.status == 400 && res.data && res.data.message) {
+                    DialogManager.showAlert({ text: res.data.message });
+                }
+            });
+        }
+
+        $scope.updateMiscValue = function (misc) {
+            var copy = angular.copy(misc);
+            DialogManager.showCreateMisc({ model: { name: misc.miscValue } }).then(function (model) {
+                copy.miscValue = model.name;
+                return updateMiscValue(copy);
+            }).then(function () {
+                angular.extend(misc, copy);
+            }).catch(function (res) {
+                if (res && res.status == 400 && res.data && res.data.message) {
+                    DialogManager.showAlert({ text: res.data.message });
+                }
+            });
+        }
+
+        $scope.removeMiscValue = function (misc) {
+            DialogManager.showConfirm().then(function () {
+                return removeMiscValue(misc);
             }).catch(function (res) {
                 if (res && res.status == 400 && res.data && res.data.message) {
                     DialogManager.showAlert({ text: res.data.message });
@@ -79,6 +123,7 @@
                 misc.values = [];
                 $scope.misc[type].push(misc);
                 $scope.vm.activeMisc = misc;
+                return misc;
             }).finally(function () {
                 $scope.vm.loader.createMisc = false;
             });
@@ -88,6 +133,34 @@
             $scope.vm.loader.updateMisc = true;
             return DictionaryService.updateMisc(misc).finally(function () {
                 $scope.vm.loader.updateMisc = false;
+            });
+        }
+
+        function createMiscValue(miscValue) {
+            $scope.vm.loader.createMiscValue = true;
+            return DictionaryService.createMiscValue(miscValue).then(function (miscValue) {
+                $scope.vm.activeMisc.values.push(miscValue);
+                return miscValue;
+            }).finally(function () {
+                $scope.vm.loader.createMiscValue = false;
+            });
+        }
+
+        function updateMiscValue(miscValue) {
+            $scope.vm.loader.updateMiscValue = true;
+            return DictionaryService.updateMiscValue(miscValue).finally(function () {
+                $scope.vm.loader.updateMiscValue = false;
+            });
+        }
+
+        function removeMiscValue(misc) {
+            $scope.vm.loader.removeMiscValue = true;
+            return DictionaryService.removeMiscValue(misc).then(function () {
+                var type = misc.docType || 'person';
+                var idx = $scope.vm.activeMisc.values.indexOf(misc);
+                $scope.vm.activeMisc.values.splice(idx, 1);
+            }).finally(function () {
+                $scope.vm.loader.removeMiscValue = false;
             });
         }
 

@@ -57,6 +57,24 @@
             });
         }
 
+        DictionaryService.createMiscValue = function (miscValue) {
+            return $http.post(config.API_ROOT + 'misc/' + miscValue.miscId + '/values', miscValue).then(function (res) {
+                return res.data;
+            });
+        }
+
+        DictionaryService.updateMiscValue = function (miscValue) {
+            return $http.put(config.API_ROOT + 'misc/' + miscValue.miscId + '/values', miscValue).then(function (res) {
+                return res.data;
+            });
+        }
+
+        DictionaryService.removeMiscValue = function (miscValue) {
+            return $http.delete(config.API_ROOT + 'misc/' + miscValue.miscId + '/values/' + miscValue.id).then(function (res) {
+                return res.data;
+            });
+        }
+
         return DictionaryService;
     }]);
 
