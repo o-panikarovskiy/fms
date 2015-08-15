@@ -10,11 +10,16 @@
             $scope.vm = {
                 loader: {},
                 filter: {},
-                collapse: { misc: true }
+                collapse: { misc: true, params: true }
             };
 
             $scope.togglePanel = function (type) {
                 $scope.vm.collapse[type] = !$scope.vm.collapse[type];
+                if (type === 'misc' && !$scope.misc) {
+                    loadMisc();
+                } else if (type === 'params' && !angular.isArray($scope.params)) {
+                    loadParameters();
+                }
             };
 
             $scope.setActiveMisc = function (m) {
@@ -86,7 +91,10 @@
                 });
             }
 
-            $scope.addParam = function () {
+            $scope.addParam = function () {                
+                if (!$scope.misc) {
+                    loadMisc();
+                };
                 DialogManager.showCreateParameter(null, null, $scope).then(createParam);
             }
 
@@ -167,7 +175,7 @@
 
             function removeParam(param) {
                 $scope.vm.loader.removeParam = true;
-                return ParameterService.remove(param).then(function () {                  
+                return ParameterService.remove(param).then(function () {
                     var idx = $scope.params.indexOf(param);
                     $scope.params.splice(idx, 1);
                 }).catch(showError).finally(function () {
@@ -189,9 +197,8 @@
                 return DictionaryService.miscList().then(function (list) {
                     $scope.misc = groupBy(list, function (misc) {
                         return misc.docType || 'person';
-                    });
-                    $scope.vm.activeMisc = $scope.misc.person[0];
-                    return loadMiscValues($scope.vm.activeMisc);
+                    });                    
+                    return list;
                 }).finally(function () {
                     $scope.vm.loader.misc = false;
                 });
@@ -203,16 +210,6 @@
                     $scope.params = list;
                 }).finally(function () {
                     $scope.vm.loader.params = false;
-                });
-            }
-
-            function loadAll() {
-                $scope.vm.loader.all = true;
-                $q.all([
-                    loadMisc(),
-                     loadParameters()
-                ]).finally(function () {
-                    $scope.vm.loader.all = false;
                 });
             }
 
@@ -235,7 +232,7 @@
             }
 
             function init() {
-                loadAll();
+
             }
 
 
