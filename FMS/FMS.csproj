@@ -597,6 +597,7 @@
     <Content Include="js\services\DocumentService.js" />
     <Content Include="js\services\ParameterService.js" />
     <Content Include="js\services\PersonService.js" />
+    <Content Include="js\services\ReportsService.js" />
     <Content Include="js\services\SearchService.js" />
     <Content Include="js\services\ImportService.js" />
     <Content Include="js\services\DialogManager.js" />
@@ -650,6 +651,7 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Models\ChangePasswordBindingModel.cs" />

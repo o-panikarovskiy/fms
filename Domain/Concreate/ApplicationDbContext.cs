@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
+using System.IO;
 
 namespace Domain.Concrete
 {
@@ -54,10 +55,11 @@ namespace Domain.Concrete
             {
                 UserManager.AddToRole(testUser.Id, "User");
             }
+						
 
-            #region Person
+			#region Person
 
-            context.ParameterNames.Add(new ParameterName
+			context.ParameterNames.Add(new ParameterName
             {
                 Name = "Личный документ",
                 Category = ParameterCategory.Person,
@@ -593,10 +595,18 @@ namespace Domain.Concrete
                     DocType = DocumentType.MigrationRegistration
                 })
             });
-            #endregion
+			#endregion
 
 
-            context.SaveChanges();
+
+			var appDomain = System.AppDomain.CurrentDomain;
+			var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
+			var path = Path.Combine(basePath, "SQL\\DocumentsOnControl.sql");
+			var sqlScript = File.ReadAllText(path);
+
+			context.Database.ExecuteSqlCommand(sqlScript);
+
+			context.SaveChanges();
         }
     }
 
