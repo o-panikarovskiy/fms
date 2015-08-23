@@ -572,6 +572,7 @@
     <Content Include="bower\angular-motion\src\fade\fade.less" />
     <Content Include="bower\angular-motion\src\flip\flip.less" />
     <Content Include="bower\angular-motion\src\slide\slide.less" />
+    <None Include="_references.js" />
     <None Include="gulpfile.js" />
     <Content Include="img\dark_preloader.gif" />
     <Content Include="js\config\config.js" />
@@ -581,11 +582,6 @@
     <Content Include="js\controllers\SearchCtrl.js" />
     <Content Include="js\controllers\HomeCtrl.js" />
     <Content Include="js\controllers\AdminCtrl.js" />
-    <Content Include="js\controllers\search\CtzCtrl.js" />
-    <Content Include="js\controllers\search\VngCtrl.js" />
-    <Content Include="js\controllers\search\RvpCtrl.js" />
-    <Content Include="js\controllers\search\MuCtrl.js" />
-    <Content Include="js\controllers\search\ApCtrl.js" />
     <Content Include="js\directives\factHistory.js" />
     <Content Include="js\directives\fileClear.js" />
     <Content Include="js\directives\fileDialog.js" />
@@ -627,6 +623,7 @@
     <Content Include="views\search.html" />
     <Content Include="views\layout.root.html" />
     <Content Include="views\search\ctz.html" />
+    <Content Include="views\search\prms-body.html" />
     <Content Include="views\search\vng.html" />
     <Content Include="views\search\rvp.html" />
     <Content Include="views\search\mu.html" />

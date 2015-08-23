@@ -7,123 +7,18 @@
 
     <div data-ng-if="searchModel.docs.ap.isChecked">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="apDocNo">Номер протокола</label>
                     <input type="text" class="form-control" name="docNo" id="apDocNo" data-ng-model="searchModel.docs.ap.docNo" />
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="article">Статья</label>
-                    <select class="form-control"
-                            id="article"
-                            name="article"
-                            data-ng-disabled="vm.loader['Статья']"
-                            data-ng-options="item.key as item.value for item in vm.dicts['Статья']"
-                            data-ng-model="searchModel.docs.ap.article">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="crimeType">Вид правонарушения</label>
-                    <select class="form-control"
-                            id="crimeType"
-                            name="crimeType"
-                            data-ng-disabled="vm.loader['Вид правонарушения']"
-                            data-ng-options="item.key as item.value for item in vm.dicts['Вид правонарушения']"
-                            data-ng-model="searchModel.docs.ap.crimeType">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="stateDepartment">Орган рассмотрения</label>
-                    <select class="form-control"
-                            id="stateDepartment"
-                            name="stateDepartment"
-                            data-ng-disabled="vm.loader['Орган рассмотрения']"
-                            data-ng-options="item.key as item.value for item in vm.dicts['Орган рассмотрения']"
-                            data-ng-model="searchModel.docs.ap.stateDepartment">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="docStatus">Статус дела</label>
-                    <select class="form-control"
-                            id="docStatus"
-                            name="docStatus"
-                            data-ng-disabled="vm.loader['Статус дела']"
-                            data-ng-options="item.key as item.value for item in vm.dicts['Статус дела']"
-                            data-ng-model="searchModel.docs.ap.docStatus">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="decreeStr">Принятое решение</label>
-                    <select class="form-control"
-                            id="decreeStr"
-                            name="decreeStr"
-                            data-ng-disabled="vm.loader['Принятое решение']"
-                            data-ng-options="item.key as item.value for item in vm.dicts['Принятое решение']"
-                            data-ng-model="searchModel.docs.ap.decreeStr">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="penaltyType">Тип взыскания</label>
-                    <select class="form-control"
-                            id="penaltyType"
-                            name="penaltyType"
-                            data-ng-disabled="vm.loader['Тип взыскания']"
-                            data-ng-options="item.key as item.value for item in vm.dicts['Тип взыскания']"
-                            data-ng-model="searchModel.docs.ap.penaltyType">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
+        </div>     
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="stDateCreate">Дата составления с</label>
-                    <input type="text" class="form-control" name="stDateCreate" id="stDateCreate" data-ng-model="searchModel.docs.ap.stDateCreate" data-bs-datepicker="" />
-                </div>
+            <div data-ng-repeat="prm in parameters.administrativePractice track by prm.id">                
+                <div data-ng-include="'views/search/prms-body.html'"></div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="endDateCreate">по</label>
-                    <input type="text" class="form-control" name="endDateCreate" id="endDateCreate" data-ng-model="searchModel.docs.ap.endDateCreate" data-bs-datepicker="" />
-                </div>
-            </div>           
-        </div>
-
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="stDecreeDate">Дата постановления с</label>
-                    <input type="text" class="form-control" name="stDecreeDate" id="stDecreeDate" data-ng-model="searchModel.docs.ap.stDecreeDate" data-bs-datepicker="" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="endDecreeDate">по</label>
-                    <input type="text" class="form-control" name="endDecreeDate" id="endDecreeDate" data-ng-model="searchModel.docs.ap.endDecreeDate" data-bs-datepicker="" />
-                </div>
-            </div>
-        </div>
+        </div>     
     </div>
 
 </div>
