@@ -192,5 +192,7 @@ begin
 	and   dateadd(dd, @daysSpan, dp.DateValue) <= @today
 	and   not exists (select DocId from @res as r where r.DocId = dp.DocumentId)
 	
-	select * from @res 
+	select r.*, p.Name
+	from @res as r
+	inner join People as p on p.Id = r.PersonId
 end;

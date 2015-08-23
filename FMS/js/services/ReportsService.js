@@ -5,7 +5,7 @@
         var ReportsService = {};
 
         ReportsService.query = function(name) {
-            return $http.post(config.API_ROOT + 'reports/' + name).then(function(res) {
+            return $http.get(config.API_ROOT + 'reports/' + name).then(function(res) {
                 return res.data;
             });
         }     

@@ -14,5 +14,6 @@ namespace Domain.Models
 		public string DocNo { get; set; }
 		public int? DaysCount { get; set; }
 		public string Note { get; set; }
+		public string Name { get; set; }
     }
 }

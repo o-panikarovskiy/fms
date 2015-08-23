@@ -591,6 +591,7 @@
     <Content Include="js\directives\fileDialog.js" />
     <Content Include="js\directives\ngDateFix.js" />
     <Content Include="js\directives\matchEq.js" />
+    <Content Include="js\filters\page.js" />
     <Content Include="js\modules\angular-locale_ru.js" />
     <Content Include="js\modules\synergetica-file-upload.js" />
     <Content Include="js\services\DictionaryService.js" />
