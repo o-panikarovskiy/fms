@@ -578,7 +578,6 @@
     <Content Include="js\config\config.js" />
     <Content Include="js\controllers\PersonCtrl.js" />
     <Content Include="js\controllers\HeaderCtrl.js" />
-    <Content Include="js\controllers\SearchResultsCtrl.js" />
     <Content Include="js\controllers\SearchCtrl.js" />
     <Content Include="js\controllers\HomeCtrl.js" />
     <Content Include="js\controllers\AdminCtrl.js" />

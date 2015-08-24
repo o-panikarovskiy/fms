@@ -14,7 +14,7 @@
                 return res.data.dictionary;
             });
         };
-
+      
         DictionaryService.get = function (name, docType, category, vm) {
             if (!angular.isObject(vm.loader)) vm.loader = {};
             vm.loader[name] = true;

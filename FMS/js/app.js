@@ -9,7 +9,7 @@
                 $stateProvider.state('root', { url: '', templateUrl: 'views/layout.root.html', abstract: true });
                 $stateProvider.state('root.home', { url: '/', templateUrl: 'views/home.html', controller: 'HomeCtrl', access: 'user' });
                 $stateProvider.state('root.search', { url: '/search', templateUrl: 'views/search.html', controller: 'SearchCtrl', access: 'user' });
-                $stateProvider.state('root.search.results', { url: '/{id}', templateUrl: 'views/search/results.html', controller: 'SearchResultsCtrl', access: 'user' });
+                $stateProvider.state('root.search.results', { url: '/{id}', templateUrl: 'views/search/results.html', access: 'user' });
                 $stateProvider.state('root.person', { url: '/person/{id}', templateUrl: 'views/person.html', controller: 'PersonCtrl', access: 'user' });
                 $stateProvider.state('root.admin', { url: '/admin', templateUrl: 'views/admin.html', controller: 'AdminCtrl', access: 'admin' });
                 $stateProvider.state('login', { url: '/login', templateUrl: 'views/login.html', controller: 'LoginCtrl', access: 'public' });

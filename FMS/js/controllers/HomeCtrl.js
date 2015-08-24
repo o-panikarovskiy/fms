@@ -1,7 +1,4 @@
-﻿/// <reference path="../services/ImportService.js" />
-/// <reference path="../services/DialogManager.js" />
-/// <reference path="../services/ReportsService.js" />
-(function(window, angular) {
+﻿(function(window, angular) {
     'use strict';
 
     angular.module('fms').controller('HomeCtrl', ['$scope', '$state', '$timeout', '$interval', '$window', 'UploaderService', 'ImportService', 'ReportsService', 'DialogManager', 'WebStorage',

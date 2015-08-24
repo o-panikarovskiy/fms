@@ -9,25 +9,32 @@
                data-ng-class="{'fa-chevron-circle-up': vm.isSearchBodyCollapsed, 'fa-chevron-circle-down': !vm.isSearchBodyCollapsed}"></i>
         </h2>
     </div>
-    <form name="sform" data-ng-submit="search()" data-collapse="vm.isSearchBodyCollapsed">
+    <form name="sform" data-ng-submit="search()" data-collapse="vm.isSearchBodyCollapsed" data-ng-if="!vm.loader.all">
         <div class="panel-body">
 
             <h3>Личная информация:</h3>
             <div data-ng-include="'views/search/person.html'" class="s-block"></div>
 
+
             <h3>Документы:</h3>
             <div data-ng-include="'views/search/ap.html'" class="s-block"></div>
-            <!--<div data-ng-include="'views/search/mu.html'" class="s-block"></div>
+            <div data-ng-include="'views/search/mu.html'" class="s-block"></div>
             <div data-ng-include="'views/search/rvp.html'" class="s-block"></div>
             <div data-ng-include="'views/search/vng.html'" class="s-block"></div>
-            <div data-ng-include="'views/search/ctz.html'" class="s-block"></div>-->
-
+            <div data-ng-include="'views/search/ctz.html'" class="s-block"></div>
         </div>
         <div class="panel-footer clearfix">
             <button type="reset" class="btn btn-danger pull-left" data-ng-click="reset()">Очистить форму</button>
             <button type="submit" class="btn btn-primary pull-right" data-ng-disabled="vm.isSendingRequest">Найти</button>
         </div>
     </form>
+    <div class="spacer-40 spacer-b-40" data-ng-if="vm.loader.all">
+        <img class="preloader" src="img/dark_preloader.gif" />
+    </div>
 </div>
+
+<p class="bg-danger" data-ng-if="vm.hasRequestError">
+    Ошибка в поисковом запросе
+</p>
 
 <div data-ui-view=""></div>

@@ -1,25 +1,27 @@
-﻿<div class="bs-callout bs-callout-danger" >
+﻿<div class="bs-callout bs-callout-danger">
     <h4>
-        <label>
-            <input type="checkbox" name="isChecked" data-ng-model="searchModel.docs.ap.isChecked" /> Административная практика
+        <label class="clickable">
+            <input type="checkbox"
+                   name="isChecked"
+                   data-ng-model="searchModel.docs.administrativePractice.isChecked"
+                   data-ng-change="toggleDocSearch('administrativePractice')" /> Административная практика
         </label>
     </h4>
 
-    <div data-ng-if="searchModel.docs.ap.isChecked">
+    <div data-ng-if="searchModel.docs.administrativePractice.isChecked">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="form-group">
                     <label for="apDocNo">Номер протокола</label>
-                    <input type="text" class="form-control" name="docNo" id="apDocNo" data-ng-model="searchModel.docs.ap.docNo" />
+                    <input type="text" class="form-control" name="docNo" id="apDocNo" data-ng-model="searchModel.docs.administrativePractice.docNo" />
                 </div>
             </div>
-        </div>     
+        </div>
         <div class="row">
-            <div data-ng-repeat="prm in parameters.administrativePractice track by prm.id">                
+            <div data-ng-repeat="prm in parameters.administrativePractice track by prm.id">
                 <div data-ng-include="'views/search/prms-body.html'"></div>
             </div>
-        </div>     
+        </div>
     </div>
-
 </div>
 
