@@ -6,15 +6,14 @@
                data-ng-class="{'fa-chevron-circle-up': vm.collapse.params, 'fa-chevron-circle-down': !vm.collapse.params}"></i>
         </h3>
     </div>
-    <div data-collapse="vm.collapse.params">      
-        <table class="table table-hover table-striped" data-ng-if="!vm.loader.params">
-            <thead>
-                <tr>
-                    <th class="col-md-5">
-                        <input type="text" name="filername" class="form-control" data-ng-model="vm.filter.name" placeholder="Название" />
-                    </th>
-                    <th class="col-md-3">
-                        <select data-ng-model="vm.filter.docType" class="form-control">
+    <div data-collapse="vm.collapse.params">
+        <div data-ng-if="!vm.loader.params" data-sv-root="" data-sv-part="params" data-sv-on-sort="changeParamsSortOrder($item, $partFrom, $partTo, $indexFrom, $indexTo)">
+
+            <div class="params-table">
+                <div class="row">
+                    <div class="col-md-3">
+                       
+                        <select data-ng-model="vm.filter.docType" class="form-control input-sm">
                             <option value="">Тип документа</option>
                             <option value="administrativePractice">Административная практика</option>
                             <option value="migrationRegistration">Миграционный учёт</option>
@@ -22,56 +21,62 @@
                             <option value="residence">ВНЖ</option>
                             <option value="citizenship">Гражданство</option>
                         </select>
-                    </th>
-                    <th class="col-md-3">
-                        <select data-ng-model="vm.filter.type" class="form-control">
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" name="filername" class="form-control input-sm" data-ng-model="vm.filter.name" placeholder="Название" />
+                    </div>
+                    <div class="col-md-3">
+                        <select data-ng-model="vm.filter.type" class="form-control input-sm">
                             <option value="">Тип данных</option>
                             <option value="date">Дата</option>
                             <option value="str">Строка</option>
                             <option value="float">Число</option>
                             <option value="misc">Словарь</option>
                         </select>
-                    </th>
-                    <th class="col-md-1">
+                    </div>
+                    <div class="col-md-1">
                         <button class="btn btn-success btn-sm" data-ng-click="addParam()">
                             <i class="fa fa-plus"></i>
                         </button>
-                    </th>
-                </tr>
-            </thead>
-            <tr data-ng-repeat="p in params | filter:vm.filter track by p.id">
-                <td>
-                    {{p.name}}
-                </td>
-                <td>
-                    <span data-ng-switch="p.docType">
-                        <span data-ng-switch-when="administrativePractice">Административная практика</span>
-                        <span data-ng-switch-when="migrationRegistration">Миграционный учёт</span>
-                        <span data-ng-switch-when="temporaryResidencePermit">РВП</span>
-                        <span data-ng-switch-when="residence">ВНЖ</span>
-                        <span data-ng-switch-when="citizenship">Гражданство</span>
-                    </span>
-                </td>
-                <td>
-                    <span data-ng-switch="p.type">
-                        <span data-ng-switch-when="date">Дата</span>
-                        <span data-ng-switch-when="str">Строка</span>
-                        <span data-ng-switch-when="float">Число</span>
-                        <span data-ng-switch-when="misc">Словарь</span>
-                    </span>
-                </td>
-                <td>                 
-                    <button class="btn btn-default btn-xs" data-ng-click="removeParam(p)">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
-        </table>
+                    </div>
+                </div>
+                <div data-ng-repeat="p in params | filter:vm.filter track by p.id" data-sv-element="" class="row">
+                    <div class="col-md-3">                     
+                        <span data-ng-switch="p.docType">
+                            <span data-ng-switch-when="administrativePractice">Административная практика</span>
+                            <span data-ng-switch-when="migrationRegistration">Миграционный учёт</span>
+                            <span data-ng-switch-when="temporaryResidencePermit">РВП</span>
+                            <span data-ng-switch-when="residence">ВНЖ</span>
+                            <span data-ng-switch-when="citizenship">Гражданство</span>
+                        </span>
+                    </div>
+                    <div class="col-md-5">
+                        {{p.name}}          
+                    </div>
+                    <div class="col-md-3">
+                        <span data-ng-switch="p.type">
+                            <span data-ng-switch-when="date">Дата</span>
+                            <span data-ng-switch-when="str">Строка</span>
+                            <span data-ng-switch-when="float">Число</span>
+                            <span data-ng-switch-when="misc">Словарь</span>
+                        </span>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-default btn-xs" data-sv-handle="" data-ng-disabled="p.isUpdating">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button class="btn btn-default btn-xs" data-ng-click="removeParam(p)" data-ng-if="p.canRemove">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="spacer-40 spacer-b-40" data-ng-if="vm.loader.params">
             <img class="preloader" src="img/dark_preloader.gif" />
         </div>
     </div>
-   
+
 </div>
 
 <div class="panel panel-danger">

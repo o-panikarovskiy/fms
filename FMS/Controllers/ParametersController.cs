@@ -16,14 +16,13 @@ namespace FMS.Controllers
 	public class ParametersController : ApiController
 	{
 		private readonly IRepository<Misc> _repMisc;
-		private readonly IRepository<MiscName> _repMiscNames;
 		private readonly IRepository<ParameterName> _repParamNames;
 		private readonly IRepository<DocumentParameter> _repDocParams;
+		private readonly IReportRepository<DocumentParameter> _rep;
 
-		public ParametersController(IRepository<Misc> repMisc, IRepository<MiscName> repMiscNames, IRepository<ParameterName> repParamNames, IRepository<DocumentParameter> repDocParams)
+		public ParametersController(IRepository<Misc> repMisc, IRepository<ParameterName> repParamNames, IRepository<DocumentParameter> repDocParams)
 		{
 			_repMisc = repMisc;
-			_repMiscNames = repMiscNames;
 			_repParamNames = repParamNames;
 			_repDocParams = repDocParams;
 		}
@@ -31,7 +30,7 @@ namespace FMS.Controllers
 		[HttpGet]
 		public IEnumerable<ParameterName> GetList()
 		{
-			var list = _repParamNames.GetAll().Where(p => p.Category == ParameterCategory.Document).OrderBy(m => m.Name);
+			var list = _repParamNames.GetAll().Where(p => p.Category == ParameterCategory.Document).OrderBy(m => m.OrderIndex);
 			return list.ToList();
 		}
 
@@ -57,10 +56,34 @@ namespace FMS.Controllers
 			param.Category = ParameterCategory.Document;
 			param.PersonCategory = null;
 			param.IsFact = false;
+			param.CanRemove = true;
 
 			await _repParamNames.AddAsync(param);
 
 			return Request.CreateResponse(HttpStatusCode.OK, param);
+		}
+
+		[HttpPut]
+		public async Task<HttpResponseMessage> Update(ParameterName param)
+		{
+			if (!ModelState.IsValid)
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+			}
+
+			var paramDb = await _repParamNames.FindAsync(p => p.Id == param.Id);
+
+			if (paramDb == null)
+			{
+				return Request.CreateResponse(HttpStatusCode.NotFound);
+			}
+
+			paramDb.OrderIndex = param.OrderIndex;
+			await _repParamNames.UpdateAsync(paramDb);
+
+
+
+			return Request.CreateResponse(HttpStatusCode.NoContent);
 		}
 
 
@@ -71,6 +94,11 @@ namespace FMS.Controllers
 			if (param == null)
 			{
 				return Request.CreateResponse(HttpStatusCode.NotFound);
+			}
+
+			if (!param.CanRemove)
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Этот параметр используется при импорте данных, его нельзя удалить.");
 			}
 
 			if (_repDocParams.GetAll().Any(d => d.ParameterId == id))

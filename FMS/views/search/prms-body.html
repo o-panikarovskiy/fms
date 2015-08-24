@@ -5,7 +5,7 @@
         </label>
         <div data-ng-switch="prm.type">
             <div data-ng-switch-when="misc">
-                <select class="form-control"
+                <select class="form-control input-sm"
                         data-ng-attr-name="{{prm.name}}"
                         data-ng-attr-id="{{prm.id}}"
                         data-ng-disabled="vm.loader[prm.miscParentId]"
@@ -16,7 +16,7 @@
                 </select>
             </div>
             <div data-ng-switch-when="str">
-                <input class="form-control"
+                <input class="form-control input-sm"
                        maxlength="1024"
                        data-ng-attr-name="{{prm.name}}"
                        data-ng-attr-id="{{prm.id}}"
@@ -25,7 +25,7 @@
             </div>
             <div data-ng-switch-when="float">
                 <input type="number"
-                       class="form-control"
+                       class="form-control input-sm"
                        maxlength="20"
                        data-ng-attr-name="{{prm.name}}"
                        data-ng-attr-id="{{prm.id}}"
@@ -43,7 +43,7 @@
                 {{prm.name}} (начальная дата)
             </label>
             <input type="text"
-                   class="form-control"
+                   class="form-control input-sm"
                    placeholder="дд.мм.гггг"
                    data-ng-attr-name="{{prm.name}}"
                    data-ng-attr-id="{{prm.id+'_start'}}"
@@ -59,7 +59,7 @@
                 (конечная дата)
             </label>
             <input type="text"
-                   class="form-control"
+                   class="form-control input-sm"
                    placeholder="дд.мм.гггг"
                    data-ng-attr-name="{{prm.name}}"
                    data-ng-attr-id="{{prm.id+'_end'}}"

@@ -8,90 +8,93 @@
                data-ng-class="{'fa-chevron-circle-up': vm.collapse.documentsoncontrol, 'fa-chevron-circle-down': !vm.collapse.documentsoncontrol}"></i>
         </h3>
     </div>
-    <div data-collapse="vm.collapse.documentsoncontrol">
+    <div class="panel-body" data-collapse="vm.collapse.documentsoncontrol">
         <div class="spacer-40 spacer-b-40" data-ng-if="vm.loader.documentsoncontrol">
             <img class="preloader" src="img/dark_preloader.gif" />
         </div>
-        <table class="table table-hover small" data-ng-if="!vm.loader.documentsoncontrol">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th class="col-md-2">
-                        <a data-ng-click="order('docType')">
-                            Тип документа
-                            <i class="fa" data-ng-if="vm.order.predicate === 'docType'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
-                            <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'docType'"></i>
-                        </a>
-                    </th>
-                    <th class="col-md-2">
-                        <a data-ng-click="order('docNo')">
-                            Номер документа
-                            <i class="fa" data-ng-if="vm.order.predicate === 'docNo'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
-                            <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'docNo'"></i>
-                        </a>
-                    </th>
-                    <th class="col-md-3">
-                        <a data-ng-click="order('name')">
-                            Имя
-                            <i class="fa" data-ng-if="vm.order.predicate === 'name'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
-                            <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'name'"></i>
-                        </a>
-                    </th>
-                    <th class="col-md-3">
-                        <a data-ng-click="order('note')">
-                            Примечание
-                            <i class="fa" data-ng-if="vm.order.predicate === 'note'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
-                            <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'note'"></i>
-                        </a>
-                    </th>
-                    <th class="col-md-2">
-                        <a data-ng-click="order('daysCount')">
-                            Дней
-                            <i class="fa" data-ng-if="vm.order.predicate === 'daysCount'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
-                            <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'daysCount'"></i>
-                        </a>
-                    </th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th>
-                        <select data-ng-model="vm.filter.docType" class="form-control input-sm">
-                            <option value=""></option>
-                            <option value="administrativePractice">Административная практика</option>
-                            <option value="temporaryResidencePermit">РВП</option>
-                            <option value="residence">ВНЖ</option>
-                            <option value="citizenship">Гражданство</option>
-                        </select>
-                    </th>
-                    <th>
-                        <input type="text" name="docNo" class="form-control input-sm" data-ng-model="vm.filter.docNo" placeholder="Номер документа" />
-                    </th>
-                    <th>
-                        <input type="text" name="personName" class="form-control input-sm" data-ng-model="vm.filter.name" placeholder="Имя" />
-                    </th>
+        <div data-ng-if="docsoncontrol.length > 0">
+            <table class="table table-hover small" data-ng-if="!vm.loader.documentsoncontrol">
+                <thead>
+                    <tr>                     
+                        <th class="col-md-2">
+                            <a data-ng-click="order('docType')">
+                                Тип документа
+                                <i class="fa" data-ng-if="vm.order.predicate === 'docType'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
+                                <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'docType'"></i>
+                            </a>
+                        </th>
+                        <th class="col-md-2">
+                            <a data-ng-click="order('docNo')">
+                                Номер документа
+                                <i class="fa" data-ng-if="vm.order.predicate === 'docNo'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
+                                <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'docNo'"></i>
+                            </a>
+                        </th>
+                        <th class="col-md-3">
+                            <a data-ng-click="order('name')">
+                                Имя
+                                <i class="fa" data-ng-if="vm.order.predicate === 'name'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
+                                <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'name'"></i>
+                            </a>
+                        </th>
+                        <th class="col-md-3">
+                            <a data-ng-click="order('note')">
+                                Примечание
+                                <i class="fa" data-ng-if="vm.order.predicate === 'note'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
+                                <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'note'"></i>
+                            </a>
+                        </th>
+                        <th class="col-md-2">
+                            <a data-ng-click="order('daysCount')">
+                                Дней
+                                <i class="fa" data-ng-if="vm.order.predicate === 'daysCount'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
+                                <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'daysCount'"></i>
+                            </a>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <select data-ng-model="vm.filter.docType" class="form-control input-sm">
+                                <option value=""></option>
+                                <option value="administrativePractice">Административная практика</option>
+                                <option value="temporaryResidencePermit">РВП</option>
+                                <option value="residence">ВНЖ</option>
+                                <option value="citizenship">Гражданство</option>
+                            </select>
+                        </th>
+                        <th>
+                            <input type="text" name="docNo" class="form-control input-sm" data-ng-model="vm.filter.docNo" placeholder="Номер документа" />
+                        </th>
+                        <th>
+                            <input type="text" name="personName" class="form-control input-sm" data-ng-model="vm.filter.name" placeholder="Имя" />
+                        </th>
 
-                    <th>
-                        <select class="form-control input-sm" data-ng-options="item for item in notes" data-ng-model="vm.filter.note" data-ng-change="notesFilterChanged(vm.filter)">
-                            <option value=""></option>
-                        </select>
-                    </th>
-                    <th>
-                    </th>
+                        <th>
+                            <select class="form-control input-sm" data-ng-options="item for item in notes" data-ng-model="vm.filter.note" data-ng-change="notesFilterChanged(vm.filter)">
+                                <option value=""></option>
+                            </select>
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tr class="clickable"
+                    data-ng-repeat="d in (vm.filterRows = (docsoncontrol | filter:vm.filter)) | page:vm.page.currentPage:vm.page.itemsOnPage:1  | orderBy:vm.order.predicate:vm.order.reverse track by d.docId"
+                    data-ng-class="{'bg-danger': d.daysCount<0 || d.docType=='administrativePractice', 'bg-warning':d.daysCount===0 && d.docType!='administrativePractice', 'bg-success': d.daysCount>0}"
+                    data-ng-click="openPerson(d.personId)">                   
+                    <td data-ng-bind="::d.docTypeRu"></td>
+                    <td data-ng-bind="::d.docNo"></td>
+                    <td data-ng-bind="::d.name"></td>
+                    <td data-ng-bind="::d.note"></td>
+                    <td data-ng-bind="::d.daysCountStr"></td>
                 </tr>
-            </thead>
-            <tr class="clickable"
-                data-ng-repeat="d in (vm.filterRows = (docsoncontrol | filter:vm.filter)) | page:vm.page.currentPage:vm.page.itemsOnPage:1  | orderBy:vm.order.predicate:vm.order.reverse track by d.docId"
-                data-ng-class="{'bg-danger': d.daysCount<0, 'bg-warning':d.daysCount===0, 'bg-success': d.daysCount>0}"
-                data-ng-click="openPerson(d.personId)">
-                <td data-ng-bind="$index+1"></td>
-                <td data-ng-bind="::d.docTypeRu"></td>
-                <td data-ng-bind="::d.docNo"></td>
-                <td data-ng-bind="::d.name"></td>
-                <td data-ng-bind="::d.note"></td>
-                <td data-ng-bind="::d.daysCountStr"></td>
-            </tr>
-        </table>
-        <div class="text-center" data-ng-if="vm.filterRows.length > 100">
+            </table>            
+        </div>
+        <div class="text-center bg-success" data-ng-if="!vm.loader.documentsoncontrol && (!vm.filterRows || vm.filterRows.length == 0)">
+            <h3>Нет документов</h3>
+        </div>
+        <div class="text-center panel-footer" data-ng-if="vm.filterRows.length > vm.page.itemsOnPage">
             <pagination class="pagination-sm"
                         data-total-items="vm.filterRows.length"
                         data-items-per-page="vm.page.itemsOnPage"
