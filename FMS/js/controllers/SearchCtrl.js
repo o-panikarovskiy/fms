@@ -40,7 +40,6 @@
                 return SearchService.query($scope.searchModel).then(function(data) {
                     $state.go('root.search.results', { id: data.id });
                     getResults(data.id);
-                    $scope.vm.isSearchBodyCollapsed = true;
                 }).finally(function() {
                     $scope.vm.isSendingRequest = false;
                 });
@@ -126,6 +125,7 @@
                     $scope.people = data.people;
                     angular.extend($scope.searchModel, data.query);
                     $scope.vm.pagination.total = data.total;
+                    $scope.vm.isSearchBodyCollapsed = true;
                     return data;
                 }).catch(function(rejection) {
                     if (rejection && rejection.status) {
@@ -149,8 +149,7 @@
 
                 var subPromise = [loadDocParams()];
                 if ($state.params.id) {
-                    subPromise.push(getResults($state.params.id));
-                    $scope.vm.isSearchBodyCollapsed = true;
+                    subPromise.push(getResults($state.params.id));                   
                 }
 
                 promises.push($q.all(subPromise).then(function() {
