@@ -11,7 +11,7 @@
                 order: {},
                 page: {
                     currentPage: 1,
-                    itemsOnPage: 10
+                    itemsOnPage: 100
                 }
             };
 
