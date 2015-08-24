@@ -1,121 +1,25 @@
 ﻿<div class="bs-callout bs-callout-primary">
     <h4>
-        <label>
-            <input type="checkbox" name="isChecked" data-ng-model="searchModel.docs.mu.isChecked" /> Миграционный учёт
+        <label class="clickable">
+            <input type="checkbox"
+                   name="isChecked"
+                   data-ng-model="searchModel.docs.migrationRegistration.isChecked"
+                   data-ng-change="toggleDocSearch('migrationRegistration')" /> Миграционный учёт
         </label>
     </h4>
-    <div data-ng-if="searchModel.docs.mu.isChecked">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="muDocNo">Номер уведомления</label>
-                    <input type="text" class="form-control" name="docNo" id="muDocNo" data-ng-model="searchModel.docs.mu.docNo" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="cardMark">Отметка проставлена</label>
-                    <select class="form-control"
-                            id="cardMark"
-                            name="cardMark"
-                            data-ng-disabled="vm.loader.cardMarkMu"
-                            data-ng-options="item.key as item.value for item in vm.dicts['Отметка проставлена']"
-                            data-ng-model="searchModel.docs.mu.cardMark">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="purposeOfEntry">Цель въезда</label>
-                    <select class="form-control"
-                            id="purposeOfEntry"
-                            name="purposeOfEntry"
-                            data-ng-disabled="vm.loader.purposeOfEntryMu"
-                            data-ng-options="item.key as item.value for item in vm.dicts['Цель въезда']"
-                            data-ng-model="searchModel.docs.mu.purposeOfEntry">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="form-group">
-                    <label for="primaryExtend">Первично/Продлено</label>
-                    <select class="form-control"
-                            id="primaryExtend"
-                            name="primaryExtend"
-                            data-ng-disabled="vm.loader.primaryExtendMu"
-                            data-ng-options="item.key as item.value for item in vm.dicts['Первично/Продлено']"
-                            data-ng-model="searchModel.docs.mu.primaryExtend">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="kPP">КПП въезда</label>
-                    <select class="form-control"
-                            id="kPP"
-                            name="kPP"
-                            data-ng-disabled="vm.loader.kPPMu"
-                            data-ng-options="item.key as item.value for item in vm.dicts['КПП въезда']"
-                            data-ng-model="searchModel.docs.mu.kPP">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="stIncomeDate">Дата въезда с</label>
-                    <input type="text" class="form-control" name="stIncomeDate" id="stIncomeDate" data-ng-model="searchModel.docs.mu.stIncomeDate" data-bs-datepicker="" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="endIncomeDate">по</label>
-                    <input type="text" class="form-control" name="endIncomeDate" id="endIncomeDate" data-ng-model="searchModel.docs.mu.endIncomeDate" data-bs-datepicker="" />
-                </div>
-            </div>
-        </div>
 
+    <div data-ng-if="searchModel.docs.migrationRegistration.isChecked">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="form-group">
-                    <label for="stIssueDate">Дата выдачи с</label>
-                    <input type="text" class="form-control" name="stIssueDate" id="stIssueDate" data-ng-model="searchModel.docs.mu.stIssueDate" data-bs-datepicker="" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="endIssueDate">по</label>
-                    <input type="text" class="form-control" name="endIssueDate" id="endIssueDate" data-ng-model="searchModel.docs.mu.endIssueDate" data-bs-datepicker="" />
+                    <label for="apDocNo">Номер уведомления</label>
+                    <input type="text" class="form-control" name="docNo" id="apDocNo" data-ng-model="searchModel.docs.migrationRegistration.docNo" />
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="regDateFrom">Дата регистрации C</label>
-                    <input type="text"
-                           class="form-control"
-                           name="regDateFrom"
-                           id="regDateFrom"
-                           placeholder="(строгое равенство)"
-                           data-ng-model="searchModel.docs.mu.regDateFrom" data-bs-datepicker="" />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="regDateTo">Дата регистрации ДО</label>
-                    <input type="text"
-                           class="form-control"
-                           name="regDateTo"
-                           id="regDateTo"
-                           placeholder="(строгое равенство)"
-                           data-ng-model="searchModel.docs.mu.regDateTo" data-bs-datepicker="" />
-                </div>
+            <div data-ng-repeat="prm in parameters.migrationRegistration track by prm.id">
+                <div data-ng-include="'views/search/prms-body.html'"></div>
             </div>
         </div>
     </div>

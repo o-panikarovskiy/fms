@@ -1,6 +1,6 @@
 ﻿<div data-ng-if="!vm.loader.person" class="animate">
     <p class="bg-danger" data-ng-if="vm.loader.errors.person">Анкета не найдена.</p>
-    <div class="row" data-ng-if="!!person && !vm.loader.errors.person">
+    <div class="row small" data-ng-if="!!person && !vm.loader.errors.person">
         <h1>
             {{person.name}}
             <small data-ng-if="person.category=='individual'">({{person.birthday|date:'dd.MM.yyyy'}})</small>

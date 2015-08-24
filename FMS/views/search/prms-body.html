@@ -1,0 +1,72 @@
+﻿<div class="col-md-8 col-md-offset-2" data-ng-if="prm.type!='date'">
+    <div class="form-group">
+        <label data-ng-attr-for="{{prm.id}}">
+            {{prm.name}}
+        </label>
+        <div data-ng-switch="prm.type">
+            <div data-ng-switch-when="misc">
+                <select class="form-control input-sm"
+                        data-ng-attr-name="{{prm.name}}"
+                        data-ng-attr-id="{{prm.id}}"
+                        data-ng-disabled="vm.loader[prm.miscParentId]"
+                        data-ng-options="item.key as item.value for item in vm.dicts[prm.miscParentId]"
+                        data-ng-change="searchModel.docs[prm.docType].docParams[prm.id].type = 'misc'"
+                        data-ng-model="searchModel.docs[prm.docType].docParams[prm.id].value">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div data-ng-switch-when="str">
+                <input class="form-control input-sm"
+                       maxlength="1024"
+                       data-ng-attr-name="{{prm.name}}"
+                       data-ng-attr-id="{{prm.id}}"
+                       data-ng-change="searchModel.docs[prm.docType].docParams[prm.id].type = 'str'"
+                       data-ng-model="searchModel.docs[prm.docType].docParams[prm.id].value" />
+            </div>
+            <div data-ng-switch-when="float">
+                <input type="number"
+                       class="form-control input-sm"
+                       maxlength="20"
+                       data-ng-attr-name="{{prm.name}}"
+                       data-ng-attr-id="{{prm.id}}"
+                       data-ng-change="searchModel.docs[prm.docType].docParams[prm.id].type = 'float'"
+                       data-ng-model="searchModel.docs[prm.docType].docParams[prm.id].value" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div data-ng-if="prm.type=='date'">
+    <div class="col-md-4 col-md-offset-2">
+        <div class="form-group">
+            <label data-ng-attr-for="{{prm.id+'_start'}}">
+                {{prm.name}} (начальная дата)
+            </label>
+            <input type="text"
+                   class="form-control input-sm"
+                   placeholder="дд.мм.гггг"
+                   data-ng-attr-name="{{prm.name}}"
+                   data-ng-attr-id="{{prm.id+'_start'}}"
+                   data-bs-datepicker=""
+                   data-autoclose="true"
+                   data-ng-model="searchModel.docs[prm.docType].docParams[prm.id].start"
+                   data-ng-change="searchModel.docs[prm.docType].docParams[prm.id].type = 'date'" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label data-ng-attr-for="{{prm.id+'_end'}}">
+                (конечная дата)
+            </label>
+            <input type="text"
+                   class="form-control input-sm"
+                   placeholder="дд.мм.гггг"
+                   data-ng-attr-name="{{prm.name}}"
+                   data-ng-attr-id="{{prm.id+'_end'}}"
+                   data-bs-datepicker=""
+                   data-autoclose="true"
+                   data-ng-model="searchModel.docs[prm.docType].docParams[prm.id].end"
+                   data-ng-change="searchModel.docs[prm.docType].docParams[prm.id].type = 'date'" />
+        </div>
+    </div>
+</div>

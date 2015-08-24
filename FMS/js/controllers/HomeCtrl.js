@@ -1,7 +1,4 @@
-﻿/// <reference path="../services/ImportService.js" />
-/// <reference path="../services/DialogManager.js" />
-/// <reference path="../services/ReportsService.js" />
-(function(window, angular) {
+﻿(function(window, angular) {
     'use strict';
 
     angular.module('fms').controller('HomeCtrl', ['$scope', '$state', '$timeout', '$interval', '$window', 'UploaderService', 'ImportService', 'ReportsService', 'DialogManager', 'WebStorage',
@@ -14,7 +11,7 @@
                 order: {},
                 page: {
                     currentPage: 1,
-                    itemsOnPage: 100
+                    itemsOnPage: 10
                 }
             };
 
@@ -117,7 +114,7 @@
                     var notes = {};
                     $scope.docsoncontrol = list.map(function(item) {
                         item.docTypeRu = getDocTypeRu(item.docType);
-                        item.daysCountStr = getDaysCountStr(item.daysCount);
+                        item.daysCountStr = getDaysCountStr(item.daysCount, item.docType);
                         if (!!item.note) notes[item.note] = true;
                         return item;
                     });
@@ -144,7 +141,8 @@
                 }
             }
 
-            function getDaysCountStr(days) {
+            function getDaysCountStr(days, docType) {
+                if (docType === 'administrativePractice') return '';
                 var str = days >= 0 ? 'осталось дней: @days' : 'просрочено дней: @days';
                 return str.replace('@days', Math.abs(days));
             }
