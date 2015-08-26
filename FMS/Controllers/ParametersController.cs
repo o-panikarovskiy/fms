@@ -17,8 +17,7 @@ namespace FMS.Controllers
 	{
 		private readonly IRepository<Misc> _repMisc;
 		private readonly IRepository<ParameterName> _repParamNames;
-		private readonly IRepository<DocumentParameter> _repDocParams;
-		private readonly IReportRepository<DocumentParameter> _rep;
+		private readonly IRepository<DocumentParameter> _repDocParams;		
 
 		public ParametersController(IRepository<Misc> repMisc, IRepository<ParameterName> repParamNames, IRepository<DocumentParameter> repDocParams)
 		{
