@@ -1,0 +1,14 @@
+﻿<div class="content create-doc">   
+    <form name="form" class="form" data-ng-submit="ok(form)">
+        <div class="modal-body">           
+            <div class="form-group">               
+                <label for="modelname">Введите значение:</label>
+                <input type="text" class="form-control" autofocus="" data-ng-model="model.name" required="" name="modelname" id="modelname" />
+            </div>
+        </div>
+        <div class="modal-footer" data-ng-if="vm.status!=200">
+            <button class="btn btn-primary" type="submit" data-ng-disabled="form.$invalid">Сохранить</button>
+            <button class="btn btn-danger" type="button" data-ng-click="close()">Отмена</button>
+        </div>
+    </form>
+</div>

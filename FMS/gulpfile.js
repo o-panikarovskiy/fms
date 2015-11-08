@@ -1,5 +1,5 @@
 ﻿var gulp = require('gulp');
-var clean = require('gulp-clean');
+var del = require('del');
 var bower = require('gulp-bower');
 var less = require('gulp-less');
 var minifyCSS = require('gulp-minify-css');
@@ -23,9 +23,8 @@ var config = {
 };
 
 
-gulp.task('clean', function () {
-    return gulp.src([config.bowerPath, config.packagePath], { read: false })
-      .pipe(clean());
+gulp.task('clean', function (cb) {
+    del([config.bowerPath, config.packagePath], cb);
 });
 
 gulp.task('watch', function () {
@@ -112,14 +111,16 @@ gulp.task('app:index', function () {
         prms = {
             css: ['concat', rev()],
             libjs: [rev()],
-            appjs: [rev()],
+            strap: [rev()],
+            appjs: [rev()],           
             html: [minifyHtml({ empty: true, conditionals: true, spare: true, quotes: true })]
         }
     } else {
         prms = {
             css: [minifyCSS(), 'concat', rev()],
             libjs: [uglify(), rev()],
-            appjs: [uglify(), rev()],
+            strap: [uglify({ mangle: false }), rev()],
+            appjs: [uglify(), rev()],          
             html: [minifyHtml({ empty: true, conditionals: true, spare: true, quotes: true })]
         }
     }
@@ -140,7 +141,7 @@ gulp.task('app:img', function () {
 });
 
 gulp.task('app:fonts', function () {
-    return gulp.src(config.bowerPath + 'fontawesome/fonts/**')
+    return gulp.src([config.bowerPath + 'fontawesome/fonts/**', config.bowerPath + 'bootstrap-less-only/fonts/**'])
         .pipe(gulp.dest(config.packagePath + 'fonts/'));
 });
 
@@ -175,9 +176,8 @@ gulp.task('app:config:js:restore', function () {
         .pipe(gulp.dest('./js/config/'));
 });
 
-gulp.task('app:config:js:clean', function () {
-    return gulp.src('./js/config/config.original.js')
-        .pipe(clean());
+gulp.task('app:config:js:clean', function (cb) {
+    del(['./js/config/config.original.js'], cb);
 });
 
 gulp.task('app:config:web', function () {

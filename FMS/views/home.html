@@ -1,59 +1,110 @@
-﻿<div class="panel panel-default panel-strong">
-    <div class="panel-heading clearfix">
-        <h3 class="panel-title pull-left">Импорт</h3>
-        <div class="btn-group pull-right" data-file-dialog="">
-            <button class="btn btn-sm btn-primary"
-                    disabled=""
-                    data-ng-click="vm.docType='MigrationRegistration'">
-                Миграционный учет
-            </button>
-            <button class="btn btn-sm btn-primary"
-                    disabled=""
-                    data-ng-click="vm.docType='TemporaryResidencePermit'">
-                РВП
-            </button>
-            <button class="btn btn-sm btn-primary"
-                    disabled=""
-                    data-ng-click="vm.docType='Residence'">
-                Вид на жительство
-            </button>
-            <button class="btn btn-sm btn-primary"
-                    data-ng-click="vm.docType='Citizenship'"
-                    data-ng-disabled="vm.importProgress && !vm.importProgress.isCompleted">
-                Гражданство
-            </button>
-            <button class="btn btn-sm btn-danger"
-                    data-ng-click="vm.docType='AdministrativePractice'"
-                    data-ng-disabled="vm.importProgress && !vm.importProgress.isCompleted">
-                Административная практика
-            </button>
-            <input type="file"
-                   accept=".csv"
-                   style="display:none"
-                   data-file-clear="vm.clearFileTrigger"
-                   data-nv-file-select=""
-                   data-uploader="uploader" />
-        </div>
-    </div>
+﻿<div data-ng-include="'views/home/import.html'"></div>
 
-    <div class="panel-body" data-ng-if="!!vm.importProgress">
-        <div data-ng-if="uploader.isUploading">
-            <h4>Загрузка файла: {{uploader.progress|number}}%</h4>
-            <div data-progressbar="" data-value="uploader.progress" data-type="success"></div>
+<div class="panel panel-primary">
+    <div class="panel-heading clickable clearfix" data-ng-click="togglePanel('documentsoncontrol')">
+        <h4 class="panel-title pull-left">Документы на контроле</h4>
+        <h3 class="panel-title pull-right">
+            <i class="fa"
+               data-ng-class="{'fa-chevron-circle-up': vm.collapse.documentsoncontrol, 'fa-chevron-circle-down': !vm.collapse.documentsoncontrol}"></i>
+        </h3>
+    </div>
+    <div class="panel-body" data-collapse="vm.collapse.documentsoncontrol">
+        <div class="spacer-40 spacer-b-40" data-ng-if="vm.loader.documentsoncontrol">
+            <img class="preloader" src="img/dark_preloader.gif" />
         </div>
-        <div data-ng-if="!uploader.isUploading">
-            <h4>Обработка данных: {{vm.importProgress.percent|number:0}}%</h4>
-            <div data-progressbar="" data-value="vm.importProgress.percent" data-type="success"></div>
+        <div data-ng-if="docsoncontrol.length > 0">
+            <table class="table table-hover small" data-ng-if="!vm.loader.documentsoncontrol">
+                <thead>
+                    <tr>                     
+                        <th class="col-md-2">
+                            <a data-ng-click="order('docType')">
+                                Тип документа
+                                <i class="fa" data-ng-if="vm.order.predicate === 'docType'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
+                                <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'docType'"></i>
+                            </a>
+                        </th>
+                        <th class="col-md-2">
+                            <a data-ng-click="order('docNo')">
+                                Номер документа
+                                <i class="fa" data-ng-if="vm.order.predicate === 'docNo'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
+                                <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'docNo'"></i>
+                            </a>
+                        </th>
+                        <th class="col-md-3">
+                            <a data-ng-click="order('name')">
+                                Имя
+                                <i class="fa" data-ng-if="vm.order.predicate === 'name'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
+                                <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'name'"></i>
+                            </a>
+                        </th>
+                        <th class="col-md-3">
+                            <a data-ng-click="order('note')">
+                                Примечание
+                                <i class="fa" data-ng-if="vm.order.predicate === 'note'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
+                                <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'note'"></i>
+                            </a>
+                        </th>
+                        <th class="col-md-2">
+                            <a data-ng-click="order('daysCount')">
+                                Дней
+                                <i class="fa" data-ng-if="vm.order.predicate === 'daysCount'" data-ng-class="{'fa-sort-desc': vm.order.reverse, 'fa-sort-asc': !vm.order.reverse }"></i>
+                                <i class="fa fa-sort" data-ng-if="vm.order.predicate !== 'daysCount'"></i>
+                            </a>
+                        </th>
+                    </tr>
+                    <tr>                     
+                        <th>
+                            <select data-ng-model="vm.filter.docType" class="form-control input-sm">
+                                <option value=""></option>
+                                <option value="administrativePractice">Административная практика</option>
+                                <option value="temporaryResidencePermit">РВП</option>
+                                <option value="residence">ВНЖ</option>
+                                <option value="citizenship">Гражданство</option>
+                            </select>
+                        </th>
+                        <th>
+                            <input type="text" name="docNo" class="form-control input-sm" data-ng-model="vm.filter.docNo" placeholder="Номер документа" />
+                        </th>
+                        <th>
+                            <input type="text" name="personName" class="form-control input-sm" data-ng-model="vm.filter.name" placeholder="Имя" />
+                        </th>
+
+                        <th>
+                            <select class="form-control input-sm" data-ng-options="item for item in notes" data-ng-model="vm.filter.note" data-ng-change="notesFilterChanged(vm.filter)">
+                                <option value=""></option>
+                            </select>
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tr class="clickable"
+                    data-ng-repeat="d in (vm.filterRows = (docsoncontrol | filter:vm.filter)) | page:vm.page.currentPage:vm.page.itemsOnPage:1  | orderBy:vm.order.predicate:vm.order.reverse track by d.docId"
+                    data-ng-class="{'bg-danger': d.daysCount<0 || d.docType=='administrativePractice', 'bg-warning':d.daysCount===0 && d.docType!='administrativePractice', 'bg-success': d.daysCount>0}"
+                    data-ng-click="openPerson(d.personId)">                   
+                    <td data-ng-bind="::d.docTypeRu"></td>
+                    <td data-ng-bind="::d.docNo"></td>
+                    <td data-ng-bind="::d.name"></td>
+                    <td data-ng-bind="::d.note"></td>
+                    <td data-ng-bind="::d.daysCountStr"></td>
+                </tr>
+            </table>            
         </div>
-        <div data-ng-if="vm.importProgress.isCompleted">
-            <p data-ng-if="!vm.importProgress.hasErrors" class="bg-success">
-                Файл успешно импортирован!
-            </p>
-            <p data-ng-if="vm.importProgress.hasErrors" class="bg-danger">
-                <b>Внимание! При импорте возникли ошибки:</b>
-                <br />
-                {{vm.importProgress.exceptionMessage}}
-            </p>
+        <div class="text-center bg-success" data-ng-if="!vm.loader.documentsoncontrol && (!vm.filterRows || vm.filterRows.length == 0)">
+            <h3>Нет документов</h3>
+        </div>
+        <div class="text-center panel-footer" data-ng-if="vm.filterRows.length > vm.page.itemsOnPage">
+            <pagination class="pagination-sm"
+                        data-total-items="vm.filterRows.length"
+                        data-items-per-page="vm.page.itemsOnPage"
+                        data-max-size="10"
+                        data-ng-model="vm.page.currentPage"
+                        data-ng-change="pageChanged()"
+                        data-boundary-links="true"
+                        data-previous-text="Назад"
+                        data-next-text="Вперёд"
+                        data-first-text="Начало"
+                        data-last-text="Конец"></pagination>
         </div>
     </div>
 </div>

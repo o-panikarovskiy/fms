@@ -1,0 +1,27 @@
+﻿<div class="bs-callout bs-callout-primary">
+    <h4>
+        <label class="clickable">
+            <input type="checkbox"
+                   name="isChecked"
+                   data-ng-model="searchModel.docs.residence.isChecked"
+                   data-ng-change="toggleDocSearch('residence')" /> ВНЖ
+        </label>
+    </h4>
+
+    <div data-ng-if="searchModel.docs.residence.isChecked">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="form-group">
+                    <label for="apDocNo">Идентификатор дела</label>
+                    <input type="text" class="form-control" name="docNo" id="apDocNo" data-ng-model="searchModel.docs.residence.docNo" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div data-ng-repeat="prm in parameters.residence track by prm.id">
+                <div data-ng-include="'views/search/prms-body.html'"></div>
+            </div>
+        </div>
+    </div>
+</div>
+

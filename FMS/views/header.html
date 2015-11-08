@@ -12,6 +12,16 @@
                         <i class="fa fa-search"></i> Поиск
                     </a>
                 </li>
+                <li data-ui-sref-active="active">
+                    <a data-ng-click="createPerson()">
+                        <i class="fa fa-user-plus"></i> Создать анкету
+                    </a>
+                </li>
+                <li data-ui-sref-active="active" data-ng-if="currentUser.isAdmin">
+                    <a data-ui-sref="root.admin">
+                        <i class="fa fa-expeditedssl"></i> Параметры
+                    </a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown" data-dropdown="">

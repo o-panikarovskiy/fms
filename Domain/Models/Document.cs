@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +25,11 @@ namespace Domain.Models
         [MaxLength(255)]
         public string Number { get; set; }
 
+        [Index]
         public DocumentType Type { get; set; }
-
+        [Index]
         public int? ApplicantPersonId { get; set; }
-
+        [Index]
         public int? HostPersonId { get; set; }
 
         public string CreatedById { get; set; }

@@ -1,1 +1,64 @@
-﻿
+﻿<div class="panel panel-default panel-strong">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Импорт</h3>
+        <div class="btn-group pull-right" data-file-dialog="">
+            <button class="btn btn-sm btn-primary"
+                    data-ng-disabled="vm.importProgress && !vm.importProgress.isCompleted"
+                    data-ng-click="vm.docType='MigrationRegistration'">
+                Миграционный учет
+            </button>
+            <button class="btn btn-sm btn-primary"
+                    data-ng-disabled="vm.importProgress && !vm.importProgress.isCompleted"
+                    data-ng-click="vm.docType='TemporaryResidencePermit'">
+                РВП
+            </button>
+            <button class="btn btn-sm btn-primary"
+                    data-ng-disabled="vm.importProgress && !vm.importProgress.isCompleted"
+                    data-ng-click="vm.docType='Residence'">
+                Вид на жительство
+            </button>
+            <button class="btn btn-sm btn-primary"
+                    data-ng-click="vm.docType='Citizenship'"
+                    data-ng-disabled="vm.importProgress && !vm.importProgress.isCompleted">
+                Гражданство
+            </button>
+            <button class="btn btn-sm btn-danger"
+                    data-ng-click="vm.docType='AdministrativePractice'"
+                    data-ng-disabled="vm.importProgress && !vm.importProgress.isCompleted">
+                Административная практика
+            </button>
+            <input type="file"
+                   accept=".csv"
+                   style="display:none"
+                   data-file-clear="vm.clearFileTrigger"
+                   data-nv-file-select=""
+                   data-uploader="uploader" />
+        </div>
+    </div>
+
+    <div class="panel-body" data-ng-if="!!vm.importProgress">
+        <div data-ng-if="uploader.isUploading">
+            <h4>Загрузка файла: {{uploader.progress|number}}%</h4>
+            <div data-progressbar="" data-value="uploader.progress" data-type="success"></div>
+        </div>
+        <div data-ng-if="!uploader.isUploading">
+            <h4>
+                <span data-ng-if="vm.importProgress.percent<1">Обработка данных...</span>
+                <span data-ng-if="vm.importProgress.percent>1">
+                    Обработка данных: строка {{vm.importProgress.currentRow}} из {{vm.importProgress.totalRows}} ({{vm.importProgress.percent|number:2}}%)
+                </span>               
+            </h4>
+            <div data-progressbar="" data-value="vm.importProgress.percent" data-type="success"></div>
+        </div>
+        <div data-ng-if="vm.importProgress.isCompleted">
+            <p data-ng-if="!vm.importProgress.hasErrors" class="bg-success">
+                Файл успешно импортирован!
+            </p>
+            <p data-ng-if="vm.importProgress.hasErrors" class="bg-danger">
+                <b>Внимание! При импорте возникли ошибки:</b>
+                <br />
+                {{vm.importProgress.exceptionMessage}}
+            </p>
+        </div>
+    </div>
+</div>

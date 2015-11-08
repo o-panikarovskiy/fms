@@ -1,0 +1,109 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="name">ФИО (название организации, ИНН)</label>
+            <input class="form-control" id="name" name="name" maxlength="255" data-ng-model="searchModel.person.name" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="citizenship">Гражданство</label>
+            <select class="form-control"
+                    id="citizenship"
+                    name="citizenship"
+                    data-ng-disabled="vm.loader['Гражданство']"
+                    data-ng-options="item.key as item.value for item in vm.dicts['Гражданство']"
+                    data-ng-model="searchModel.person.citizenship">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="stBirthday">Дата рождения c</label>
+            <input type="text"
+                   class="form-control"
+                   id="stBirthday"
+                   name="stBirthday"
+                   data-ng-model="searchModel.person.stBirthday"
+                   data-bs-datepicker="">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="endBirthday">по</label>
+            <input type="text"
+                   class="form-control"
+                   id="endBirthday"
+                   name="endBirthday"
+                   data-ng-model="searchModel.person.endBirthday"
+                   data-bs-datepicker="">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="personDocType">Личный документ</label>
+            <select class="form-control"
+                    id="privateDocType"
+                    name="privateDocType"
+                    data-ng-disabled="vm.loader['Личный документ']"
+                    data-ng-options="item.key as item.value for item in vm.dicts['Личный документ']"
+                    data-ng-model="searchModel.person.docType">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="privateDocNo">Номер личного документа</label>
+            <input class="form-control" id="privateDocNo" name="privateDocNo" maxlength="255" data-ng-model="searchModel.person.docNo" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="phone">Телефон</label>
+            <input type="tel" class="form-control" id="phone" name="phone" maxlength="25" data-ng-model="searchModel.person.phone" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="email">Электронная почта</label>
+            <input type="text" class="form-control" id="email" name="email" maxlength="100" data-ng-model="searchModel.person.email" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="type">Соискатель/Принимающая сторона</label>
+            <select class="form-control"
+                    name="type"
+                    id="type"
+                    data-ng-disabled="vm.loader.personType"
+                    data-ng-options="item.key as item.value for item in vm.dicts.personType"
+                    data-ng-model="searchModel.person.type">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="category">Физическое/Юридическое лицо</label>
+            <select class="form-control col-md-12"
+                    name="category"
+                    id="category"
+                    data-ng-disabled="vm.loader.personCategory"
+                    data-ng-options="item.key as item.value for item in vm.dicts.personCategory"
+                    data-ng-model="searchModel.person.category">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="address">Адрес</label>
+            <textarea class="form-control col-md-12"
+                      name="address"
+                      id="address"
+                      data-ng-model="searchModel.person.address"></textarea>
+        </div>
+    </div>
+</div>

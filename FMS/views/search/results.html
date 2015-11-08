@@ -6,6 +6,7 @@
                  data-total-items="vm.pagination.total"
                  data-ng-model="vm.pagination.page" data-ng-change="pageChanged(vm.pagination.page)"
                  data-items-per-page="25"
+                 data-max-size="10"
                  data-next-text="След."
                  data-last-text="В конец"
                  data-previous-text="Пред."
@@ -13,19 +14,20 @@
                  data-boundary-links="true"
                  data-num-pages="numPages"></div>
         </div>
-        <div data-ng-repeat="person in people" class="bs-callout bs-callout-primary bs-callout-strong s-result clickable" data-ng-click="openPerson(person)">
-            <h4>{{person.name}}</h4>
+        <div data-ng-repeat="person in people track by person.id" class="bs-callout bs-callout-primary bs-callout-strong s-result clickable" data-ng-click="openPerson(person)">
+            <h4>{{::person.name}}</h4>
             <div class="row">
                 <div class="col-md-4">
-                    {{person.birthday|date:'dd.MM.yyyy'}}
+                    <span data-ng-if="person.category=='individual'">{{::person.birthday|date:'dd.MM.yyyy'}}</span>
+                    <span data-ng-if="person.category=='legal'">ИНН: {{::person.code}}</span>
                 </div>
                 <div class="col-md-4">
-                    <span data-ng-if="person.type==1">Соискатель</span>
-                    <span data-ng-if="person.type==2">Принимающая сторона</span>
+                    <span data-ng-if="person.type=='applicant'">Соискатель</span>
+                    <span data-ng-if="person.type=='host'">Принимающая сторона</span>
                 </div>
                 <div class="col-md-4">
-                    <span data-ng-if="person.category==1">Физическое лицо</span>
-                    <span data-ng-if="person.category==2">Юридическое лицо</span>
+                    <span data-ng-if="person.category=='individual'">Физическое лицо</span>
+                    <span data-ng-if="person.category=='legal'">Юридическое лицо</span>
                 </div>
             </div>
         </div>
@@ -35,6 +37,7 @@
                  data-total-items="vm.pagination.total"
                  data-ng-model="vm.pagination.page" data-ng-change="pageChanged(vm.pagination.page)"
                  data-items-per-page="25"
+                 data-max-size="10"
                  data-next-text="След."
                  data-last-text="В конец"
                  data-previous-text="Пред."
@@ -46,10 +49,6 @@
 
     <p class="bg-warning" data-ng-if="people.length===0">
         Нет результатов
-    </p>
-
-    <p class="bg-danger" data-ng-if="vm.hasRequestError">
-        Ошибка в поисковом запросе
     </p>
 </div>
 

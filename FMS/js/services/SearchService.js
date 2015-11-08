@@ -16,6 +16,12 @@
             });
         }
 
+        SearchService.peopleByName = function (name, type) {
+            return $http.get(config.API_ROOT + 'search/people/' + name, { params: { type: type } }).then(function (res) {
+                return res.data;
+            });
+        }
+
         return SearchService;
     }]);
 

@@ -16,10 +16,12 @@ namespace Domain.Abstract
         Task<T> FindAsync(Expression<Func<T, bool>> match);
         Task<List<T>> FindAllAsync(Expression<Func<T, bool>> match);
 
-        int Add(T t);
+        T Add(T t);
+        IEnumerable<T> AddRange(IEnumerable<T> entities);
         int Remove(T t);
         IQueryable<T> GetAll();
         int Update(T t);
+        IEnumerable<T> UpdateRange(IEnumerable<T> entities);
         int Count();
         T Find(Expression<Func<T, bool>> match);
         IQueryable<T> FindAll(Expression<Func<T, bool>> match);

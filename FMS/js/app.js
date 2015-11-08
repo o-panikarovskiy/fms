@@ -1,15 +1,15 @@
 ﻿(function (window, angular, undefined) {
     'use strict';
 
-    angular.module('fms', ['ngAnimate', 'ui.router', 'ui.bootstrap', 'synergetica-file-upload'])
-        .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', 'config',
-            function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, config) {
+    angular.module('fms', ['ngAnimate', 'ui.router', 'ui.bootstrap', 'mgcrea.ngStrap.datepicker', 'synergetica-file-upload'])
+        .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', '$datepickerProvider', 'config',
+            function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $datepickerProvider, config) {
                 //routes config
 
                 $stateProvider.state('root', { url: '', templateUrl: 'views/layout.root.html', abstract: true });
                 $stateProvider.state('root.home', { url: '/', templateUrl: 'views/home.html', controller: 'HomeCtrl', access: 'user' });
                 $stateProvider.state('root.search', { url: '/search', templateUrl: 'views/search.html', controller: 'SearchCtrl', access: 'user' });
-                $stateProvider.state('root.search.results', { url: '/{id}', templateUrl: 'views/search/results.html', controller: 'SearchResultsCtrl', access: 'user' });
+                $stateProvider.state('root.search.results', { url: '/{id}', templateUrl: 'views/search/results.html', access: 'user' });
                 $stateProvider.state('root.person', { url: '/person/{id}', templateUrl: 'views/person.html', controller: 'PersonCtrl', access: 'user' });
                 $stateProvider.state('root.admin', { url: '/admin', templateUrl: 'views/admin.html', controller: 'AdminCtrl', access: 'admin' });
                 $stateProvider.state('login', { url: '/login', templateUrl: 'views/login.html', controller: 'LoginCtrl', access: 'public' });
@@ -55,6 +55,12 @@
 
                 //enable html5 routes
                 $locationProvider.html5Mode(true).hashPrefix('!');
+
+                angular.extend($datepickerProvider.defaults, {
+                    dateFormat: 'dd.MM.yyyy',
+                    template: 'views/directives/date-picker.html',
+                    startWeek: 1
+                });
             }]);
 
 })(window, window.angular);

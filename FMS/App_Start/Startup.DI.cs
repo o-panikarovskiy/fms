@@ -34,14 +34,15 @@ namespace FMS
             builder.RegisterType<ApplicationRepository<DocumentParameter>>().As<IRepository<DocumentParameter>>().InstancePerRequest();            
             builder.RegisterType<ApplicationRepository<DocumentFact>>().As<IRepository<DocumentFact>>().InstancePerRequest();            
 
-            builder.RegisterType<ApplicationRepository<PrmFactName>>().As<IRepository<PrmFactName>>().InstancePerRequest();
+            builder.RegisterType<ApplicationRepository<ParameterName>>().As<IRepository<ParameterName>>().InstancePerRequest();
 
             builder.RegisterType<ApplicationRepository<Misc>>().As<IRepository<Misc>>().InstancePerRequest();
             builder.RegisterType<ApplicationRepository<MiscName>>().As<IRepository<MiscName>>().InstancePerRequest();
-            
 
-            ////Authorization            
-            builder.RegisterType<ApplicationOAuthProvider>().As<IOAuthAuthorizationServerProvider>();
+			builder.RegisterType<ReportRepository<DocumentOnControl>>().As<IReportRepository<DocumentOnControl>>().InstancePerRequest();
+
+			////Authorization            
+			builder.RegisterType<ApplicationOAuthProvider>().As<IOAuthAuthorizationServerProvider>();
             builder.RegisterType<QueryStringOAuthBearerProvider>().As<IOAuthBearerAuthenticationProvider>();
 
             // Register your Web API controllers.

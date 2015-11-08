@@ -1,0 +1,51 @@
+﻿<div class="content create-doc">
+    <div class="modal-header">
+        <h3 class="modal-title">
+            Создать документ:
+        </h3>
+    </div>
+    <script type="text/ng-template" id="person-template.html">
+        <a>
+            <span data-bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+        </a>
+    </script>
+
+    <form name="form" class="form" data-ng-submit="ok(form)">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="docType">
+                    Тип документа:
+                </label>
+                <select class="form-control"
+                        id="docType"
+                        name="docType"
+                        required=""
+                        data-ng-disabled="vm.loader.documentType"
+                        data-ng-options="item.key as item.value for item in vm.dicts.documentType"
+                        data-ng-model="model.docType"></select>
+            </div>
+            <div class="form-group typehead-conteiner" data-ng-if="model.docType == 'migrationRegistration'">
+                <label for="personTo" data-ng-if="model.personFrom.type == 'host'">Соискатель</label>
+                <label for="personTo" data-ng-if="model.personFrom.type == 'applicant'">Принимающая сторона</label>
+                <input type="text"
+                       id="personTo"
+                       name="personTo"                       
+                       class="form-control"
+                       data-typeahead="p as p.name for p in getPeople($viewValue)"       
+                       data-typeahead-input-formatter=""
+                       data-typeahead-loading="vm.loading"
+                       data-typeahead-min-length="3"
+                       data-typeahead-wait-ms="500"
+                       data-typeahead-template-url="person-template.html"
+                       data-ng-attr-placeholder="{{vm.placeholder}}"
+                       data-ng-model="model.personTo">
+                <i data-ng-if="vm.loading" class="fa fa-refresh fa-spin"></i>
+                <input type="hidden" data-ng-model="model.personTo.id" required="" name="personToId" />
+            </div>
+        </div>
+        <div class="modal-footer" data-ng-if="vm.status!=200">
+            <button class="btn btn-primary" type="submit" data-ng-disabled="form.$invalid">Создать</button>
+            <button class="btn btn-danger" type="button" data-ng-click="close()">Отмена</button>
+        </div>
+    </form>
+</div>

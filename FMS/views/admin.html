@@ -1,2 +1,262 @@
-﻿<h1>Admin</h1>
-<button class="btn btn-link" data-ng-click="logout()">Выйти</button>
+﻿<div class="panel panel-primary">
+    <div class="panel-heading clickable clearfix" data-ng-click="togglePanel('params')">
+        <h4 class="panel-title pull-left">Параметры документов</h4>
+        <h3 class="panel-title pull-right">
+            <i class="fa"
+               data-ng-class="{'fa-chevron-circle-up': vm.collapse.params, 'fa-chevron-circle-down': !vm.collapse.params}"></i>
+        </h3>
+    </div>
+    <div data-collapse="vm.collapse.params">
+        <div data-ng-if="!vm.loader.params" data-sv-root="" data-sv-part="params" data-sv-on-sort="changeParamsSortOrder($item, $partFrom, $partTo, $indexFrom, $indexTo)">
+
+            <div class="params-table">
+                <div class="row">
+                    <div class="col-md-3">
+                       
+                        <select data-ng-model="vm.filter.docType" class="form-control input-sm">
+                            <option value="">Тип документа</option>
+                            <option value="administrativePractice">Административная практика</option>
+                            <option value="migrationRegistration">Миграционный учёт</option>
+                            <option value="temporaryResidencePermit">РВП</option>
+                            <option value="residence">ВНЖ</option>
+                            <option value="citizenship">Гражданство</option>
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" name="filername" class="form-control input-sm" data-ng-model="vm.filter.name" placeholder="Название" />
+                    </div>
+                    <div class="col-md-3">
+                        <select data-ng-model="vm.filter.type" class="form-control input-sm">
+                            <option value="">Тип данных</option>
+                            <option value="date">Дата</option>
+                            <option value="str">Строка</option>
+                            <option value="float">Число</option>
+                            <option value="misc">Словарь</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-success btn-sm" data-ng-click="addParam()">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div data-ng-repeat="p in params | filter:vm.filter track by p.id" data-sv-element="" class="row">
+                    <div class="col-md-3">                     
+                        <span data-ng-switch="p.docType">
+                            <span data-ng-switch-when="administrativePractice">Административная практика</span>
+                            <span data-ng-switch-when="migrationRegistration">Миграционный учёт</span>
+                            <span data-ng-switch-when="temporaryResidencePermit">РВП</span>
+                            <span data-ng-switch-when="residence">ВНЖ</span>
+                            <span data-ng-switch-when="citizenship">Гражданство</span>
+                        </span>
+                    </div>
+                    <div class="col-md-5">
+                        {{p.name}}          
+                    </div>
+                    <div class="col-md-3">
+                        <span data-ng-switch="p.type">
+                            <span data-ng-switch-when="date">Дата</span>
+                            <span data-ng-switch-when="str">Строка</span>
+                            <span data-ng-switch-when="float">Число</span>
+                            <span data-ng-switch-when="misc">Словарь</span>
+                        </span>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-default btn-xs" data-sv-handle="" data-ng-disabled="p.isUpdating">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button class="btn btn-default btn-xs" data-ng-click="removeParam(p)" data-ng-if="p.canRemove">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="spacer-40 spacer-b-40" data-ng-if="vm.loader.params">
+            <img class="preloader" src="img/dark_preloader.gif" />
+        </div>
+    </div>
+
+</div>
+
+<div class="panel panel-danger">
+    <div class="panel-heading clickable clearfix" data-ng-click="togglePanel('misc')">
+        <h4 class="panel-title pull-left">Словари</h4>
+        <h3 class="panel-title pull-right">
+            <i class="fa"
+               data-ng-class="{'fa-chevron-circle-up': vm.collapse.misc, 'fa-chevron-circle-down': !vm.collapse.misc}"></i>
+        </h3>
+    </div>
+    <div class="panel-body" data-collapse="vm.collapse.misc">
+        <div class="row crud-row" data-ng-if="!vm.loader.misc">
+            <div class="col-md-4">
+                <div data-ng-if="misc.person.length>0">
+                    <div class="clearfix">
+                        <h4 class="pull-left">Словари анкеты</h4>
+                        <button class="btn btn-primary pull-right" data-ng-click="addMisc('person')">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="list-group">
+                        <div class="list-group-item clearfix" data-ng-repeat="m in misc.person track by m.id" data-ng-click="setActiveMisc(m)" data-ng-class="{active: vm.activeMisc.id === m.id}">
+                            <div class="pull-left control-label">
+                                {{m.name}}
+                            </div>
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-ng-if="misc.administrativePractice.length>0">
+                    <div class="clearfix">
+                        <h4 class="pull-left">Административная практика</h4>
+                        <button class="btn btn-primary pull-right" data-ng-click="addMisc('administrativePractice')">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="list-group">
+                        <div class="list-group-item clearfix" data-ng-repeat="m in misc.administrativePractice track by m.id" data-ng-click="setActiveMisc(m)" data-ng-class="{active: vm.activeMisc.id === m.id}">
+                            <div class="pull-left control-label">
+                                {{m.name}}
+                            </div>
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-ng-if="misc.migrationRegistration.length>0">
+                    <div class="clearfix">
+                        <h4 class="pull-left">Миграционный учёт</h4>
+                        <button class="btn btn-primary pull-right" data-ng-click="addMisc('migrationRegistration')">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="list-group">
+                        <div class="list-group-item clearfix" data-ng-repeat="m in misc.migrationRegistration track by m.id" data-ng-click="setActiveMisc(m)" data-ng-class="{active: vm.activeMisc.id === m.id}">
+                            <div class="pull-left control-label">
+                                {{m.name}}
+                            </div>
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-ng-if="misc.temporaryResidencePermit.length>0">
+                    <div class="clearfix">
+                        <h4 class="pull-left">РВП</h4>
+                        <button class="btn btn-primary pull-right" data-ng-click="addMisc('temporaryResidencePermit')">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="list-group">
+                        <div class="list-group-item clearfix" data-ng-repeat="m in misc.temporaryResidencePermit track by m.id" data-ng-click="setActiveMisc(m)" data-ng-class="{active: vm.activeMisc.id === m.id}">
+                            <div class="pull-left control-label">
+                                {{m.name}}
+                            </div>
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-ng-if="misc.residence.length>0">
+                    <div class="clearfix">
+                        <h4 class="pull-left">ВНЖ</h4>
+                        <button class="btn btn-primary pull-right" data-ng-click="addMisc('residence')">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="list-group">
+                        <div class="list-group-item clearfix" data-ng-repeat="m in misc.residence track by m.id" data-ng-click="setActiveMisc(m)" data-ng-class="{active: vm.activeMisc.id === m.id}">
+                            <div class="pull-left control-label">
+                                {{m.name}}
+                            </div>
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-ng-if="misc.citizenship.length>0">
+                    <div class="clearfix">
+                        <h4 class="pull-left">Гражданство</h4>
+                        <button class="btn btn-primary pull-right" data-ng-click="addMisc('citizenship')">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="list-group">
+                        <div class="list-group-item clearfix" data-ng-repeat="m in misc.citizenship track by m.id" data-ng-click="setActiveMisc(m)" data-ng-class="{active: vm.activeMisc.id === m.id}">
+                            <div class="pull-left control-label">
+                                {{m.name}}
+                            </div>
+                            <div class="pull-right  control-btn" data-ng-if="m.values.length===0">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMisc(m)">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMisc(m)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="clearfix">
+                    <h4 class="pull-left">Значения:</h4>
+                    <button class="btn btn-success pull-right" data-ng-click="addMiscValue()">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+                <div data-ng-if="vm.activeMisc.values.length>0">
+                    <div class="list-group">
+                        <div class="list-group-item clearfix" data-ng-repeat="m in vm.activeMisc.values track by m.id" data-ng-click="vm.activeMisc.activeValue = m" data-ng-class="{active: vm.activeMisc.activeValue.id === m.id}">
+                            <div class="pull-left control-label">
+                                {{m.miscValue}}
+                            </div>
+                            <div class="pull-right  control-btn">
+                                <button class="btn btn-default btn-xs" data-ng-click="updateMiscValue(m)">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn btn-default btn-xs" data-ng-click="removeMiscValue(m)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="spacer-40 spacer-b-40" data-ng-if="vm.loader.misc">
+            <img class="preloader" src="img/dark_preloader.gif" />
+        </div>
+    </div>
+</div>
