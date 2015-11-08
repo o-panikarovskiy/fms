@@ -1,7 +1,7 @@
 ## Install:
-> `nuget restore FMS.sln'
+> `nuget restore FMS.sln`
 
-> `cd FMS'
+> `cd FMS`
 
 > `npm i`
 
